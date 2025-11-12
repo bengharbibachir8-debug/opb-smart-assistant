@@ -83,7 +83,7 @@
             font-weight: 500;
         }
 
-        input {
+        select, input {
             width: 100%;
             padding: 12px 15px;
             border: 2px solid #e1e5e9;
@@ -92,7 +92,7 @@
             transition: border-color 0.3s;
         }
 
-        input:focus {
+        select:focus, input:focus {
             outline: none;
             border-color: #667eea;
         }
@@ -120,14 +120,6 @@
             color: #888;
         }
 
-        .hidden {
-            display: none;
-        }
-
-        .language-selector {
-            margin: 15px 0;
-        }
-
         .lang-btn {
             background: #f8f9fa;
             border: 2px solid #e1e5e9;
@@ -143,6 +135,22 @@
             background: #667eea;
             color: white;
             border-color: #667eea;
+        }
+
+        .building-map {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            font-size: 14px;
+            text-align: left;
+        }
+
+        .building-item {
+            margin: 8px 0;
+            padding: 5px;
+            border-left: 3px solid #667eea;
+            padding-left: 10px;
         }
     </style>
 </head>
@@ -162,12 +170,26 @@
             </div>
 
             <p class="welcome-text" id="welcome-text">
-                I can help you find any location in OBP complex. Please enter your building and room numbers below.
+                I can help you find any location in OBP complex. Please select your building and enter room number.
             </p>
 
+            <div class="building-map">
+                <strong>🏢 Building Layout:</strong>
+                <div class="building-item">← Building A (Left)</div>
+                <div class="building-item">→ Building B (Right)</div>
+                <div class="building-item">← Building C (Left)</div>
+                <div class="building-item">→ Building D (Right)</div>
+            </div>
+
             <div class="input-group">
-                <label for="building" id="building-label">Building Number</label>
-                <input type="text" id="building" placeholder="e.g., 15">
+                <label for="building" id="building-label">Select Building</label>
+                <select id="building">
+                    <option value="">-- Select Building --</option>
+                    <option value="A">Building A (Left side)</option>
+                    <option value="B">Building B (Right side)</option>
+                    <option value="C">Building C (Left side)</option>
+                    <option value="D">Building D (Right side)</option>
+                </select>
             </div>
 
             <div class="input-group">
@@ -199,52 +221,80 @@
             en: {
                 title: "Hello! I'm Eva",
                 subtitle: "Your Smart Reception Assistant",
-                welcome: "I can help you find any location in OBP complex. Please enter your building and room numbers below.",
-                building: "Building Number",
+                welcome: "I can help you find any location in OBP complex. Please select your building and enter room number.",
+                building: "Select Building",
                 room: "Room Number", 
                 find: "Find My Destination",
-                buildingPlaceholder: "e.g., 15",
-                roomPlaceholder: "e.g., 204"
+                roomPlaceholder: "e.g., 204",
+                layout: "Building Layout:",
+                buildingA: "Building A (Left side)",
+                buildingB: "Building B (Right side)", 
+                buildingC: "Building C (Left side)",
+                buildingD: "Building D (Right side)"
             },
             zh: {
                 title: "你好！我是伊娃",
                 subtitle: "您的智能导览助手",
-                welcome: "我可以帮助您找到OBP园区内的任何位置。请在下面输入您的楼号和房间号。",
-                building: "楼号",
+                welcome: "我可以帮助您找到OBP园区内的任何位置。请选择您的楼号并输入房间号。",
+                building: "选择楼号",
                 room: "房间号",
                 find: "查找我的目的地",
-                buildingPlaceholder: "例如：15",
-                roomPlaceholder: "例如：204"
+                roomPlaceholder: "例如：204",
+                layout: "楼号布局:",
+                buildingA: "A楼 (左侧)",
+                buildingB: "B楼 (右侧)",
+                buildingC: "C楼 (左侧)", 
+                buildingD: "D楼 (右侧)"
             },
             ar: {
                 title: "مرحباً! أنا إيفا",
                 subtitle: "مساعدتك الذكية للترحيب",
-                welcome: "يمكنني مساعدتك في العثور على أي موقع في مجمع OBP. الرجاء إدخال رقم المبنى ورقم الغرفة أدناه.",
-                building: "رقم المبنى",
+                welcome: "يمكنني مساعدتك في العثور على أي موقع في مجمع OBP. الرجاء اختيار المبنى وإدخال رقم الغرفة.",
+                building: "اختر المبنى",
                 room: "رقم الغرفة",
                 find: "ابحث عن وجهتي",
-                buildingPlaceholder: "مثال: 15",
-                roomPlaceholder: "مثال: 204"
+                roomPlaceholder: "مثال: 204",
+                layout: "تخطيط المباني:",
+                buildingA: "المبنى A (الجانب الأيسر)",
+                buildingB: "المبنى B (الجانب الأيمن)",
+                buildingC: "المبنى C (الجانب الأيسر)",
+                buildingD: "المبنى D (الجانب الأيمن)"
             }
         };
 
         // تغيير اللغة
         function changeLanguage(lang) {
-            // تحديد الأزرار النشطة
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
-            http://event.target.classList.add('active');
+            event.target.classList.add('active');
 
             // تحديث النصوص
-            document.getElementById('main-title').textContent = translations[lang].title;
-            document.getElementById('subtitle').textContent = translations[lang].subtitle;
-            document.getElementById('welcome-text').textContent = translations[lang].welcome;
-            document.getElementById('building-label').textContent = translations[lang].building;
-            document.getElementById('room-label').textContent = translations[lang].room;
-            document.getElementById('find-btn').textContent = translations[lang].find;
-            document.getElementById('building').placeholder = translations[lang].buildingPlaceholder;
-            document.getElementById('room').placeholder = translations[lang].roomPlaceholder;
+            const t = translations[lang];
+            document.getElementById('main-title').textContent = t.title;
+            document.getElementById('subtitle').textContent = t.subtitle;
+            document.getElementById('welcome-text').textContent = t.welcome;
+            document.getElementById('building-label').textContent = t.building;
+            document.getElementById('room-label').textContent = t.room;
+            document.getElementById('find-btn').textContent = t.find;
+            document.getElementById('room').placeholder = t.roomPlaceholder;
+            
+            // تحديث قائمة المباني
+            const buildingSelect = document.getElementById('building');
+            buildingSelect.innerHTML = `
+                <option value="">-- ${t.building} --</option>
+                <option value="A">${t.buildingA}</option>
+                <option value="B">${t.buildingB}</option>
+                <option value="C">${t.buildingC}</option>
+                <option value="D">${t.buildingD}</option>
+            `;
+            
+            // تحديث خريطة المباني
+            document.querySelector('.building-map strong').textContent = "🏢 " + t.layout;
+            document.querySelectorAll('.building-item')[0].textContent = "← " + t.buildingA;
+            document.querySelectorAll('.building-item')[1].textContent = "→ " + t.buildingB;
+            document.querySelectorAll('.building-item')[2].textContent = "← " + t.buildingC;
+            document.querySelectorAll('.building-item')[3].textContent = "→ " + t.buildingD;
         }
 
         // البحث عن الوجهة
@@ -253,11 +303,18 @@
             const room = document.getElementById('room').value;
             
             if (!building || !room) {
-                alert('Please enter both building and room numbers');
+                alert('Please select building and enter room number');
                 return;
             }
 
-            alert(`Taking you to: Building ${building}, Room ${room}\n\nThis will be connected to the actual navigation system in the next version!`);
+            const directions = {
+                'A': 'Turn LEFT at the entrance - Building A will be on your left side',
+                'B': 'Turn RIGHT at the entrance - Building B will be on your right side', 
+                'C': 'Continue straight then turn LEFT - Building C will be on your left',
+                'D': 'Continue straight then turn RIGHT - Building D will be on your right'
+            };
+
+            alert(`🚀 Taking you to:\nBuilding ${building}, Room ${room}\n\n📝 Directions:\n${directions[building]}`);
         }
 
         // تطبيق اللغة تلقائياً عند تحميل الصفحة
