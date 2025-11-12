@@ -3,34 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OBP Smart Assistant</title>
+    <title>OBP - Smart Assistant</title>
     <style>
-        body { 
-            font-family: Arial, sans-serif; 
-            text-align: center; 
-            padding: 50px; 
-            background: #f5f5f5;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
         .container {
             background: white;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            max-width: 500px;
-            margin: 0 auto;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
         }
-        input, button {
-            padding: 10px;
-            margin: 10px;
-            width: 80%;
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 20px;
+        }
+
+        .avatar {
+            width: 80px;
+            height: 80px;
+            background: white;
+            border-radius: 50%;
+            margin: 0 auto 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            color: #667eea;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .content {
+            padding: 30px 25px;
+        }
+
+        .welcome-text {
+            color: #666;
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .language-info {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .language-selector {
+            margin: 15px 0;
+        }
+
+        .lang-btn {
+            background: #f8f9fa;
+            border: 2px solid #e1e5e9;
+            padding: 8px 15px;
+            margin: 0 5px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .lang-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>🚀 Welcome to OBP Smart Assistant!</h1>
-        <p>Your project is ready!</p>
-        <p>We'll build the multi-language smart system here.</p>
+        <div class="header">
+            <div class="avatar">🤖</div>
+            <h1 id="main-title">Hello! I'm Eva</h1>
+            <div class="subtitle" id="subtitle">Your Smart Reception Assistant</div>
+        </div>
+
+        <div class="content">
+            <div class="language-selector">
+                <button class="lang-btn active" onclick="changeLanguage('en')">English</button>
+                <button class="lang-btn" onclick="changeLanguage('zh')">中文</button>
+                <button class="lang-btn" onclick="changeLanguage('ar')">العربية</button>
+            </div>
+
+            <p class="welcome-text" id="welcome-text">
+                I can help you find any location in OBP complex. Please enter your building and room numbers below.
+            </p>
+
+            <div class="input-group">
+                <label for="building" id="building-label">Building Number</label>
+                <input type="text" id="building" placeholder="e.g., 15">
+            </div>
+
+            <div class="input-group">
+                <label for="room" id="room-label">Room Number</label>
+                <input type="text" id="room" placeholder="e.g., 204">
+            </div>
+
+            <button class="btn" onclick="findDestination()" id="find-btn">
+                Find My Destination
+            </button>
+
+            <div class="language-info">
+                Language detected automatically based on your browser settings
+            </div>
+        </div>
     </div>
+
+    <script>
+        // الكشف التلقائي عن اللغة
+        function detectLanguage() {
+            const userLang = navigator.language || navigator.userLanguage;
+            if (userLang.startsWith('zh')) return 'zh';
+            if (userLang.startsWith('ar')) return 'ar';
+            return 'en';
+        }
+
+        // النصوص متعددة اللغات
+        const translations = {
+            en: {
+                title: "Hello! I'm Eva",
+                subtitle: "Your Smart Reception Assistant",
+                welcome: "I can help you find any location in OBP complex. Please enter your building and room numbers below.",
+                building: "Building Number",
+                room: "Room Number", 
+                find: "Find My Destination",
+                buildingPlaceholder: "e.g., 15",
+                roomPlaceholder: "e.g., 204"
+            },
+            zh: {
+                title: "你好！我是伊娃",
+                subtitle: "您的智能导览助手",
+                welcome: "我可以帮助您找到OBP园区内的任何位置。请在下面输入您的楼号和房间号。",
+                building: "楼号",
+                room: "房间号",
+                find: "查找我的目的地",
+                buildingPlaceholder: "例如：15",
+                roomPlaceholder: "例如：204"
+            },
+            ar: {
+                title: "مرحباً! أنا إيفا",
+                subtitle: "مساعدتك الذكية للترحيب",
+                welcome: "يمكنني مساعدتك في العثور على أي موقع في مجمع OBP. الرجاء إدخال رقم المبنى ورقم الغرفة أدناه.",
+                building: "رقم المبنى",
+                room: "رقم الغرفة",
+                find: "ابحث عن وجهتي",
+                buildingPlaceholder: "مثال: 15",
+                roomPlaceholder: "مثال: 204"
+            }
+        };
+
+        // تغيير اللغة
+        function changeLanguage(lang) {
+            // تحديد الأزرار النشطة
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            http://event.target.classList.add('active');
+
+            // تحديث النصوص
+            document.getElementById('main-title').textContent = translations[lang].title;
+            document.getElementById('subtitle').textContent = translations[lang].subtitle;
+            document.getElementById('welcome-text').textContent = translations[lang].welcome;
+            document.getElementById('building-label').textContent = translations[lang].building;
+            document.getElementById('room-label').textContent = translations[lang].room;
+            document.getElementById('find-btn').textContent = translations[lang].find;
+            document.getElementById('building').placeholder = translations[lang].buildingPlaceholder;
+            document.getElementById('room').placeholder = translations[lang].roomPlaceholder;
+        }
+
+        // البحث عن الوجهة
+        function findDestination() {
+            const building = document.getElementById('building').value;
+            const room = document.getElementById('room').value;
+            
+            if (!building || !room) {
+                alert('Please enter both building and room numbers');
+                return;
+            }
+
+            alert(`Taking you to: Building ${building}, Room ${room}\n\nThis will be connected to the actual navigation system in the next version!`);
+        }
+
+        // تطبيق اللغة تلقائياً عند تحميل الصفحة
+        window.onload = function() {
+            const detectedLang = detectLanguage();
+            changeLanguage(detectedLang);
+        };
+    </script>
 </body>
 </html>
