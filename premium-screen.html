@@ -56,7 +56,6 @@
             position: relative;
         }
 
-        /* الجانب الأيسر - المعلومات */
         .info-panel {
             background: var(--glass);
             padding: 50px;
@@ -149,7 +148,6 @@
             font-weight: 500;
         }
 
-        /* الجانب الأيمن - QR Code */
         .qr-panel {
             display: flex;
             flex-direction: column;
@@ -174,35 +172,25 @@
             to { box-shadow: 0 25px 50px rgba(0, 212, 255, 0.5); }
         }
 
-        .qr-placeholder {
+        .qr-code {
             width: 280px;
             height: 280px;
-            background: var(--gradient);
             border-radius: 20px;
+            margin: 0 auto 30px;
+            border: 3px solid #2D5BFF;
+            background: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 80px;
-            color: white;
-            margin: 0 auto 30px;
-            position: relative;
-            overflow: hidden;
+            font-size: 24px;
+            color: #666;
         }
 
-        .qr-placeholder::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
-            animation: shine 3s infinite;
-        }
-
-        @keyframes shine {
-            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
-            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+            border-radius: 15px;
+            object-fit: cover;
         }
 
         .scan-text {
@@ -214,88 +202,13 @@
             margin: 25px 0;
         }
 
-        .languages {
-            display: flex;
-            gap: 15px;
-            margin: 30px 0;
+        .instructions {
+            color: #666;
+            font-size: 1.1rem;
+            margin: 15px 0;
+            line-height: 1.6;
         }
 
-        .lang-btn {
-            padding: 12px 25px;
-            background: rgba(255, 255, 255, 0.1);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 25px;
-            color: white;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(10px);
-        }
-
-        .lang-btn:hover {
-            background: var(--primary);
-            transform: translateY(-2px);
-        }
-
-        .stats {
-            display: flex;
-            justify-content: space-around;
-            width: 100%;
-            margin-top: 40px;
-            padding: 25px;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .stat-item {
-            text-align: center;
-            color: white;
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            background: var(--gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: block;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            opacity: 0.8;
-            margin-top: 5px;
-        }
-
-        /* تأثيرات الجسور الزجاجية */
-        .floating-elements {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .floating-element {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            animation: floatRandom 20s infinite linear;
-        }
-
-        @keyframes floatRandom {
-            0% { transform: translate(0, 0) rotate(0deg); }
-            25% { transform: translate(100px, 50px) rotate(90deg); }
-            50% { transform: translate(50px, 100px) rotate(180deg); }
-            75% { transform: translate(-50px, 50px) rotate(270deg); }
-            100% { transform: translate(0, 0) rotate(360deg); }
-        }
-
-        /* تصميم متجاوب */
         @media (max-width: 1024px) {
             .container {
                 grid-template-columns: 1fr;
@@ -313,12 +226,6 @@
     </style>
 </head>
 <body>
-    <div class="floating-elements">
-        <div class="floating-element" style="width: 100px; height: 100px; top: 10%; left: 10%; animation-delay: 0s;"></div>
-        <div class="floating-element" style="width: 150px; height: 150px; top: 60%; left: 80%; animation-delay: -5s;"></div>
-        <div class="floating-element" style="width: 80px; height: 80px; top: 80%; left: 20%; animation-delay: -10s;"></div>
-    </div>
-
     <div class="container">
         <!-- الجانب الأيسر - المعلومات -->
         <div class="info-panel">
@@ -342,8 +249,8 @@
                     <div class="feature-text">استجابة فورية - لا حاجة للانتظار</div>
                 </div>
                 <div class="feature">
-                    <div class="feature-icon">🔒</div>
-                    <div class="feature-text">نظام آمن ومحمي</div>
+                    <div class="feature-icon">🤖</div>
+                    <div class="feature-text">مساعد ذكي يساعدك في مهمتك</div>
                 </div>
             </div>
         </div>
@@ -351,72 +258,34 @@
         <!-- الجانب الأيمن - QR Code -->
         <div class="qr-panel">
             <div class="qr-container">
-                <div class="qr-placeholder">
-                    📷
+                <div class="qr-code">
+                    <!-- QR Code الحقيقي - انسخ الرابط التالي في المتصفح لتحميله -->
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=https://bengharbibachir8-debug.github.io/opb-smart-assistant/" alt="QR Code">
                 </div>
+                
                 <div class="scan-text">Scan QR Code to Start</div>
                 <div class="scan-text" style="font-size: 1.4rem;">مسح الكود للبدء | 扫描开始</div>
                 
-                <div class="languages">
-                    <div class="lang-btn">English 🇺🇸</div>
-                    <div class="lang-btn">中文 🇨🇳</div>
-                    <div class="lang-btn">العربية 🇸🇦</div>
-                </div>
-            </div>
-
-            <div class="stats">
-                <div class="stat-item">
-                    <span class="stat-number" id="visitors-today">0</span>
-                    <div class="stat-label">زائر اليوم</div>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number" id="active-now">0</span>
-                    <div class="stat-label">مستخدم نشط</div>
-                </div>
-                <div class="stat-item">
-                    <span class="stat-number">100%</span>
-                    <div class="stat-label">جاهزية النظام</div>
+                <div class="instructions">
+                    🤖 المساعد الذكي سيساعدك في:<br>
+                    • العثور على أي مبنى (A, B, C, D)<br>
+                    • التوجيه لغرفتك مباشرة<br>
+                    • إرشادات واضحة باللغة التي تختارها
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // محاكاة إحصائيات حية
+        // تحديث الإحصائيات الحية
         function updateStats() {
-            document.getElementById('visitors-today').textContent = 
-                Math.floor(Math.random() * 50) + 30;
-            document.getElementById('active-now').textContent = 
-                Math.floor(Math.random() * 5) + 1;
+            const visitors = Math.floor(Math.random() * 50) + 30;
+            const active = Math.floor(Math.random() * 5) + 1;
+            console.log(`زوار اليوم: ${visitors} | مستخدمين نشطين: ${active}`);
         }
 
-        // تحديث الإحصائيات كل 5 ثواني
-        setInterval(updateStats, 5000);
+        setInterval(updateStats, 10000);
         updateStats();
-
-        // تأثيرات تفاعلية إضافية
-        document.querySelectorAll('.feature').forEach(feature => {
-            feature.addEventListener('mouseenter', function() {
-                this.style.transform = 'translateX(15px) scale(1.02)';
-            });
-            
-            feature.addEventListener('mouseleave', function() {
-                this.style.transform = 'translateX(0) scale(1)';
-            });
-        });
-
-        // تغيير خلفية ديناميكي
-        let colorIndex = 0;
-        const colors = [
-            'linear-gradient(-45deg, #1A1A2E, #16213E, #0F3460, #533483)',
-            'linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c)',
-            'linear-gradient(-45deg, #4facfe, #00f2fe, #43e97b, #38f9d7)'
-        ];
-
-        setInterval(() => {
-            document.body.style.background = colors[colorIndex];
-            colorIndex = (colorIndex + 1) % colors.length;
-        }, 10000);
     </script>
 </body>
 </html>
