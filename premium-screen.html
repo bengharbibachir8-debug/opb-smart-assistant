@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBP - AI Reception System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        :root {
+            --primary: #2D5BFF;
+            --secondary: #6C63FF;
+            --accent: #00D4FF;
+            --dark: #1A1A2E;
+            --light: #FFFFFF;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --glass: rgba(255, 255, 255, 0.1);
+            --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+
+        body {
+            background: linear-gradient(-45deg, #1A1A2E, #16213E, #0F3460, #533483);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            width: 95vw;
+            height: 95vh;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* الجانب الأيسر - المعلومات */
+        .info-panel {
+            background: var(--glass);
+            padding: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .logo {
+            width: 120px;
+            height: 120px;
+            background: var(--gradient);
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: white;
+            box-shadow: 0 15px 35px rgba(45, 91, 255, 0.4);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        .title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 15px;
+            line-height: 1.1;
+        }
+
+        .subtitle {
+            font-size: 1.4rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .features {
+            display: grid;
+            gap: 20px;
+            margin: 40px 0;
+        }
+
+        .feature {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .feature:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .feature-icon {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 15px;
+            font-size: 20px;
+            color: white;
+        }
+
+        .feature-text {
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* الجانب الأيمن - QR Code */
+        .qr-panel {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 50px;
+            position: relative;
+        }
+
+        .qr-container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 25px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            position: relative;
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 25px 50px rgba(45, 91, 255, 0.3); }
+            to { box-shadow: 0 25px 50px rgba(0, 212, 255, 0.5); }
+        }
+
+        .qr-placeholder {
+            width: 280px;
+            height: 280px;
+            background: var(--gradient);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 80px;
+            color: white;
+            margin: 0 auto 30px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .qr-placeholder::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255,255,255,0.1), transparent);
+            animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .scan-text {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin: 25px 0;
+        }
+
+        .languages {
+            display: flex;
+            gap: 15px;
+            margin: 30px 0;
+        }
+
+        .lang-btn {
+            padding: 12px 25px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 25px;
+            color: white;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .lang-btn:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 40px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-item {
+            text-align: center;
+            color: white;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        /* تأثيرات الجسور الزجاجية */
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            animation: floatRandom 20s infinite linear;
+        }
+
+        @keyframes floatRandom {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(100px, 50px) rotate(90deg); }
+            50% { transform: translate(50px, 100px) rotate(180deg); }
+            75% { transform: translate(-50px, 50px) rotate(270deg); }
+            100% { transform: translate(0, 0) rotate(360deg); }
+        }
+
+        /* تصميم متجاوب */
+        @media (max-width: 1024px) {
+            .container {
+                grid-template-columns: 1fr;
+                height: auto;
+                min-height: 100vh;
+            }
+            
+            .info-panel {
+                border-right: none;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+            
+            .title { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-element" style="width: 100px; height: 100px; top: 10%; left: 10%; animation-delay: 0s;"></div>
+        <div class="floating-element" style="width: 150px; height: 150px; top: 60%; left: 80%; animation-delay: -5s;"></div>
+        <div class="floating-element" style="width: 80px; height: 80px; top: 80%; left: 20%; animation-delay: -10s;"></div>
+    </div>
+
+    <div class="container">
+        <!-- الجانب الأيسر - المعلومات -->
+        <div class="info-panel">
+            <div class="logo-section">
+                <div class="logo">🏢</div>
+                <h1 class="title">OBP AI Reception</h1>
+                <div class="subtitle">نظام الذكاء الاصطناعي للترحيب والاستقبال</div>
+            </div>
+
+            <div class="features">
+                <div class="feature">
+                    <div class="feature-icon">🎯</div>
+                    <div class="feature-text">توجيه ذكي للمباني والغرف</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🌍</div>
+                    <div class="feature-text">دعم 3 لغات (عربي، إنجليزي، صيني)</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">⚡</div>
+                    <div class="feature-text">استجابة فورية - لا حاجة للانتظار</div>
+                </div>
+                <div class="feature">
+                    <div class="feature-icon">🔒</div>
+                    <div class="feature-text">نظام آمن ومحمي</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- الجانب الأيمن - QR Code -->
+        <div class="qr-panel">
+            <div class="qr-container">
+                <div class="qr-placeholder">
+                    📷
+                </div>
+                <div class="scan-text">Scan QR Code to Start</div>
+                <div class="scan-text" style="font-size: 1.4rem;">مسح الكود للبدء | 扫描开始</div>
+                
+                <div class="languages">
+                    <div class="lang-btn">English 🇺🇸</div>
+                    <div class="lang-btn">中文 🇨🇳</div>
+                    <div class="lang-btn">العربية 🇸🇦</div>
+                </div>
+            </div>
+
+            <div class="stats">
+                <div class="stat-item">
+                    <span class="stat-number" id="visitors-today">0</span>
+                    <div class="stat-label">زائر اليوم</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="active-now">0</span>
+                    <div class="stat-label">مستخدم نشط</div>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number">100%</span>
+                    <div class="stat-label">جاهزية النظام</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // محاكاة إحصائيات حية
+        function updateStats() {
+            document.getElementById('visitors-today').textContent = 
+                Math.floor(Math.random() * 50) + 30;
+            document.getElementById('active-now').textContent = 
+                Math.floor(Math.random() * 5) + 1;
+        }
+
+        // تحديث الإحصائيات كل 5 ثواني
+        setInterval(updateStats, 5000);
+        updateStats();
+
+        // تأثيرات تفاعلية إضافية
+        document.querySelectorAll('.feature').forEach(feature => {
+            feature.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateX(15px) scale(1.02)';
+            });
+            
+            feature.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateX(0) scale(1)';
+            });
+        });
+
+        // تغيير خلفية ديناميكي
+        let colorIndex = 0;
+        const colors = [
+            'linear-gradient(-45deg, #1A1A2E, #16213E, #0F3460, #533483)',
+            'linear-gradient(-45deg, #667eea, #764ba2, #f093fb, #f5576c)',
+            'linear-gradient(-45deg, #4facfe, #00f2fe, #43e97b, #38f9d7)'
+        ];
+
+        setInterval(() => {
+            document.body.style.background = colors[colorIndex];
+            colorIndex = (colorIndex + 1) % colors.length;
+        }, 10000);
+    </script>
+</body>
+</html>
