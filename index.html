@@ -3,639 +3,432 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OBP - الدليل الذكي المتقدم</title>
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <title>OBP - نظام التوجيه الذكي</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Tajawal', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         :root {
-            --primary: #2D5BFF;
-            --secondary: #6C63FF;
-            --accent: #00D4FF;
-            --gold: #FFD700;
-            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --accent: #3b82f6;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --success: #10b981;
         }
 
         body {
-            background: linear-gradient(135deg, #0c2461, #1e3799, #4a69bd);
+            background: var(--light);
             min-height: 100vh;
-            padding: 20px;
-            overflow-x: hidden;
         }
 
-        .container {
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* الهيدر الاحترافي */
+        .professional-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 20px 30px;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
             max-width: 1200px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 30px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.3);
-            overflow: hidden;
-            backdrop-filter: blur(10px);
         }
 
-        /* الهيدر المتقدم */
-        .advanced-header {
-            background: var(--gradient);
-            color: white;
-            padding: 40px 30px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
 
-        .magic-particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
-        .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--gold);
-            border-radius: 50%;
-            animation: floatParticle 3s infinite;
-        }
-
-        @keyframes floatParticle {
-            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0; }
-            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
-        }
-
-        .human-avatar {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            border: 4px solid white;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-            margin: 0 auto 20px;
-            background: linear-gradient(45deg, #667eea, #764ba2);
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 60px;
-            position: relative;
-            animation: gentleFloat 6s ease-in-out infinite;
-        }
-
-        @keyframes gentleFloat {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-15px) rotate(2deg); }
+            font-weight: bold;
+            color: var(--primary);
         }
 
         .language-selector {
             display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 20px 0;
-            flex-wrap: wrap;
+            gap: 10px;
         }
 
         .lang-btn {
-            background: rgba(255, 255, 255, 0.2);
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
             color: white;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            padding: 12px 25px;
-            border-radius: 25px;
+            padding: 8px 16px;
+            border-radius: 20px;
             cursor: pointer;
-            font-weight: 600;
+            font-size: 14px;
             transition: all 0.3s;
-            backdrop-filter: blur(10px);
         }
 
         .lang-btn:hover {
-            background: rgba(255, 255, 255, 0.3);
-            transform: translateY(-2px);
+            background: rgba(255,255,255,0.3);
         }
 
-        .content {
-            padding: 40px 30px;
-        }
-
-        /* شاشة الإدخال المحسنة */
+        /* شاشة الإدخال */
         .input-screen {
-            text-align: center;
-            animation: fadeIn 1s ease;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            background: var(--light);
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .welcome-card {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            padding: 30px;
+        .input-card {
+            background: white;
+            padding: 40px;
             border-radius: 20px;
-            margin-bottom: 40px;
-            border-left: 5px solid var(--accent);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .eva-greeting {
-            font-size: 20px;
-            color: #333;
-            line-height: 1.6;
-            margin-bottom: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 500px;
         }
 
         .input-group {
             margin-bottom: 25px;
-            text-align: right;
         }
 
         label {
             display: block;
-            margin-bottom: 10px;
-            color: #333;
-            font-weight: 600;
-            font-size: 18px;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 14px;
         }
 
         select, input {
             width: 100%;
-            padding: 15px 20px;
-            border: 2px solid #e1e5e9;
-            border-radius: 12px;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
             font-size: 16px;
             transition: all 0.3s;
-            background: white;
         }
 
         select:focus, input:focus {
             outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(45, 91, 255, 0.1);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
         }
 
-        .magic-btn {
-            background: var(--gradient);
+        .primary-btn {
+            background: var(--primary);
             color: white;
             border: none;
-            padding: 18px 40px;
-            border-radius: 15px;
-            font-size: 20px;
-            font-weight: 700;
+            padding: 14px 28px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
             cursor: pointer;
             width: 100%;
-            margin: 20px 0;
             transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
         }
 
-        .magic-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.2);
+        .primary-btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
         }
 
-        .magic-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.5s;
-        }
-
-        .magic-btn:hover::before {
-            left: 100%;
-        }
-
-        /* شاشة الخريطة المتقدمة */
+        /* شاشة الخريطة */
         .map-screen {
+            flex: 1;
             display: none;
-            text-align: center;
-        }
-
-        .navigation-header {
-            background: var(--gradient);
-            color: white;
-            padding: 25px;
-            border-radius: 20px;
-            margin-bottom: 30px;
             position: relative;
-            overflow: hidden;
         }
 
-        .real-map-container {
-            position: relative;
-            width: 100%;
-            height: 500px;
-            background: white;
-            border-radius: 20px;
-            margin: 30px 0;
-            overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-            border: 3px solid var(--primary);
-        }
-
-        .map-image {
-            width: 100%;
+        #map {
             height: 100%;
-            object-fit: cover;
-            opacity: 0.9;
-        }
-
-        .interactive-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
-            height: 100%;
         }
 
-        .building-marker {
+        /* لوحة التحكم */
+        .control-panel {
             position: absolute;
-            width: 60px;
-            height: 60px;
-            background: var(--gradient);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 18px;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            transition: all 0.3s;
-            border: 3px solid white;
-        }
-
-        .building-marker:hover {
-            transform: scale(1.1);
-        }
-
-        .building-a { top: 30%; left: 25%; }
-        .building-b { top: 35%; right: 20%; }
-        .building-c { bottom: 25%; left: 30%; }
-        .building-d { bottom: 30%; right: 25%; }
-
-        .navigation-path {
-            position: absolute;
-            background: var(--accent);
-            height: 8px;
-            border-radius: 4px;
-            transform-origin: left;
-            z-index: 10;
-            animation: drawPath 2s ease-out forwards;
-            box-shadow: 0 0 10px var(--accent);
-        }
-
-        @keyframes drawPath {
-            from { transform: scaleX(0); opacity: 0; }
-            to { transform: scaleX(1); opacity: 1; }
-        }
-
-        .room-highlight {
-            position: absolute;
-            width: 40px;
-            height: 40px;
-            background: #FF5722;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
-            animation: pulseGlow 2s infinite;
-            border: 3px solid white;
-            box-shadow: 0 0 20px #FF5722;
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% { transform: scale(1); box-shadow: 0 0 20px #FF5722; }
-            50% { transform: scale(1.1); box-shadow: 0 0 30px #FF5722; }
-        }
-
-        .eva-companion {
-            position: absolute;
-            width: 50px;
-            height: 50px;
+            top: 20px;
+            left: 20px;
             background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            z-index: 20;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            border: 3px solid var(--accent);
-            transition: all 2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            z-index: 1000;
+            min-width: 300px;
         }
 
-        .voice-guidance {
-            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
-            padding: 30px;
-            border-radius: 20px;
-            margin: 30px 0;
-            border-right: 5px solid var(--primary);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-        }
-
-        .guide-text {
-            font-size: 20px;
-            color: #333;
+        .destination-info {
             margin-bottom: 20px;
-            line-height: 1.6;
-            min-height: 80px;
-            font-weight: 500;
         }
 
-        .voice-controls {
+        .control-buttons {
             display: flex;
-            gap: 15px;
-            justify-content: center;
-            flex-wrap: wrap;
+            gap: 10px;
         }
 
-        .voice-btn {
-            background: var(--gradient);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 25px;
+        .control-btn {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            border-radius: 8px;
             cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+
+        .control-btn:hover {
+            background: #f8fafc;
+        }
+
+        .control-btn.primary {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* مساعد الذكاء الاصطناعي */
+        .ai-assistant {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            z-index: 1000;
+            max-width: 400px;
+        }
+
+        .assistant-header {
+            padding: 15px 20px;
+            background: var(--primary);
+            color: white;
+            border-radius: 15px 15px 0 0;
             display: flex;
             align-items: center;
             gap: 10px;
-            font-weight: 600;
-            transition: all 0.3s;
         }
 
-        .voice-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
-        }
-
-        .step-indicator {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin: 25px 0;
-        }
-
-        .step {
-            width: 15px;
-            height: 15px;
+        .assistant-avatar {
+            width: 32px;
+            height: 32px;
+            background: white;
             border-radius: 50%;
-            background: #ddd;
-            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            font-size: 14px;
         }
 
-        .step.active {
+        .assistant-messages {
+            padding: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .message.ai {
+            color: var(--dark);
+        }
+
+        .assistant-input {
+            padding: 15px 20px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .assistant-input input {
+            flex: 1;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 10px 15px;
+        }
+
+        .voice-btn {
             background: var(--primary);
-            transform: scale(1.3);
-            box-shadow: 0 0 10px var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
         }
 
-        /* التكيف مع الجوال */
+        /* تخصيص Leaflet */
+        .leaflet-popup-content {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .custom-marker {
+            background: var(--primary);
+            border: 3px solid white;
+            border-radius: 50%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
         @media (max-width: 768px) {
-            .container {
-                margin: 10px;
-                border-radius: 20px;
+            .control-panel {
+                position: relative;
+                top: 0;
+                left: 0;
+                margin: 20px;
+                min-width: auto;
             }
             
-            .human-avatar {
-                width: 100px;
-                height: 100px;
-                font-size: 40px;
+            .ai-assistant {
+                position: relative;
+                bottom: 0;
+                right: 0;
+                margin: 20px;
+                max-width: none;
             }
             
-            .real-map-container {
-                height: 400px;
-            }
-            
-            .building-marker {
-                width: 50px;
-                height: 50px;
-                font-size: 16px;
+            .map-screen {
+                flex-direction: column;
             }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <!-- الهيدر المتقدم -->
-        <div class="advanced-header">
-            <div class="magic-particles" id="magicParticles"></div>
-            
-            <div class="human-avatar">
-                👩‍💼
-            </div>
-            
-            <h1 style="font-size: 2.5rem; margin-bottom: 10px;">إيفا - الدليل المتقدم</h1>
-            <p style="font-size: 1.2rem; opacity: 0.9;">مرشدتك الذكية في مجمع OBP</p>
-            
-            <div class="language-selector">
-                <button class="lang-btn" onclick="changeLanguage('ar')">🇸🇦 العربية</button>
-                <button class="lang-btn" onclick="changeLanguage('en')">🇺🇸 English</button>
-                <button class="lang-btn" onclick="changeLanguage('zh')">🇨🇳 中文</button>
+    <div class="app-container">
+        <!-- الهيدر -->
+        <div class="professional-header">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo">OBP</div>
+                    <h1>نظام التوجيه الذكي</h1>
+                </div>
+                <div class="language-selector">
+                    <button class="lang-btn" onclick="changeLanguage('ar')">العربية</button>
+                    <button class="lang-btn" onclick="changeLanguage('en')">English</button>
+                </div>
             </div>
         </div>
 
-        <div class="content">
-            <!-- شاشة الإدخال -->
-            <div class="input-screen" id="inputScreen">
-                <div class="welcome-card">
-                    <div class="eva-greeting" id="welcomeMessage">
-                        🌅 أهلاً وسهلاً! أنا إيفا، مرشدتك الشخصية في رحلتك عبر مجمع OBP. 
-                        سأساعدك في الوصول إلى أي مكان بكل سهولة ويسر. 🌸
-                    </div>
-                    <div class="eva-greeting">
-                        🎵 أخبرني إلى أين تود الذهاب، وسأرافقك في رحلة لا تنسى...
-                    </div>
-                </div>
-
+        <!-- شاشة الإدخال -->
+        <div class="input-screen" id="inputScreen">
+            <div class="input-card">
+                <h2 style="margin-bottom: 30px; color: var(--dark); text-align: center;">تحديد الوجهة</h2>
+                
                 <div class="input-group">
-                    <label for="building">اختر المبنى:</label>
+                    <label for="building">المبنى</label>
                     <select id="building">
-                        <option value="">-- اختر المبنى --</option>
-                        <option value="A">🏢 المبنى A (الإداري الرئيسي)</option>
-                        <option value="B">🏢 المبنى B (الخدمات التقنية)</option>
-                        <option value="C">🏢 المبنى C (الخدمات التجارية)</option>
-                        <option value="D">🏢 المبنى D (الابتكار والبحوث)</option>
+                        <option value="">اختر المبنى</option>
+                        <option value="A">المبنى A - الإداري</option>
+                        <option value="B">المبنى B - التقني</option>
+                        <option value="C">المبنى C - التجاري</option>
+                        <option value="D">المبنى D - الابتكار</option>
                     </select>
                 </div>
 
                 <div class="input-group">
-                    <label for="room">رقم الغرفة:</label>
-                    <input type="text" id="room" placeholder="أدخل رقم الغرفة (مثال: 204)">
+                    <label for="room">رقم الغرفة</label>
+                    <input type="text" id="room" placeholder="أدخل رقم الغرفة">
                 </div>
 
-                <button class="magic-btn" onclick="startMagicalJourney()">
-                    ✨ ابدأ الرحلة السحرية
+                <button class="primary-btn" onclick="startNavigation()">
+                    بدء التوجيه
                 </button>
             </div>
+        </div>
 
-            <!-- شاشة الخريطة المتقدمة -->
-            <div class="map-screen" id="mapScreen">
-                <div class="navigation-header">
-                    <h2>👩‍💼 إيفا ترافقك في الرحلة</h2>
-                    <p id="destinationText">جاري التوجيه إلى الوجهة...</p>
+        <!-- شاشة الخريطة -->
+        <div class="map-screen" id="mapScreen">
+            <div id="map"></div>
+            
+            <!-- لوحة التحكم -->
+            <div class="control-panel">
+                <div class="destination-info">
+                    <h3 id="destinationTitle">التوجيه إلى الوجهة</h3>
+                    <p id="destinationDetails">جاري حساب المسار...</p>
                 </div>
-                
-                <div class="real-map-container">
-                    <img src="https://i.imgur.com/7Vb3k9j.jpg" alt="خريطة OBP" class="map-image">
-                    <div class="interactive-overlay" id="interactiveOverlay">
-                        <!-- المباني -->
-                        <div class="building-marker building-a">A</div>
-                        <div class="building-marker building-b">B</div>
-                        <div class="building-marker building-c">C</div>
-                        <div class="building-marker building-d">D</div>
-                        <!-- المسار والغرفة يضافان ديناميكياً -->
-                    </div>
+                <div class="control-buttons">
+                    <button class="control-btn" onclick="recalculateRoute()">🔄 إعادة حساب</button>
+                    <button class="control-btn primary" onclick="speakDirections()">🎧 التوجيه الصوتي</button>
                 </div>
+            </div>
 
-                <!-- التوجيهات الصوتية -->
-                <div class="voice-guidance">
-                    <div class="guide-text" id="guideText">
-                        🎵 جاري إعداد رحلتك السحرية مع إيفا...
-                    </div>
-                    
-                    <div class="step-indicator">
-                        <div class="step active" id="step1"></div>
-                        <div class="step" id="step2"></div>
-                        <div class="step" id="step3"></div>
-                        <div class="step" id="step4"></div>
-                    </div>
-
-                    <div class="voice-controls">
-                        <button class="voice-btn" onclick="playCurrentStep()">
-                            🔊 كرر التوجيه
-                        </button>
-                        <button class="voice-btn" onclick="nextStep()">
-                            ⏭️ التالي
-                        </button>
-                        <button class="voice-btn" onclick="restartJourney()">
-                            🔄 رحلة جديدة
-                        </button>
-                    </div>
+            <!-- المساعد الذكي -->
+            <div class="ai-assistant">
+                <div class="assistant-header">
+                    <div class="assistant-avatar">AI</div>
+                    <span>المساعد الذكي</span>
+                </div>
+                <div class="assistant-messages" id="assistantMessages">
+                    <div class="message ai">مرحباً! أنا مساعدك الذكي. كيف يمكنني مساعدتك في التوجيه؟</div>
+                </div>
+                <div class="assistant-input">
+                    <input type="text" id="aiInput" placeholder="اكتب سؤالك...">
+                    <button class="voice-btn" onclick="startVoiceInput()">🎤</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
     <script>
-        // إنشاء الجزيئات السحرية
-        function createMagicParticles() {
-            const container = document.getElementById('magicParticles');
-            for (let i = 0; i < 25; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + 'vw';
-                particle.style.animationDelay = Math.random() * 3 + 's';
-                container.appendChild(particle);
-            }
-        }
-
-        // بيانات المباني والغرف
-        const buildingData = {
-            'A': { 
-                name: 'المبنى الإداري الرئيسي',
-                position: { x: 25, y: 30 },
-                rooms: {
-                    '101': { x: 20, y: 25 },
-                    '102': { x: 30, y: 25 },
-                    '201': { x: 20, y: 35 },
-                    '202': { x: 30, y: 35 },
-                    '204': { x: 40, y: 35 }
-                }
-            },
-            'B': { 
-                name: 'مبنى الخدمات التقنية',
-                position: { x: 75, y: 35 },
-                rooms: {
-                    '101': { x: 70, y: 30 },
-                    '102': { x: 80, y: 30 },
-                    '201': { x: 75, y: 40 }
-                }
-            },
-            'C': { 
-                name: 'مبنى الخدمات التجارية',
-                position: { x: 30, y: 70 },
-                rooms: {
-                    '101': { x: 25, y: 65 },
-                    '102': { x: 35, y: 65 }
-                }
-            },
-            'D': { 
-                name: 'مبنى الابتكار والبحوث',
-                position: { x: 70, y: 65 },
-                rooms: {
-                    '101': { x: 65, y: 60 },
-                    '102': { x: 75, y: 60 }
-                }
-            }
+        // بيانات المباني (إحداثيات حقيقية)
+        const buildingLocations = {
+            'A': { lat: 36.7525, lng: 3.0420, name: 'المبنى الإداري الرئيسي' },
+            'B': { lat: 36.7520, lng: 3.0430, name: 'مبنى الخدمات التقنية' },
+            'C': { lat: 36.7515, lng: 3.0415, name: 'مبنى الخدمات التجارية' },
+            'D': { lat: 36.7530, lng: 3.0435, name: 'مبنى الابتكار والبحوث' }
         };
 
-        // توجيهات إيفا الذكية
-        const evaGuidance = {
-            'A': [
-                "🌅 أهلاً وسهلاً! أنا إيفا، سأرافقك في رحلة ممتعة إلى المبنى الإداري الرئيسي",
-                "🎵 لنبدأ! اتجه نحو المبنى A، ستجده على يسارك بعد مسافة قصيرة",
-                "💫 رائع! يمكنك رؤية الواجهة الزجاجية للمبنى الآن",
-                "🌟 جميل! أنت على بعد خطوات قليلة من الغرفة المستهدفة",
-                "🎉 وصلنا! شكراً لك على هذه الرحلة الرائعة معاً! 🌸"
-            ],
-            'B': [
-                "🌅 أهلاً! أنا إيفا، سأسعد بمرافقتك إلى مبنى الخدمات التقنية",
-                "🎵 دعنا نبدأ! اتجه يميناً نحو المبنى B ذو الواجهة الحديثة",
-                "💫 مذهل! أنت تقترب من عالم التكنولوجيا والابتكار",
-                "🌟 رائع! يمكنك sentir الطاقة الإبداعية في الجو",
-                "🎉 وصلنا! كان شرفاً لي أن أكون مرشدتك اليوم! 💫"
-            ]
-        };
-
-        let currentStep = 0;
+        let map;
+        let currentRoute;
         let currentBuilding = '';
         let currentRoom = '';
-        let evaCompanion = null;
 
-        // تغيير اللغة
-        function changeLanguage(lang) {
-            const messages = {
-                'ar': {
-                    welcome: "🌅 أهلاً وسهلاً! أنا إيفا، مرشدتك الشخصية في رحلتك عبر مجمع OBP",
-                    building: "اختر المبنى:",
-                    room: "رقم الغرفة:",
-                    start: "✨ ابدأ الرحلة السحرية"
-                },
-                'en': {
-                    welcome: "🌅 Welcome! I'm Eva, your personal guide through OBP complex",
-                    building: "Select Building:",
-                    room: "Room Number:",
-                    start: "✨ Start Magical Journey"
-                },
-                'zh': {
-                    welcome: "🌅 欢迎！我是伊娃，您在OBP园区的个人向导",
-                    building: "选择楼号:",
-                    room: "房间号:",
-                    start: "✨ 开始神奇之旅"
-                }
-            };
+        // تهيئة الخريطة
+        function initMap() {
+            map = L.map('map').setView([36.7525, 3.0420], 17);
             
-            document.getElementById('welcomeMessage').textContent = messages[lang].welcome;
-            document.querySelector('label[for="building"]').textContent = messages[lang].building;
-            document.querySelector('label[for="room"]').textContent = messages[lang].room;
-            document.querySelector('.magic-btn').textContent = messages[lang].start;
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '© OpenStreetMap contributors'
+            }).addTo(map);
+
+            // إضافة مباني OBP
+            Object.entries(buildingLocations).forEach(([key, building]) => {
+                L.marker([building.lat, building.lng])
+                    .addTo(map)
+                    .bindPopup(`<b>${building.name}</b><br>${key}`)
+                    .openPopup();
+            });
         }
 
-        // بدء الرحلة السحرية
-        function startMagicalJourney() {
+        // بدء التوجيه
+        function startNavigation() {
             const building = document.getElementById('building').value;
             const room = document.getElementById('room').value;
 
@@ -644,168 +437,147 @@
                 return;
             }
 
-            if (!buildingData[building] || !buildingData[building].rooms[room]) {
-                alert('رقم الغرفة غير موجود في هذا المبنى. الرجاء التحقق والمحاولة مرة أخرى.');
-                return;
-            }
-
             currentBuilding = building;
             currentRoom = room;
 
-            // تأثير التحول
+            // تبديل الشاشات
             document.getElementById('inputScreen').style.display = 'none';
-            document.getElementById('mapScreen').style.display = 'block';
+            document.getElementById('mapScreen').style.display = 'flex';
 
-            // تحديث نص الوجهة
-            document.getElementById('destinationText').textContent = 
-                `التوجيه إلى: المبنى ${building} - الغرفة ${room}`;
+            // تحديث المعلومات
+            document.getElementById('destinationTitle').textContent = 
+                `التوجيه إلى: ${buildingLocations[building].name}`;
+            document.getElementById('destinationDetails').textContent = 
+                `الغرفة: ${room} - جاري حساب المسار الأمثل...`;
 
-            // رسم الخريطة التفاعلية
-            drawInteractiveMap(building, room);
-
-            // بدء التوجيه
-            startVoiceGuidance();
+            // رسم المسار
+            calculateRoute(building);
+            
+            // رسالة المساعد
+            addAIMessage(`تم تحديد وجهتك إلى ${buildingLocations[building].name} - الغرفة ${room}. سأرافقك في هذه الرحلة.`);
         }
 
-        // رسم الخريطة التفاعلية
-        function drawInteractiveMap(building, room) {
-            const overlay = document.getElementById('interactiveOverlay');
+        // حساب المسار
+        function calculateRoute(building) {
+            const target = buildingLocations[building];
             
-            // إضافة إيفا المرافقة
-            evaCompanion = document.createElement('div');
-            evaCompanion.className = 'eva-companion';
-            evaCompanion.innerHTML = '👩‍💼';
-            evaCompanion.style.left = '50%';
-            evaCompanion.style.bottom = '10%';
-            overlay.appendChild(evaCompanion);
+            // محاكاة مسار (في الواقع سيستخدم خدمة توجيه حقيقية)
+            const routeCoordinates = [
+                [36.7528, 3.0418], // نقطة البداية
+                [target.lat, target.lng] // نقطة النهاية
+            ];
 
-            // إضافة المسار
-            const path = document.createElement('div');
-            path.className = 'navigation-path';
-            
-            const startX = 50; // بداية من المركز
-            const startY = 90;
-            const endX = buildingData[building].position.x;
-            const endY = buildingData[building].position.y;
-            
-            const length = Math.sqrt(Math.pow(endX - startX, 2) + Math.pow(endY - startY, 2));
-            const angle = Math.atan2(endY - startY, endX - startX) * 180 / Math.PI;
-            
-            path.style.width = length + '%';
-            path.style.left = startX + '%';
-            path.style.top = startY + '%';
-            path.style.transform = `rotate(${angle}deg)`;
-            overlay.appendChild(path);
+            // رسم المسار
+            if (currentRoute) {
+                map.removeLayer(currentRoute);
+            }
 
-            // إضافة علامة الغرفة
-            const roomMarker = document.createElement('div');
-            roomMarker.className = 'room-highlight';
-            roomMarker.textContent = room;
-            roomMarker.style.left = buildingData[building].rooms[room].x + '%';
-            roomMarker.style.top = buildingData[building].rooms[room].y + '%';
-            overlay.appendChild(roomMarker);
+            currentRoute = L.polyline(routeCoordinates, {
+                color: '#2563eb',
+                weight: 6,
+                opacity: 0.8,
+                lineJoin: 'round'
+            }).addTo(map);
 
-            // تحريك إيفا
-            animateEvaToTarget(buildingData[building].rooms[room]);
+            // ضبط الخريطة لإظهار المسار كاملاً
+            map.fitBounds(currentRoute.getBounds());
         }
 
-        // تحريك إيفا نحو الهدف
-        function animateEvaToTarget(target) {
-            let currentX = 50;
-            let currentY = 90;
-            const targetX = target.x;
-            const targetY = target.y;
-            
-            const animate = () => {
-                if (evaCompanion) {
-                    currentX += (targetX - currentX) * 0.05;
-                    currentY += (targetY - currentY) * 0.05;
-                    
-                    evaCompanion.style.left = currentX + '%';
-                    evaCompanion.style.top = currentY + '%';
+        // إعادة حساب المسار
+        function recalculateRoute() {
+            if (currentBuilding) {
+                calculateRoute(currentBuilding);
+                addAIMessage('تم إعادة حساب المسار الأمثل بناءً على موقعك الحالي.');
+            }
+        }
 
-                    if (Math.abs(targetX - currentX) > 1 || Math.abs(targetY - currentY) > 1) {
-                        requestAnimationFrame(animate);
+        // التوجيه الصوتي
+        function speakDirections() {
+            const messages = [
+                `التوجيه إلى ${buildingLocations[currentBuilding].name}`,
+                'اتجه شمالاً لمدة 50 متر',
+                'انعطف يميناً عند المبنى الزجاجي',
+                'استمر مستقيماً حتى تصل إلى المدخل الرئيسي',
+                `ستجد الغرفة ${currentRoom} على يسارك بعد الدخول`
+            ];
+
+            messages.forEach((message, index) => {
+                setTimeout(() => {
+                    if ('speechSynthesis' in window) {
+                        const utterance = new SpeechSynthesisUtterance(message);
+                        utterance.lang = 'ar-SA';
+                        utterance.rate = 0.9;
+                        window.speechSynthesis.speak(utterance);
                     }
-                }
-            };
-            animate();
-        }
-
-        // بدء التوجيه الصوتي
-        function startVoiceGuidance() {
-            currentStep = 0;
-            updateStepIndicator();
-            playCurrentStep();
-        }
-
-        function playCurrentStep() {
-            const guidance = evaGuidance[currentBuilding] || evaGuidance['A'];
-            const guide = guidance[currentStep];
-            document.getElementById('guideText').textContent = guide;
-            speakText(guide);
-        }
-
-        function speakText(text) {
-            if ('speechSynthesis' in window) {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'ar-SA';
-                utterance.rate = 0.9;
-                utterance.pitch = 1.1;
-                utterance.volume = 0.8;
-                window.speechSynthesis.speak(utterance);
-            }
-        }
-
-        function nextStep() {
-            const guidance = evaGuidance[currentBuilding] || evaGuidance['A'];
-            if (currentStep < guidance.length - 1) {
-                currentStep++;
-                updateStepIndicator();
-                playCurrentStep();
-            } else {
-                const completionMessage = "🎉 وصلنا إلى وجهتنا! شكراً لك على هذه الرحلة الرائعة. أتمنى لك يوماً ساحراً في OBP! 🌟";
-                document.getElementById('guideText').textContent = completionMessage;
-                speakText(completionMessage);
-            }
-        }
-
-        function updateStepIndicator() {
-            const steps = document.querySelectorAll('.step');
-            steps.forEach((step, index) => {
-                step.classList.toggle('active', index === currentStep);
+                }, index * 3000);
             });
         }
 
-        function restartJourney() {
-            document.getElementById('mapScreen').style.display = 'none';
-            document.getElementById('inputScreen').style.display = 'block';
-            document.getElementById('building').selectedIndex = 0;
-            document.getElementById('room').value = '';
-            currentStep = 0;
-            
-            // إعادة تعيين الخريطة
-            const overlay = document.getElementById('interactiveOverlay');
-            const elementsToRemove = overlay.querySelectorAll('.navigation-path, .room-highlight, .eva-companion');
-            elementsToRemove.forEach(el => el.remove());
+        // المساعد الذكي
+        function addAIMessage(message) {
+            const messagesContainer = document.getElementById('assistantMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message ai';
+            messageDiv.textContent = message;
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
         }
+
+        function startVoiceInput() {
+            if ('webkitSpeechRecognition' in window) {
+                const recognition = new webkitSpeechRecognition();
+                recognition.lang = 'ar-SA';
+                recognition.onresult = function(event) {
+                    const command = event.results[0][0].transcript;
+                    document.getElementById('aiInput').value = command;
+                    processAICommand(command);
+                };
+                recognition.start();
+            } else {
+                alert('المتصفح لا يدعم التعرف على الصوت');
+            }
+        }
+
+        function processAICommand(command) {
+            let response = "أنا هنا للمساعدة في التوجيه. يمكنني إعادة حساب المسار أو تقديم توجيهات صوتية.";
+            
+            if (command.includes('مسار') || command.includes('طريق')) {
+                recalculateRoute();
+                response = "تم إعادة حساب المسار الأمثل لك.";
+            } else if (command.includes('صوت') || command.includes('توجيه')) {
+                speakDirections();
+                response = "بدأت التوجيهات الصوتية. استمع جيداً للإرشادات.";
+            } else if (command.includes('وقت') || command.includes('مدة')) {
+                response = "الوقت المقدر للوصول: 3-5 دقائق سيراً على الأقدام.";
+            }
+            
+            addAIMessage(response);
+        }
+
+        // تغيير اللغة
+        function changeLanguage(lang) {
+            // يمكن إضافة ترجمة كاملة هنا
+            console.log('Changing language to:', lang);
+        }
+
+        // التهيئة
+        window.onload = function() {
+            initMap();
+        };
 
         // السماح بالإدخال بالإنتر
         document.getElementById('room').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
-                startMagicalJourney();
+                startNavigation();
             }
         });
 
-        // التهيئة
-        window.onload = function() {
-            createMagicParticles();
-            
-            // ترحيب صوتي تلقائي
-            setTimeout(() => {
-                speakText("أهلاً وسهلاً! أنا إيفا، مرشدتك الشخصية في مجمع OBP. سأسعد بمساعدتك في الوصول إلى أي مكان تريده.");
-            }, 1000);
-        };
+        document.getElementById('aiInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                processAICommand(this.value);
+                this.value = '';
+            }
+        });
     </script>
 </body>
 </html>
