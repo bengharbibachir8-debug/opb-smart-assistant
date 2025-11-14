@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OBP - IVA AI Assistant</title>
+    <title>OBP - إيفا الرفيق الذكي</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800&display=swap" rel="stylesheet">
     <style>
         * {
@@ -17,96 +17,256 @@
             --primary: #2D5BFF;
             --secondary: #6C63FF;
             --accent: #00D4FF;
-            --success: #4CAF50;
             --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
         }
 
         body {
-            background: linear-gradient(135deg, #1a2a6c, #2d5bff, #6c63ff);
+            background: linear-gradient(135deg, #1a2a6c, #2d5bff);
             min-height: 100vh;
             padding: 20px;
             overflow-x: hidden;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            border-radius: 30px;
-            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
             overflow: hidden;
-            backdrop-filter: blur(10px);
         }
 
-        /* رأس الصفحة مع إيفا */
-        .iva-header {
+        .header {
             background: var(--gradient);
             color: white;
-            padding: 40px 30px;
+            padding: 30px;
             text-align: center;
             position: relative;
-            overflow: hidden;
         }
 
-        .iva-avatar {
-            width: 120px;
-            height: 120px;
+        .avatar {
+            width: 80px;
+            height: 80px;
             background: white;
             border-radius: 50%;
-            margin: 0 auto 20px;
+            margin: 0 auto 15px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 60px;
-            position: relative;
+            font-size: 40px;
             animation: float 6s ease-in-out infinite;
-        }
-
-        .iva-pulse {
-            position: absolute;
-            top: -10px;
-            left: -10px;
-            right: -10px;
-            bottom: -10px;
-            border: 2px solid #00D4FF;
-            border-radius: 50%;
-            animation: pulse 2s infinite;
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
+            50% { transform: translateY(-10px) rotate(5deg); }
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        /* شاشة الإدخال */
+        .input-screen {
+            text-align: center;
+        }
+
+        .welcome-message {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border-right: 5px solid var(--accent);
+            animation: slideIn 1s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .eva-message {
+            font-size: 18px;
+            color: #333;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin: 10px 0;
+            transition: transform 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* شاشة الخريطة */
+        .map-screen {
+            display: none;
+            text-align: center;
+        }
+
+        .navigation-header {
+            background: var(--gradient);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+        }
+
+        .interactive-map {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+            border-radius: 15px;
+            margin: 20px 0;
+            overflow: hidden;
+            border: 3px solid #2D5BFF;
+        }
+
+        .building {
+            position: absolute;
+            background: var(--gradient);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .building.a { width: 120px; height: 180px; top: 50px; left: 100px; }
+        .building.b { width: 100px; height: 160px; top: 60px; right: 100px; }
+        .building.c { width: 140px; height: 140px; bottom: 80px; left: 80px; }
+        .building.d { width: 110px; height: 170px; bottom: 60px; right: 90px; }
+
+        .current-location {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: #FF9800;
+            border-radius: 50%;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0% { transform: scale(0.8); opacity: 0.7; }
-            50% { transform: scale(1.1); opacity: 1; }
-            100% { transform: scale(0.8); opacity: 0.7; }
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.2); }
         }
 
-        .main-title {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            font-weight: 800;
-            background: linear-gradient(135deg, #fff, var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        .navigation-path {
+            position: absolute;
+            background: #4CAF50;
+            height: 6px;
+            border-radius: 3px;
+            transform-origin: left;
+            z-index: 10;
+            animation: pathExtend 2s ease-out;
         }
 
-        /* نظام الصوت */
-        .voice-section {
-            background: rgba(255, 255, 255, 0.1);
+        @keyframes pathExtend {
+            from { transform: scaleX(0); }
+            to { transform: scaleX(1); }
+        }
+
+        .room-marker {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: #FF5722;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            animation: bounce 1s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .eva-companion {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            z-index: 20;
+            transition: all 1s ease;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+        }
+
+        .voice-guidance {
+            background: #f8f9fa;
             padding: 20px;
-            border-radius: 20px;
+            border-radius: 15px;
             margin: 20px 0;
-            backdrop-filter: blur(10px);
+            border-right: 5px solid var(--primary);
+        }
+
+        .guide-text {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            min-height: 60px;
         }
 
         .voice-controls {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             justify-content: center;
-            align-items: center;
             flex-wrap: wrap;
         }
 
@@ -114,448 +274,387 @@
             background: var(--gradient);
             color: white;
             border: none;
-            padding: 15px 30px;
-            border-radius: 50px;
-            font-size: 1.1rem;
-            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 25px;
             cursor: pointer;
-            transition: all 0.3s;
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
+            transition: all 0.3s;
         }
 
         .voice-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transform: translateY(-2px);
         }
 
-        .voice-wave {
-            width: 100px;
-            height: 40px;
+        .step-indicator {
             display: flex;
-            align-items: center;
             justify-content: center;
-            gap: 3px;
-        }
-
-        .wave-bar {
-            width: 4px;
-            height: 20px;
-            background: var(--accent);
-            border-radius: 2px;
-            animation: wave 1s ease-in-out infinite;
-        }
-
-        .wave-bar:nth-child(2) { animation-delay: 0.1s; }
-        .wave-bar:nth-child(3) { animation-delay: 0.2s; }
-        .wave-bar:nth-child(4) { animation-delay: 0.3s; }
-        .wave-bar:nth-child(5) { animation-delay: 0.4s; }
-
-        @keyframes wave {
-            0%, 100% { transform: scaleY(0.5); }
-            50% { transform: scaleY(1.5); }
-        }
-
-        /* الخريطة ثلاثية الأبعاد */
-        .map-section {
-            padding: 40px 30px;
-            background: #f8f9fa;
-        }
-
-        .map-3d-container {
-            perspective: 1000px;
-            height: 400px;
-            position: relative;
-            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
-            border-radius: 20px;
-            overflow: hidden;
+            gap: 10px;
             margin: 20px 0;
         }
 
-        .map-3d {
+        .step {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ddd;
+            transition: all 0.3s;
+        }
+
+        .step.active {
+            background: var(--primary);
+            transform: scale(1.2);
+        }
+
+        .effects-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
-            position: relative;
-            transform-style: preserve-3d;
-            animation: rotateMap 30s infinite linear;
+            pointer-events: none;
+            z-index: 1000;
         }
 
-        @keyframes rotateMap {
-            0% { transform: rotateY(0deg); }
-            100% { transform: rotateY(360deg); }
-        }
-
-        .building-3d {
+        .floating-particle {
             position: absolute;
-            background: var(--gradient);
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.5s ease;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .building-3d:hover {
-            transform: translateZ(50px) scale(1.1);
-        }
-
-        .building-a { width: 120px; height: 200px; top: 100px; left: 200px; transform: translateZ(50px); }
-        .building-b { width: 100px; height: 180px; top: 120px; right: 200px; transform: translateZ(30px); }
-        .building-c { width: 140px; height: 160px; bottom: 100px; left: 150px; transform: translateZ(20px); }
-        .building-d { width: 110px; height: 190px; bottom: 80px; right: 150px; transform: translateZ(40px); }
-
-        .path-animation {
-            position: absolute;
-            background: var(--accent);
+            width: 4px;
             height: 4px;
-            border-radius: 2px;
-            animation: pathFlow 3s infinite linear;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: floatParticle 3s infinite;
         }
 
-        @keyframes pathFlow {
-            0% { transform: scaleX(0); opacity: 0; }
-            50% { transform: scaleX(1); opacity: 1; }
-            100% { transform: scaleX(0); opacity: 0; }
-        }
-
-        /* محادثة إيفا */
-        .chat-section {
-            padding: 30px;
-            background: white;
-        }
-
-        .iva-chat-container {
-            max-height: 300px;
-            overflow-y: auto;
-            padding: 20px;
-            background: #f8f9fa;
-            border-radius: 20px;
-            margin: 20px 0;
-        }
-
-        .iva-message {
-            margin: 15px 0;
-            padding: 15px 20px;
-            border-radius: 20px;
-            max-width: 80%;
-            animation: messageSlide 0.5s ease;
-        }
-
-        @keyframes messageSlide {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
-        }
-
-        .iva-message.incoming {
-            background: var(--gradient);
-            color: white;
-            margin-right: auto;
-        }
-
-        .iva-message.outgoing {
-            background: #e9ecef;
-            color: #333;
-            margin-left: auto;
-        }
-
-        /* لوحة التحكم */
-        .control-panel {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            padding: 30px;
-            background: linear-gradient(135deg, #667eea, #764ba2);
-            color: white;
-        }
-
-        .control-card {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            backdrop-filter: blur(10px);
-            transition: transform 0.3s;
-            cursor: pointer;
-        }
-
-        .control-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .control-icon {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-
-        /* التكيف مع الجوال */
-        @media (max-width: 768px) {
-            .main-title { font-size: 2rem; }
-            .iva-avatar { width: 80px; height: 80px; font-size: 40px; }
-            .map-3d-container { height: 300px; }
-            .building-3d { font-size: 1rem; }
+        @keyframes floatParticle {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0; }
+            50% { transform: translateY(-20px) rotate(180deg); opacity: 1; }
         }
     </style>
 </head>
 <body>
+    <!-- تأثيرات بصرية -->
+    <div class="effects-overlay" id="effectsOverlay"></div>
+
     <div class="container">
-        <!-- رأس إيفا -->
-        <div class="iva-header">
-            <div class="iva-avatar">
-                <div class="iva-pulse"></div>
-                🤖
-            </div>
-            <h1 class="main-title" id="main-title">مرحباً! أنا إيفا</h1>
-            <p class="subtitle" id="subtitle">مساعدتك الذكية في مجمع OBP</p>
-            
-            <!-- نظام الصوت -->
-            <div class="voice-section">
-                <div class="voice-controls">
-                    <button class="voice-btn" onclick="startVoiceAssistant()">
-                        🎤 تحدث مع إيفا
-                    </button>
-                    <button class="voice-btn" onclick="changeLanguage('ar')">
-                        🇸🇦 العربية
-                    </button>
-                    <button class="voice-btn" onclick="changeLanguage('en')">
-                        🇺🇸 English
-                    </button>
-                    <button class="voice-btn" onclick="changeLanguage('zh')">
-                        🇨🇳 中文
-                    </button>
-                    <div class="voice-wave" id="voice-wave" style="display: none;">
-                        <div class="wave-bar"></div>
-                        <div class="wave-bar"></div>
-                        <div class="wave-bar"></div>
-                        <div class="wave-bar"></div>
-                        <div class="wave-bar"></div>
-                    </div>
-                </div>
-            </div>
+        <div class="header">
+            <div class="avatar">👩‍💼</div>
+            <h1>إيفا - الرفيق الذكي</h1>
+            <p>مرشدتك الشخصية في OBP</p>
         </div>
 
-        <!-- الخريطة ثلاثية الأبعاد -->
-        <div class="map-section">
-            <h2 style="text-align: center; margin-bottom: 20px; color: #333;">🗺️ خريطة OBP التفاعلية</h2>
-            <div class="map-3d-container">
-                <div class="map-3d">
-                    <div class="building-3d building-a" onclick="guideToBuilding('A')">
-                        🏢 A
-                    </div>
-                    <div class="building-3d building-b" onclick="guideToBuilding('B')">
-                        🏢 B
-                    </div>
-                    <div class="building-3d building-c" onclick="guideToBuilding('C')">
-                        🏢 C
-                    </div>
-                    <div class="building-3d building-d" onclick="guideToBuilding('D')">
-                        🏢 D
-                    </div>
-                    <div class="path-animation" id="path-animation"></div>
+        <div class="content">
+            <!-- شاشة الإدخال -->
+            <div class="input-screen" id="inputScreen">
+                <div class="welcome-message">
+                    <div class="eva-message">🌅 أهلاً وسهلاً! أنا إيفا من الاستقبال، سأسعد بتوجيهك اليوم! 🌸</div>
+                    <div class="eva-message">🎵 دعنا نبدأ رحلة ممتعة عبر مجمع OBP...</div>
                 </div>
-            </div>
-        </div>
 
-        <!-- محادثة إيفا -->
-        <div class="chat-section">
-            <h3 style="text-align: center; margin-bottom: 20px; color: #333;">💬 محادثة مع إيفا</h3>
-            <div class="iva-chat-container" id="chat-container">
-                <div class="iva-message incoming">
-                    <p>مرحباً بك في OBP! أنا إيفا، مساعدتك الذكية. يمكنني توجيهك لأي مكان في المجمع، عرض الخدمات، أو الإجابة على أسئلتك. كيف يمكنني مساعدتك؟</p>
+                <div class="input-group">
+                    <label for="building">اختر المبنى:</label>
+                    <select id="building">
+                        <option value="">-- اختر المبنى --</option>
+                        <option value="A">المبنى A (الإداري الرئيسي)</option>
+                        <option value="B">المبنى B (الخدمات التقنية)</option>
+                        <option value="C">المبنى C (الخدمات التجارية)</option>
+                        <option value="D">المبنى D (الابتكار والبحوث)</option>
+                    </select>
                 </div>
-            </div>
-        </div>
 
-        <!-- لوحة التحكم -->
-        <div class="control-panel">
-            <div class="control-card" onclick="showDirections()">
-                <div class="control-icon">🧭</div>
-                <h3>التوجيه الذكي</h3>
-                <p>إرشادات صوتية ومرئية</p>
+                <div class="input-group">
+                    <label for="room">رقم الغرفة:</label>
+                    <input type="text" id="room" placeholder="أدخل رقم الغرفة (مثال: 204)">
+                </div>
+
+                <button class="btn" onclick="startNavigation()">
+                    🌟 ابدأ الرحلة مع إيفا
+                </button>
             </div>
-            <div class="control-card" onclick="showServices()">
-                <div class="control-icon">🏪</div>
-                <h3>الخدمات</h3>
-                <p>مطاعم ومتاجر ومرافق</p>
-            </div>
-            <div class="control-card" onclick="showEmergency()">
-                <div class="control-icon">🆘</div>
-                <h3>الطوارئ</h3>
-                <p>معلومات الأمن والإسعاف</p>
-            </div>
-            <div class="control-card" onclick="startARCamera()">
-                <div class="control-icon">📱</div>
-                <h3>الواقع المعزز</h3>
-                <p>توجيه بالكاميرا</p>
+
+            <!-- شاشة الخريطة -->
+            <div class="map-screen" id="mapScreen">
+                <div class="navigation-header">
+                    <h2>👩‍💼 إيفا ترافقك في الرحلة</h2>
+                </div>
+                
+                <div class="interactive-map" id="interactiveMap">
+                    <!-- المباني -->
+                    <div class="building a">🏢 A</div>
+                    <div class="building b">🏢 B</div>
+                    <div class="building c">🏢 C</div>
+                    <div class="building d">🏢 D</div>
+                    
+                    <!-- موقعك الحالي -->
+                    <div class="current-location" title="أنت هنا"></div>
+                    
+                    <!-- إيفا المرافقة تضاف بالجافاسكريبت -->
+                </div>
+
+                <!-- التوجيهات -->
+                <div class="voice-guidance">
+                    <div class="guide-text" id="guideText">
+                        🎵 جاري إعداد الرحلة السحرية...
+                    </div>
+                    
+                    <div class="step-indicator">
+                        <div class="step active" id="step1"></div>
+                        <div class="step" id="step2"></div>
+                        <div class="step" id="step3"></div>
+                        <div class="step" id="step4"></div>
+                    </div>
+
+                    <div class="voice-controls">
+                        <button class="voice-btn" onclick="playCurrentStep()">
+                            🔊 كرر التوجيه
+                        </button>
+                        <button class="voice-btn" onclick="nextStep()">
+                            ⏭️ التالي
+                        </button>
+                        <button class="voice-btn" onclick="restartNavigation()">
+                            🔄 رحلة جديدة
+                        </button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
     <script>
-        // نظام الذكاء الاصطناعي واللغة
-        const ivaAI = {
-            currentLanguage: 'ar',
-            isListening: false,
-            
-            responses: {
-                ar: {
-                    welcome: "مرحباً بك في OBP! أنا إيفا، مساعدتك الذكية. يمكنني توجيهك لأي مكان في المجمع.",
-                    directions: "سأوجهك خطوة بخطوة إلى وجهتك. أخبرني أين تريد الذهاب.",
-                    services: "هذه الخدمات المتاحة: مطاعم، كافيهات، متاجر، ومرافق إدارية.",
-                    emergency: "للطوارئ: الأمن 1919، الإسعاف 1920، الإدارة 1001."
-                },
-                en: {
-                    welcome: "Welcome to OBP! I'm IVA, your smart assistant. I can guide you anywhere in the complex.",
-                    directions: "I'll guide you step by step to your destination. Tell me where you want to go.",
-                    services: "Available services: restaurants, cafes, shops, and administrative facilities.",
-                    emergency: "For emergencies: Security 1919, Ambulance 1920, Management 1001."
-                },
-                zh: {
-                    welcome: "欢迎来到OBP！我是伊娃，您的智能助手。我可以带您到园区的任何地方。",
-                    directions: "我会逐步引导您到达目的地。请告诉我您想去哪里。",
-                    services: "可用服务：餐厅、咖啡馆、商店和行政设施。",
-                    emergency: "紧急情况：安保1919，救护车1920，管理1001。"
+        // إنشاء تأثيرات بصرية
+        function createVisualEffects() {
+            const overlay = document.getElementById('effectsOverlay');
+            for (let i = 0; i < 20; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'floating-particle';
+                particle.style.left = Math.random() * 100 + 'vw';
+                particle.style.animationDelay = Math.random() * 3 + 's';
+                overlay.appendChild(particle);
+            }
+        }
+
+        // بيانات المباني والغرف
+        const buildingData = {
+            'A': { 
+                name: 'المبنى الإداري الرئيسي',
+                rooms: {
+                    '101': { left: '30px', top: '40px' },
+                    '102': { left: '60px', top: '40px' },
+                    '201': { left: '30px', top: '90px' },
+                    '202': { left: '60px', top: '90px' },
+                    '204': { left: '90px', top: '90px' }
                 }
             },
-
-            speak: function(text) {
-                if ('speechSynthesis' in window) {
-                    const utterance = new SpeechSynthesisUtterance(text);
-                    utterance.lang = this.currentLanguage;
-                    utterance.rate = 0.9;
-                    utterance.pitch = 1.2;
-                    window.speechSynthesis.speak(utterance);
+            'B': { 
+                name: 'مبنى الخدمات التقنية',
+                rooms: {
+                    '101': { left: '20px', top: '30px' },
+                    '102': { left: '50px', top: '30px' },
+                    '201': { left: '20px', top: '80px' }
                 }
             },
-
-            listen: function() {
-                if (!('webkitSpeechRecognition' in window)) {
-                    this.addMessage("المتصفح لا يدخدم التعرف على الصوت", "outgoing");
-                    return;
+            'C': { 
+                name: 'مبنى الخدمات التجارية', 
+                rooms: {
+                    '101': { left: '40px', top: '30px' },
+                    '102': { left: '80px', top: '30px' }
                 }
-
-                const recognition = new webkitSpeechRecognition();
-                recognition.lang = this.currentLanguage;
-                recognition.continuous = false;
-                recognition.interimResults = false;
-
-                recognition.onstart = () => {
-                    this.isListening = true;
-                    document.getElementById('voice-wave').style.display = 'flex';
-                };
-
-                recognition.onresult = (event) => {
-                    const command = event.results[0][0].transcript;
-                    this.processCommand(command);
-                };
-
-                recognition.onend = () => {
-                    this.isListening = false;
-                    document.getElementById('voice-wave').style.display = 'none';
-                };
-
-                recognition.start();
             },
-
-            processCommand: function(command) {
-                this.addMessage(command, "outgoing");
-                
-                // محاكاة الذكاء الاصطناعي البسيط
-                setTimeout(() => {
-                    let response = "";
-                    if (command.includes('مبنى') || command.includes('building') || command.includes('楼')) {
-                        response = this.responses[this.currentLanguage].directions;
-                        this.guideToRandomBuilding();
-                    } else if (command.includes('مطعم') || command.includes('restaurant') || command.includes('餐厅')) {
-                        response = this.responses[this.currentLanguage].services;
-                    } else if (command.includes('طوارئ') || command.includes('emergency') || command.includes('紧急')) {
-                        response = this.responses[this.currentLanguage].emergency;
-                    } else {
-                        response = "يمكنني مساعدتك في التوجيه، الخدمات، أو الطوارئ. أخبرني ما تحتاج.";
-                    }
-                    
-                    this.addMessage(response, "incoming");
-                    this.speak(response);
-                }, 1000);
-            },
-
-            addMessage: function(text, type) {
-                const chatContainer = document.getElementById('chat-container');
-                const messageDiv = document.createElement('div');
-                messageDiv.className = `iva-message ${type}`;
-                messageDiv.innerHTML = `<p>${text}</p>`;
-                chatContainer.appendChild(messageDiv);
-                chatContainer.scrollTop = chatContainer.scrollHeight;
-            },
-
-            guideToRandomBuilding: function() {
-                const buildings = ['A', 'B', 'C', 'D'];
-                const randomBuilding = buildings[Math.floor(Math.random() * buildings.length)];
-                this.addMessage(`أوجهك إلى المبنى ${randomBuilding}...`, "incoming");
-                
-                // تأثير على الخريطة
-                const buildingElement = document.querySelector(`.building-${randomBuilding.toLowerCase()}`);
-                buildingElement.style.animation = 'pulse 1s infinite';
-                setTimeout(() => {
-                    buildingElement.style.animation = '';
-                }, 3000);
+            'D': { 
+                name: 'مبنى الابتكار والبحوث',
+                rooms: {
+                    '101': { left: '30px', top: '40px' },
+                    '102': { left: '70px', top: '40px' }
+                }
             }
         };
 
-        // وظائف الواجهة
-        function startVoiceAssistant() {
-            ivaAI.addMessage("أنا أستمع... تحدث الآن", "incoming");
-            ivaAI.listen();
+        // توجيهات إيفا الذكية
+        const evaGuidance = {
+            'A': [
+                "🌅 أهلاً وسهلاً! أنا إيفا من الاستقبال، سأسعد بتوجيهك اليوم! 🌸",
+                "🎵 لنبدأ رحلتنا! اتجه نحو المبنى الرئيسي...",
+                "💫 رائع! يمكنك رؤية المدخل بوضوح الآن!",
+                "🌟 جميل! اكتشفت المسار المثالي!",
+                "🎉 شكراً لك! وجودك يضيف بهجة لمكاننا!"
+            ],
+            'B': [
+                "🌅 أهلاً! أنا إيفا، سأرافقك في هذه الرحلة الممتعة! 🌸",
+                "🎵 دعنا نبدأ! اتجه ناحية مبنى التقنية...",
+                "💫 مذهل! أنت تقترب من الوجهة!",
+                "🌟 سعيدون برؤيتك اليوم معنا!",
+                "🎉 كان رفيقاً رائعاً معك! نراكم قريباً!"
+            ]
+        };
+
+        let currentStep = 0;
+        let currentBuilding = '';
+        let currentRoom = '';
+        let evaCompanion = null;
+
+        function startNavigation() {
+            const building = document.getElementById('building').value;
+            const room = document.getElementById('room').value;
+
+            if (!building || !room) {
+                alert('الرجاء اختيار المبنى وإدخال رقم الغرفة');
+                return;
+            }
+
+            if (!buildingData[building] || !buildingData[building].rooms[room]) {
+                alert('رقم الغرفة غير موجود في هذا المبنى. الرجاء التحقق والمحاولة مرة أخرى.');
+                return;
+            }
+
+            currentBuilding = building;
+            currentRoom = room;
+
+            // تبديل الشاشات
+            document.getElementById('inputScreen').style.display = 'none';
+            document.getElementById('mapScreen').style.display = 'block';
+
+            // رسم الخريطة التفاعلية
+            drawInteractiveMap(building, room);
+
+            // بدء التوجيه
+            startVoiceGuidance();
         }
 
-        function changeLanguage(lang) {
-            ivaAI.currentLanguage = lang;
-            const titles = {
-                ar: { main: "مرحباً! أنا إيفا", sub: "مساعدتك الذكية في مجمع OBP" },
-                en: { main: "Hello! I'm IVA", sub: "Your Smart Assistant at OBP Complex" },
-                zh: { main: "你好！我是伊娃", sub: "您在OBP园区的智能助手" }
+        function drawInteractiveMap(building, room) {
+            const map = document.getElementById('interactiveMap');
+            
+            // إضافة إيفا المرافقة
+            evaCompanion = document.createElement('div');
+            evaCompanion.className = 'eva-companion';
+            evaCompanion.innerHTML = '👩‍💼';
+            evaCompanion.style.bottom = '20px';
+            evaCompanion.style.left = '50%';
+            map.appendChild(evaCompanion);
+
+            // إضافة المسار
+            const path = document.createElement('div');
+            path.className = 'navigation-path';
+            path.id = 'navPath';
+            
+            let pathStyle = '';
+            switch(building) {
+                case 'A': pathStyle = 'width: 180px; bottom: 50px; left: 50%; transform: rotate(-45deg);'; break;
+                case 'B': pathStyle = 'width: 200px; bottom: 60px; right: 50%; transform: rotate(45deg);'; break;
+                case 'C': pathStyle = 'width: 220px; bottom: 100px; left: 40%; transform: rotate(-30deg);'; break;
+                case 'D': pathStyle = 'width: 240px; bottom: 80px; right: 40%; transform: rotate(30deg);'; break;
+            }
+            
+            path.style.cssText = pathStyle;
+            map.appendChild(path);
+
+            // إضافة علامة الغرفة
+            const roomMarker = document.createElement('div');
+            roomMarker.className = 'room-marker';
+            roomMarker.textContent = room;
+            
+            const roomPos = buildingData[building].rooms[room];
+            roomMarker.style.left = roomPos.left;
+            roomMarker.style.top = roomPos.top;
+            
+            map.appendChild(roomMarker);
+
+            // تحريك إيفا نحو الهدف
+            animateEvaToTarget(roomPos);
+        }
+
+        function animateEvaToTarget(targetPos) {
+            let posX = 50; // بداية من المركز
+            let posY = 90; // من الأسفل
+
+            const animate = () => {
+                if (evaCompanion) {
+                    // تحريك إيفا نحو الهدف
+                    const targetX = parseFloat(targetPos.left);
+                    const targetY = parseFloat(targetPos.top);
+                    
+                    posX += (targetX - posX) * 0.05;
+                    posY += (targetY - posY) * 0.05;
+                    
+                    evaCompanion.style.left = posX + 'px';
+                    evaCompanion.style.top = posY + 'px';
+
+                    if (Math.abs(targetX - posX) > 2 || Math.abs(targetY - posY) > 2) {
+                        requestAnimationFrame(animate);
+                    }
+                }
             };
-            document.getElementById('main-title').textContent = titles[lang].main;
-            document.getElementById('subtitle').textContent = titles[lang].sub;
-            ivaAI.addMessage(ivaAI.responses[lang].welcome, "incoming");
-            ivaAI.speak(ivaAI.responses[lang].welcome);
+            animate();
         }
 
-        function guideToBuilding(building) {
-            ivaAI.addMessage(`توجيهك إلى المبنى ${building}...`, "incoming");
-            ivaAI.speak(`توجيهك إلى المبنى ${building}`);
+        function startVoiceGuidance() {
+            currentStep = 0;
+            updateStepIndicator();
+            playCurrentStep();
         }
 
-        function showDirections() {
-            ivaAI.addMessage(ivaAI.responses[ivaAI.currentLanguage].directions, "incoming");
-            ivaAI.speak(ivaAI.responses[ivaAI.currentLanguage].directions);
+        function playCurrentStep() {
+            const guidance = evaGuidance[currentBuilding] || evaGuidance['A'];
+            const guide = guidance[currentStep];
+            document.getElementById('guideText').textContent = guide;
+            speakText(guide);
         }
 
-        function showServices() {
-            ivaAI.addMessage(ivaAI.responses[ivaAI.currentLanguage].services, "incoming");
-            ivaAI.speak(ivaAI.responses[ivaAI.currentLanguage].services);
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.lang = 'ar-SA';
+                utterance.rate = 0.9;
+                utterance.pitch = 1;
+                window.speechSynthesis.speak(utterance);
+            }
         }
 
-        function showEmergency() {
-            ivaAI.addMessage(ivaAI.responses[ivaAI.currentLanguage].emergency, "incoming");
-            ivaAI.speak(ivaAI.responses[ivaAI.currentLanguage].emergency);
+        function nextStep() {
+            const guidance = evaGuidance[currentBuilding] || evaGuidance['A'];
+            if (currentStep < guidance.length - 1) {
+                currentStep++;
+                updateStepIndicator();
+                playCurrentStep();
+            } else {
+                document.getElementById('guideText').textContent = '🎉 وصلنا! كان رفيقاً رائعاً معك! نتمنى لك يوماً ساحراً في OBP 🌟';
+                speakText('وصلنا! كان رفيقاً رائعاً معك! نتمنى لك يوماً ساحراً');
+            }
         }
 
-        function startARCamera() {
-            ivaAI.addMessage("تفعيل وضع الكاميرا للواقع المعزز...", "incoming");
-            ivaAI.speak("تفعيل الواقع المعزز");
-            // هنا يمكن إضافة كاميرا الواقع المعزز
+        function updateStepIndicator() {
+            const steps = document.querySelectorAll('.step');
+            steps.forEach((step, index) => {
+                step.classList.toggle('active', index === currentStep);
+            });
         }
 
-        // بدء التشغيل التلقائي
+        function restartNavigation() {
+            document.getElementById('mapScreen').style.display = 'none';
+            document.getElementById('inputScreen').style.display = 'block';
+            document.getElementById('building').selectedIndex = 0;
+            document.getElementById('room').value = '';
+            currentStep = 0;
+            
+            // إعادة تعيين الخريطة
+            const map = document.getElementById('interactiveMap');
+            const elementsToRemove = map.querySelectorAll('.navigation-path, .room-marker, .eva-companion');
+            elementsToRemove.forEach(el => el.remove());
+        }
+
+        // السماح بالإدخال بالإنتر
+        document.getElementById('room').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                startNavigation();
+            }
+        });
+
+        // بدء التأثيرات البصرية
         window.onload = function() {
+            createVisualEffects();
+            
+            // ترحيب صوتي تلقائي
             setTimeout(() => {
-                ivaAI.speak(ivaAI.responses.ar.welcome);
+                speakText("أهلاً وسهلاً! أنا إيفا من الاستقبال، سأسعد بتوجيهك اليوم!");
             }, 1000);
         };
     </script>
