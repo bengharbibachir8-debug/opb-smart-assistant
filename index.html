@@ -1,583 +1,358 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<!doctype html>
+<html lang="ar">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OBP - نظام التوجيه الذكي</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
-        }
-
-        :root {
-            --primary: #2563eb;
-            --secondary: #1e40af;
-            --accent: #3b82f6;
-            --dark: #1e293b;
-            --light: #f8fafc;
-            --success: #10b981;
-        }
-
-        body {
-            background: var(--light);
-            min-height: 100vh;
-        }
-
-        .app-container {
-            display: flex;
-            flex-direction: column;
-            height: 100vh;
-        }
-
-        /* الهيدر الاحترافي */
-        .professional-header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 20px 30px;
-            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .logo-section {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-        }
-
-        .logo {
-            width: 40px;
-            height: 40px;
-            background: white;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: var(--primary);
-        }
-
-        .language-selector {
-            display: flex;
-            gap: 10px;
-        }
-
-        .lang-btn {
-            background: rgba(255,255,255,0.2);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .lang-btn:hover {
-            background: rgba(255,255,255,0.3);
-        }
-
-        /* شاشة الإدخال */
-        .input-screen {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            padding: 40px 20px;
-            background: var(--light);
-        }
-
-        .input-card {
-            background: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 500px;
-        }
-
-        .input-group {
-            margin-bottom: 25px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            color: var(--dark);
-            font-weight: 500;
-            font-size: 14px;
-        }
-
-        select, input {
-            width: 100%;
-            padding: 12px 16px;
-            border: 2px solid #e2e8f0;
-            border-radius: 10px;
-            font-size: 16px;
-            transition: all 0.3s;
-        }
-
-        select:focus, input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
-        }
-
-        .primary-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 14px 28px;
-            border-radius: 10px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
-            width: 100%;
-            transition: all 0.3s;
-        }
-
-        .primary-btn:hover {
-            background: var(--secondary);
-            transform: translateY(-2px);
-        }
-
-        /* شاشة الخريطة */
-        .map-screen {
-            flex: 1;
-            display: none;
-            position: relative;
-        }
-
-        #map {
-            height: 100%;
-            width: 100%;
-        }
-
-        /* لوحة التحكم */
-        .control-panel {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-            z-index: 1000;
-            min-width: 300px;
-        }
-
-        .destination-info {
-            margin-bottom: 20px;
-        }
-
-        .control-buttons {
-            display: flex;
-            gap: 10px;
-        }
-
-        .control-btn {
-            flex: 1;
-            padding: 10px;
-            border: 1px solid #e2e8f0;
-            background: white;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-            font-size: 14px;
-        }
-
-        .control-btn:hover {
-            background: #f8fafc;
-        }
-
-        .control-btn.primary {
-            background: var(--primary);
-            color: white;
-            border-color: var(--primary);
-        }
-
-        /* مساعد الذكاء الاصطناعي */
-        .ai-assistant {
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-            z-index: 1000;
-            max-width: 400px;
-        }
-
-        .assistant-header {
-            padding: 15px 20px;
-            background: var(--primary);
-            color: white;
-            border-radius: 15px 15px 0 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .assistant-avatar {
-            width: 32px;
-            height: 32px;
-            background: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--primary);
-            font-size: 14px;
-        }
-
-        .assistant-messages {
-            padding: 20px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .message {
-            margin-bottom: 15px;
-            line-height: 1.5;
-        }
-
-        .message.ai {
-            color: var(--dark);
-        }
-
-        .assistant-input {
-            padding: 15px 20px;
-            border-top: 1px solid #e2e8f0;
-            display: flex;
-            gap: 10px;
-        }
-
-        .assistant-input input {
-            flex: 1;
-            border: 1px solid #e2e8f0;
-            border-radius: 20px;
-            padding: 10px 15px;
-        }
-
-        .voice-btn {
-            background: var(--primary);
-            color: white;
-            border: none;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        /* تخصيص Leaflet */
-        .leaflet-popup-content {
-            font-family: 'Inter', sans-serif;
-        }
-
-        .custom-marker {
-            background: var(--primary);
-            border: 3px solid white;
-            border-radius: 50%;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-        }
-
-        @media (max-width: 768px) {
-            .control-panel {
-                position: relative;
-                top: 0;
-                left: 0;
-                margin: 20px;
-                min-width: auto;
-            }
-            
-            .ai-assistant {
-                position: relative;
-                bottom: 0;
-                right: 0;
-                margin: 20px;
-                max-width: none;
-            }
-            
-            .map-screen {
-                flex-direction: column;
-            }
-        }
-    </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>MAYA — Smart Navigation (PRO)</title>
+<style>
+  :root{
+    --bg:#0f1724; --card:#0b1220; --accent:#00aaff; --muted:#9aa9bd; --glass: rgba(255,255,255,0.03);
+    --success:#28c76f; --danger:#ff6b6b;
+  }
+  html,body{height:100%;margin:0;font-family:Inter, "Segoe UI", Tahoma, Arial; background: linear-gradient(180deg,#071021 0%, #0b1624 100%); color:#e6eef6;}
+  .wrap{max-width:1200px;margin:28px auto;padding:20px;display:grid;grid-template-columns:420px 1fr;gap:20px;}
+  .panel{background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); padding:18px;border-radius:12px;box-shadow:0 6px 20px rgba(2,6,23,0.6); border:1px solid rgba(255,255,255,0.03);}
+  h1{margin:0 0 8px;font-size:20px}
+  label{font-size:13px;color:var(--muted);display:block;margin-top:12px}
+  select,input{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:#fff;font-size:15px}
+  .row{display:flex;gap:10px}
+  button{margin-top:14px;padding:10px 14px;border-radius:10px;border:none;background:var(--accent);color:#001;cursor:pointer;font-weight:600}
+  #mayaText{min-height:120px;padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));color:#eaf6ff}
+  .small{font-size:13px;color:var(--muted)}
+  /* map area */
+  .mapWrap{position:relative;overflow:hidden;border-radius:12px;}
+  svg{width:100%;height:600px;display:block}
+  .avatar {position:absolute;right:18px;bottom:18px;background:linear-gradient(180deg,#001f2d,#00334a);padding:12px;border-radius:12px;display:flex;gap:10px;align-items:center}
+  .avatar img{width:56px;height:56px;border-radius:10px;object-fit:cover}
+  .avatar .txt{font-size:14px;color:#dff6ff}
+  .legend{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
+  .legend span{background:var(--glass);padding:6px 8px;border-radius:8px;color:var(--muted);font-size:13px}
+  .footerNote{font-size:12px;color:var(--muted);margin-top:12px}
+  /* animated marker */
+  .marker { fill: var(--accent); stroke:white; stroke-width:2; filter:drop-shadow(0 4px 8px rgba(0,170,255,0.25)); }
+  /* responsive */
+  @media (max-width:980px){ .wrap{grid-template-columns:1fr; padding:12px} svg{height:420px} .avatar{right:12px;bottom:12px} }
+</style>
 </head>
 <body>
-    <div class="app-container">
-        <!-- الهيدر -->
-        <div class="professional-header">
-            <div class="header-content">
-                <div class="logo-section">
-                    <div class="logo">OBP</div>
-                    <h1>نظام التوجيه الذكي</h1>
-                </div>
-                <div class="language-selector">
-                    <button class="lang-btn" onclick="changeLanguage('ar')">العربية</button>
-                    <button class="lang-btn" onclick="changeLanguage('en')">English</button>
-                </div>
-            </div>
-        </div>
 
-        <!-- شاشة الإدخال -->
-        <div class="input-screen" id="inputScreen">
-            <div class="input-card">
-                <h2 style="margin-bottom: 30px; color: var(--dark); text-align: center;">تحديد الوجهة</h2>
-                
-                <div class="input-group">
-                    <label for="building">المبنى</label>
-                    <select id="building">
-                        <option value="">اختر المبنى</option>
-                        <option value="A">المبنى A - الإداري</option>
-                        <option value="B">المبنى B - التقني</option>
-                        <option value="C">المبنى C - التجاري</option>
-                        <option value="D">المبنى D - الابتكار</option>
-                    </select>
-                </div>
+<div class="wrap">
+  <!-- LEFT PANEL: Controls -->
+  <div class="panel">
+    <h1>MAYA Smart Welcome — Navigation PRO</h1>
+    <div class="small">ادخل وجهتك أو افتح الرابط عبر QR ليملأ الحقول تلقائياً</div>
 
-                <div class="input-group">
-                    <label for="room">رقم الغرفة</label>
-                    <input type="text" id="room" placeholder="أدخل رقم الغرفة">
-                </div>
+    <label>اختر اللغة / Language</label>
+    <select id="lang">
+      <option value="en">English</option>
+      <option value="fr">Français</option>
+      <option value="ar" selected>العربية</option>
+      <option value="zh">中文</option>
+    </select>
 
-                <button class="primary-btn" onclick="startNavigation()">
-                    بدء التوجيه
-                </button>
-            </div>
-        </div>
+    <label>المبنى / Building</label>
+    <select id="building">
+      <option value="A">A</option>
+      <option value="B">B</option>
+      <option value="C">C</option>
+      <option value="D">D</option>
+    </select>
 
-        <!-- شاشة الخريطة -->
-        <div class="map-screen" id="mapScreen">
-            <div id="map"></div>
-            
-            <!-- لوحة التحكم -->
-            <div class="control-panel">
-                <div class="destination-info">
-                    <h3 id="destinationTitle">التوجيه إلى الوجهة</h3>
-                    <p id="destinationDetails">جاري حساب المسار...</p>
-                </div>
-                <div class="control-buttons">
-                    <button class="control-btn" onclick="recalculateRoute()">🔄 إعادة حساب</button>
-                    <button class="control-btn primary" onclick="speakDirections()">🎧 التوجيه الصوتي</button>
-                </div>
-            </div>
+    <label>الطابق / Floor</label>
+    <input id="floor" type="number" min="0" max="20" placeholder="4" />
 
-            <!-- المساعد الذكي -->
-            <div class="ai-assistant">
-                <div class="assistant-header">
-                    <div class="assistant-avatar">AI</div>
-                    <span>المساعد الذكي</span>
-                </div>
-                <div class="assistant-messages" id="assistantMessages">
-                    <div class="message ai">مرحباً! أنا مساعدك الذكي. كيف يمكنني مساعدتك في التوجيه؟</div>
-                </div>
-                <div class="assistant-input">
-                    <input type="text" id="aiInput" placeholder="اكتب سؤالك...">
-                    <button class="voice-btn" onclick="startVoiceInput()">🎤</button>
-                </div>
-            </div>
-        </div>
+    <label>الغرفة / Room</label>
+    <input id="room" type="text" placeholder="203" />
+
+    <div style="display:flex;gap:8px;margin-top:12px">
+      <button id="startBtn">ابدأ التوجيه / Start</button>
+      <button id="demoBtn" style="background:#2dd4bf;color:#012; font-weight:700">تجريبي - Demo</button>
     </div>
 
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script>
-        // بيانات المباني (إحداثيات حقيقية)
-        const buildingLocations = {
-            'A': { lat: 36.7525, lng: 3.0420, name: 'المبنى الإداري الرئيسي' },
-            'B': { lat: 36.7520, lng: 3.0430, name: 'مبنى الخدمات التقنية' },
-            'C': { lat: 36.7515, lng: 3.0415, name: 'مبنى الخدمات التجارية' },
-            'D': { lat: 36.7530, lng: 3.0435, name: 'مبنى الابتكار والبحوث' }
-        };
+    <div style="margin-top:16px">
+      <div class="small">مايا تقول / MAYA says</div>
+      <div id="mayaText" aria-live="polite">الترحيب هنا سيظهر بعد الضغط على ابدأ.</div>
+    </div>
 
-        let map;
-        let currentRoute;
-        let currentBuilding = '';
-        let currentRoom = '';
+    <div class="footerNote small">
+      ملاحظة: الخريطة تمثيلية مبنية على وصف المسار: المدخل المستطيل → ممر رئيسي → تقاطع → مباني A,B,C,D متناوبة يسار/يمين.
+    </div>
+  </div>
 
-        // تهيئة الخريطة
-        function initMap() {
-            map = L.map('map').setView([36.7525, 3.0420], 17);
-            
-            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                attribution: '© OpenStreetMap contributors'
-            }).addTo(map);
+  <!-- RIGHT PANEL: Map -->
+  <div class="panel mapWrap">
+    <svg id="svgMap" viewBox="0 0 900 600" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stop-color="#062033"/>
+          <stop offset="1" stop-color="#071826"/>
+        </linearGradient>
+      </defs>
 
-            // إضافة مباني OBP
-            Object.entries(buildingLocations).forEach(([key, building]) => {
-                L.marker([building.lat, building.lng])
-                    .addTo(map)
-                    .bindPopup(`<b>${building.name}</b><br>${key}`)
-                    .openPopup();
-            });
-        }
+      <!-- background -->
+      <rect x="0" y="0" width="900" height="600" fill="url(#g1)"></rect>
 
-        // بدء التوجيه
-        function startNavigation() {
-            const building = document.getElementById('building').value;
-            const room = document.getElementById('room').value;
+      <!-- Entrance rectangle (glass hall) -->
+      <rect id="entranceRect" x="40" y="220" width="140" height="120" rx="10" fill="#08314a" stroke="#0ea5e9" stroke-width="2"/>
+      <text x="110" y="290" font-size="14" fill="#dff7ff" text-anchor="middle">Entrance</text>
 
-            if (!building || !room) {
-                alert('الرجاء اختيار المبنى وإدخال رقم الغرفة');
-                return;
-            }
+      <!-- Small terrace & path -->
+      <rect x="190" y="240" width="40" height="80" fill="#0b3850" rx="6" />
+      <path d="M230 280 L320 280" stroke="#7dd3fc" stroke-width="8" stroke-linecap="round"/>
 
-            currentBuilding = building;
-            currentRoom = room;
+      <!-- central path -->
+      <line x1="320" y1="280" x2="560" y2="280" stroke="#5eead4" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
 
-            // تبديل الشاشات
-            document.getElementById('inputScreen').style.display = 'none';
-            document.getElementById('mapScreen').style.display = 'flex';
+      <!-- crossing point -->
+      <circle id="cross" cx="560" cy="280" r="12" fill="#fff" opacity="0.2"/>
 
-            // تحديث المعلومات
-            document.getElementById('destinationTitle').textContent = 
-                `التوجيه إلى: ${buildingLocations[building].name}`;
-            document.getElementById('destinationDetails').textContent = 
-                `الغرفة: ${room} - جاري حساب المسار الأمثل...`;
+      <!-- Buildings positions (alternating left/right) -->
+      <!-- A: left close -->
+      <g id="A" transform="translate(420,180)">
+        <rect x="-60" y="-40" width="120" height="80" rx="8" fill="#122b3b" stroke="#38bdf8" stroke-width="2"/>
+        <text x="0" y="6" font-size="14" text-anchor="middle" fill="#e6f9ff">Building A</text>
+      </g>
 
-            // رسم المسار
-            calculateRoute(building);
-            
-            // رسالة المساعد
-            addAIMessage(`تم تحديد وجهتك إلى ${buildingLocations[building].name} - الغرفة ${room}. سأرافقك في هذه الرحلة.`);
-        }
+      <!-- B: right a bit -->
+      <g id="B" transform="translate(480,340)">
+        <rect x="-60" y="-40" width="120" height="80" rx="8" fill="#122b3b" stroke="#60a5fa" stroke-width="2"/>
+        <text x="0" y="6" font-size="14" text-anchor="middle" fill="#e6f9ff">Building B</text>
+      </g>
 
-        // حساب المسار
-        function calculateRoute(building) {
-            const target = buildingLocations[building];
-            
-            // محاكاة مسار (في الواقع سيستخدم خدمة توجيه حقيقية)
-            const routeCoordinates = [
-                [36.7528, 3.0418], // نقطة البداية
-                [target.lat, target.lng] // نقطة النهاية
-            ];
+      <!-- C: left after steps -->
+      <g id="C" transform="translate(620,180)">
+        <rect x="-60" y="-40" width="120" height="80" rx="8" fill="#0b2a34" stroke="#2dd4bf" stroke-width="2"/>
+        <text x="0" y="6" font-size="14" text-anchor="middle" fill="#e6f9ff">Building C</text>
+      </g>
 
-            // رسم المسار
-            if (currentRoute) {
-                map.removeLayer(currentRoute);
-            }
+      <!-- D: right final -->
+      <g id="D" transform="translate(700,340)">
+        <rect x="-60" y="-40" width="120" height="80" rx="8" fill="#071823" stroke="#7c3aed" stroke-width="2"/>
+        <text x="0" y="6" font-size="14" text-anchor="middle" fill="#e6f9ff">Building D</text>
+      </g>
 
-            currentRoute = L.polyline(routeCoordinates, {
-                color: '#2563eb',
-                weight: 6,
-                opacity: 0.8,
-                lineJoin: 'round'
-            }).addTo(map);
+      <!-- path segments (invisible base for animation) -->
+      <polyline id="routeLine" points="" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="0.0"/>
 
-            // ضبط الخريطة لإظهار المسار كاملاً
-            map.fitBounds(currentRoute.getBounds());
-        }
+      <!-- moving marker -->
+      <g id="marker" transform="translate(50,50)" style="display:none">
+        <circle cx="0" cy="0" r="10" class="marker"></circle>
+        <circle cx="0" cy="0" r="4" fill="#fff"></circle>
+      </g>
 
-        // إعادة حساب المسار
-        function recalculateRoute() {
-            if (currentBuilding) {
-                calculateRoute(currentBuilding);
-                addAIMessage('تم إعادة حساب المسار الأمثل بناءً على موقعك الحالي.');
-            }
-        }
+    </svg>
 
-        // التوجيه الصوتي
-        function speakDirections() {
-            const messages = [
-                `التوجيه إلى ${buildingLocations[currentBuilding].name}`,
-                'اتجه شمالاً لمدة 50 متر',
-                'انعطف يميناً عند المبنى الزجاجي',
-                'استمر مستقيماً حتى تصل إلى المدخل الرئيسي',
-                `ستجد الغرفة ${currentRoom} على يسارك بعد الدخول`
-            ];
+    <div class="avatar" id="avatarPanel" style="display:flex">
+      <img src="https://images.unsplash.com/photo-1549237510-6b1b9ef78d7f?w=200&q=60&auto=format&fit=crop" alt="maya avatar" />
+      <div>
+        <div class="txt" id="avatarTitle">MAYA</div>
+        <div class="small" id="avatarSub">Smart Welcome</div>
+      </div>
+    </div>
 
-            messages.forEach((message, index) => {
-                setTimeout(() => {
-                    if ('speechSynthesis' in window) {
-                        const utterance = new SpeechSynthesisUtterance(message);
-                        utterance.lang = 'ar-SA';
-                        utterance.rate = 0.9;
-                        window.speechSynthesis.speak(utterance);
-                    }
-                }, index * 3000);
-            });
-        }
+    <div class="legend">
+      <span>Entrance → Path → Crossing → Buildings A/B/C/D</span>
+      <span>Animated guidance • Voice directions</span>
+    </div>
+  </div>
+</div>
 
-        // المساعد الذكي
-        function addAIMessage(message) {
-            const messagesContainer = document.getElementById('assistantMessages');
-            const messageDiv = document.createElement('div');
-            messageDiv.className = 'message ai';
-            messageDiv.textContent = message;
-            messagesContainer.appendChild(messageDiv);
-            messagesContainer.scrollTop = messagesContainer.scrollHeight;
-        }
+<script>
+/* ============================
+   PRO Navigation Script
+   - node positions map to SVG elements
+   - path builder: Entrance -> crossing -> selected building
+   - animate marker along path, create textual directions, speech (multi-language)
+   ============================ */
 
-        function startVoiceInput() {
-            if ('webkitSpeechRecognition' in window) {
-                const recognition = new webkitSpeechRecognition();
-                recognition.lang = 'ar-SA';
-                recognition.onresult = function(event) {
-                    const command = event.results[0][0].transcript;
-                    document.getElementById('aiInput').value = command;
-                    processAICommand(command);
-                };
-                recognition.start();
-            } else {
-                alert('المتصفح لا يدعم التعرف على الصوت');
-            }
-        }
+const positions = {
+  E: {x:110, y:280},   // entrance center approx
+  P: {x:230, y:280},
+  Cross: {x:560, y:280},
+  A: {x:420, y:180},
+  B: {x:480, y:340},
+  C: {x:620, y:180},
+  D: {x:700, y:340}
+};
 
-        function processAICommand(command) {
-            let response = "أنا هنا للمساعدة في التوجيه. يمكنني إعادة حساب المسار أو تقديم توجيهات صوتية.";
-            
-            if (command.includes('مسار') || command.includes('طريق')) {
-                recalculateRoute();
-                response = "تم إعادة حساب المسار الأمثل لك.";
-            } else if (command.includes('صوت') || command.includes('توجيه')) {
-                speakDirections();
-                response = "بدأت التوجيهات الصوتية. استمع جيداً للإرشادات.";
-            } else if (command.includes('وقت') || command.includes('مدة')) {
-                response = "الوقت المقدر للوصول: 3-5 دقائق سيراً على الأقدام.";
-            }
-            
-            addAIMessage(response);
-        }
+// helper to read URL params (for QR links like ?building=B&floor=4&room=203)
+function getParams(){
+  const p = new URLSearchParams(window.location.search);
+  return {
+    building: (p.get('building')||'A').toUpperCase(),
+    floor: p.get('floor')||'4',
+    room: p.get('room')||'101',
+    lang: (p.get('lang')||document.getElementById('lang').value)||'ar'
+  };
+}
 
-        // تغيير اللغة
-        function changeLanguage(lang) {
-            // يمكن إضافة ترجمة كاملة هنا
-            console.log('Changing language to:', lang);
-        }
+// basic localization phrases
+const L = {
+  en: {
+    welcome: "Welcome. I will guide you to your destination.",
+    fromEntrance: "From the main entrance walk straight along the small terrace and follow the main path.",
+    atCross: "At the crossing, head to Building",
+    thenEnter: "Enter the building, take the elevator to floor",
+    thenRoom: "and go to room",
+    arrived: "You have arrived at your destination. Have a pleasant visit!"
+  },
+  fr: {
+    welcome: "Bienvenue. Je vais vous guider vers votre destination.",
+    fromEntrance: "Depuis l'entrée principale, marchez le long de la petite terrasse et suivez le chemin principal.",
+    atCross: "Au carrefour, dirigez-vous vers le bâtiment",
+    thenEnter: "Entrez dans le bâtiment, prenez l'ascenseur jusqu'au niveau",
+    thenRoom: "et allez à la salle",
+    arrived: "Vous êtes arrivé à destination. Bonne visite !"
+  },
+  ar: {
+    welcome: "أهلاً بكم. سأرشدكم إلى وجهتكم.",
+    fromEntrance: "من المدخل الرئيسي اتجهوا مستقيمًا عبر التيراس الصغير ثم تابعوا المسار الرئيسي.",
+    atCross: "عند التقاطع اتجهوا نحو المبنى",
+    thenEnter: "ادخل المبنى، واستعمل المصعد إلى الطابق",
+    thenRoom: "ثم توجه إلى الغرفة",
+    arrived: "لقد وصلت إلى وجهتك. نتمنى لكم زيارة سعيدة!"
+  },
+  zh: {
+    welcome: "欢迎。 我将带您前往目的地。",
+    fromEntrance: "从主入口直行，穿过小露台并沿主路前进。",
+    atCross: "在路口，请前往",
+    thenEnter: "进入楼内，乘电梯到",
+    thenRoom: "然后前往房间",
+    arrived: "您已到达目的地。 祝您愉快！"
+  }
+};
 
-        // التهيئة
-        window.onload = function() {
-            initMap();
-        };
+// utility: speak text in given language (fallback mapping)
+function speakText(text, lang){
+  if(!('speechSynthesis' in window)) return;
+  const ut = new SpeechSynthesisUtterance(text);
+  // choose voice/lang hints
+  if(lang==='ar') ut.lang='ar-SA';
+  else if(lang==='fr') ut.lang='fr-FR';
+  else if(lang==='zh') ut.lang='zh-CN';
+  else ut.lang='en-US';
+  // try prefer a voice with language tag
+  const voices = window.speechSynthesis.getVoices();
+  if(voices.length){
+    const v = voices.find(v=>v.lang.startsWith(ut.lang.split('-')[0]));
+    if(v) ut.voice = v;
+  }
+  window.speechSynthesis.cancel();
+  window.speechSynthesis.speak(ut);
+}
 
-        // السماح بالإدخال بالإنتر
-        document.getElementById('room').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                startNavigation();
-            }
-        });
+/* build path points array for animation */
+function buildPath(buildingKey){
+  // Entrance -> terrace/p -> cross -> building node
+  const points = [
+    positions.E,
+    positions.P,
+    positions.Cross,
+    positions[buildingKey]
+  ];
+  return points;
+}
 
-        document.getElementById('aiInput').addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                processAICommand(this.value);
-                this.value = '';
-            }
-        });
-    </script>
+/* draw polyline route (visible) and animate marker along it */
+function showRoute(points){
+  const svg = document.getElementById('svgMap');
+  const route = document.getElementById('routeLine');
+  // create points string
+  const pts = points.map(p=>`${p.x},${p.y}`).join(' ');
+  route.setAttribute('points', pts);
+  route.setAttribute('opacity', '0.95');
+  route.setAttribute('stroke', '#00e5ff');
+  route.setAttribute('stroke-width','6');
+  route.setAttribute('fill','none');
+
+  // show marker and animate along path
+  const marker = document.getElementById('marker');
+  marker.style.display = 'block';
+  // remove previous animation if any
+  const existing = document.querySelector('#marker animateMotion');
+  if(existing) existing.remove();
+
+  // construct path for animateMotion
+  const svgNS = "http://www.w3.org/2000/svg";
+  const motion = document.createElementNS(svgNS, 'animateMotion');
+  motion.setAttribute('dur','8s');
+  motion.setAttribute('repeatCount','1');
+  motion.setAttribute('fill','freeze');
+
+  // create path d
+  let d = 'M' + points.map(p=>`${p.x} ${p.y}`).join(' L ');
+  const pm = document.createElementNS(svgNS,'mpath');
+  // create path element hidden to reference
+  let pathEl = document.getElementById('animPath');
+  if(pathEl) pathEl.remove();
+  pathEl = document.createElementNS(svgNS,'path');
+  pathEl.setAttribute('d', d);
+  pathEl.setAttribute('id','animPath');
+  pathEl.setAttribute('fill','none');
+  svg.appendChild(pathEl);
+  pm.setAttributeNS('http://www.w3.org/1999/xlink','href','#animPath');
+  motion.appendChild(pm);
+  marker.appendChild(motion);
+  motion.beginElement();
+  // when ended, keep marker at last point
+  motion.addEventListener('endEvent', ()=> {
+    // nothing for now
+  });
+}
+
+/* create textual steps in user's language (simple) */
+function createDirections(building, floor, room, lang){
+  const t = L[lang] || L['en'];
+  const sentences = [];
+  sentences.push(t.welcome);
+  sentences.push(t.fromEntrance);
+  sentences.push(`${t.atCross} ${building}.`);
+  sentences.push(`${t.thenEnter} ${floor}. ${t.thenRoom} ${room}.`);
+  sentences.push(t.arrived);
+  return sentences.join(' ');
+}
+
+/* main action */
+function navigateTo(building, floor, room, lang){
+  // build path points
+  const pathPts = buildPath(building);
+  showRoute(pathPts);
+  const text = createDirections(building,floor,room,lang);
+  document.getElementById('mayaText').innerText = text;
+  speakText(text, lang);
+}
+
+/* event handlers */
+document.getElementById('startBtn').addEventListener('click', ()=> {
+  const building = document.getElementById('building').value;
+  const floor = document.getElementById('floor').value || '1';
+  const room = document.getElementById('room').value || '101';
+  const lang = document.getElementById('lang').value;
+  navigateTo(building, floor, room, lang);
+});
+
+/* demo quick fill */
+document.getElementById('demoBtn').addEventListener('click', ()=>{
+  document.getElementById('building').value='B';
+  document.getElementById('floor').value='4';
+  document.getElementById('room').value='407';
+  navigateTo('B','4','407', document.getElementById('lang').value);
+});
+
+/* on load: read query params (QR flow) */
+window.addEventListener('load', ()=>{
+  const p = getParams();
+  // safe check building
+  if(['A','B','C','D'].includes(p.building)){
+    document.getElementById('building').value = p.building;
+    document.getElementById('floor').value = p.floor;
+    document.getElementById('room').value = p.room;
+    document.getElementById('lang').value = p.lang || 'ar';
+    // auto start navigation for QR users:
+    setTimeout(()=> navigateTo(p.building,p.floor,p.room,p.lang), 800);
+  }
+});
+</script>
+
 </body>
 </html>
