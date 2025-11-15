@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, user-scalable=no" />
     <meta name="theme-color" content="#0f1724" />
-    <title>إيفا - المساعد الذكي | OBP</title>
+    <title>OBP - نظام التوجيه الذكي مع إيفا</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -90,29 +90,194 @@
             overflow: hidden;
         }
         
-        /* الشات بوت */
-        .chat-container {
-            flex: 1;
+        /* اللوحة اليسرى - نظام التوجيه */
+        .navigation-panel {
+            width: 400px;
             display: flex;
             flex-direction: column;
             background: rgba(255,255,255,0.02);
+            border-right: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .form-section {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .form-section h2 {
+            font-size: 18px;
+            margin-bottom: 16px;
+            color: var(--accent-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        label {
+            font-size: 14px;
+            color: var(--text-muted);
+            display: block;
+            margin-top: 16px;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        select, input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(0, 0, 0, 0.3);
+            color: #fff;
+            font-size: 15px;
+            transition: var(--transition);
+        }
+        
+        select:focus, input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(0,170,255,0.2);
+        }
+        
+        .row {
+            display: flex;
+            gap: 12px;
+        }
+        
+        button {
+            margin-top: 20px;
+            padding: 14px 20px;
+            border-radius: 12px;
+            border: none;
+            background: var(--accent);
+            color: #001;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 15px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            box-shadow: 0 4px 12px rgba(0, 170, 255, 0.3);
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0, 170, 255, 0.4);
+        }
+        
+        #demoBtn {
+            background: #2dd4bf;
+            color: #012;
+            box-shadow: 0 4px 12px rgba(45, 212, 191, 0.3);
+        }
+        
+        #demoBtn:hover {
+            box-shadow: 0 6px 16px rgba(45, 212, 191, 0.4);
+        }
+        
+        /* منطقة الخريطة */
+        .map-section {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .map-container {
+            flex: 1;
+            background: rgba(255,255,255,0.02);
+            border-radius: 12px;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        #svgMap {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .map-overlay {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 31, 45, 0.7);
+            backdrop-filter: blur(10px);
+            padding: 16px;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            max-width: 300px;
+        }
+        
+        .map-overlay img {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+        
+        .instructions-panel {
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            padding: 16px;
+            margin-top: 16px;
+            border-left: 4px solid var(--accent);
+        }
+        
+        #mayaText {
+            line-height: 1.6;
+            font-size: 14px;
+        }
+        
+        /* المساعد إيفا */
+        .eva-panel {
+            width: 350px;
+            background: rgba(15, 23, 36, 0.8);
+            backdrop-filter: blur(10px);
             border-left: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .eva-header {
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .eva-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            margin: 0 auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: white;
         }
         
         .chat-messages {
             flex: 1;
             overflow-y: auto;
-            padding: 20px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 16px;
+            gap: 12px;
         }
         
         .message {
-            max-width: 80%;
-            padding: 16px 20px;
+            max-width: 85%;
+            padding: 12px 16px;
             border-radius: 18px;
             line-height: 1.5;
+            font-size: 13px;
             animation: fadeIn 0.3s ease;
         }
         
@@ -135,193 +300,35 @@
             border-bottom-left-radius: 6px;
         }
         
-        .message.typing {
-            align-self: flex-start;
-            background: var(--glass);
-            padding: 12px 20px;
-        }
-        
-        .typing-dots {
-            display: flex;
-            gap: 4px;
-        }
-        
-        .typing-dots span {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--text-muted);
-            animation: typing 1.4s infinite ease-in-out;
-        }
-        
-        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
-        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
-        
-        @keyframes typing {
-            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
-            40% { transform: scale(1); opacity: 1; }
-        }
-        
         .chat-input-container {
-            padding: 20px;
-            background: rgba(15, 23, 36, 0.5);
+            padding: 16px;
             border-top: 1px solid rgba(255,255,255,0.1);
         }
         
         .chat-input {
             display: flex;
-            gap: 12px;
-            align-items: flex-end;
+            gap: 10px;
         }
         
-        .chat-input textarea {
+        .chat-input input {
             flex: 1;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 12px;
-            padding: 12px 16px;
-            color: var(--text);
-            resize: none;
-            height: 44px;
-            max-height: 120px;
+            padding: 12px;
             font-size: 14px;
-            transition: var(--transition);
-        }
-        
-        .chat-input textarea:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 2px rgba(0,170,255,0.2);
         }
         
         .send-btn {
             background: var(--accent);
             border: none;
-            border-radius: 12px;
-            width: 44px;
-            height: 44px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-        
-        .send-btn:hover {
-            background: var(--accent-light);
-            transform: translateY(-2px);
-        }
-        
-        .send-btn:active {
-            transform: translateY(0);
-        }
-        
-        /* اللوحة الجانبية */
-        .sidebar {
-            width: 350px;
-            background: rgba(15, 23, 36, 0.8);
-            backdrop-filter: blur(10px);
-            border-left: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-        }
-        
-        .sidebar-section {
-            padding: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .sidebar-section h3 {
-            font-size: 16px;
-            margin-bottom: 16px;
-            color: var(--accent-light);
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .quick-actions {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-        
-        .action-btn {
-            background: var(--glass);
-            border: 1px solid rgba(255,255,255,0.1);
             border-radius: 10px;
-            padding: 12px;
-            color: var(--text);
-            font-size: 13px;
-            cursor: pointer;
-            transition: var(--transition);
-            text-align: center;
-        }
-        
-        .action-btn:hover {
-            background: rgba(0,170,255,0.1);
-            border-color: var(--accent);
-        }
-        
-        .info-card {
-            background: var(--glass);
-            border-radius: 12px;
-            padding: 16px;
-            margin-bottom: 12px;
-            border: 1px solid rgba(255,255,255,0.1);
-        }
-        
-        .info-card h4 {
-            color: var(--accent-light);
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-        
-        .info-card p {
-            font-size: 13px;
-            color: var(--text-muted);
-            line-height: 1.5;
-        }
-        
-        /* إيفا أفاتار */
-        .eva-avatar {
-            text-align: center;
-            padding: 20px;
-        }
-        
-        .avatar-img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--accent), var(--accent-light));
-            margin: 0 auto 12px;
+            width: 40px;
+            height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
             color: white;
+            cursor: pointer;
         }
         
-        .status {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            font-size: 12px;
-            color: var(--success);
-        }
-        
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: var(--success);
-            animation: pulse 2s infinite;
-        }
-        
-        /* اقتراحات سريعة */
         .suggestions {
             display: flex;
             flex-wrap: wrap;
@@ -332,9 +339,9 @@
         .suggestion {
             background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 20px;
-            padding: 8px 16px;
-            font-size: 12px;
+            border-radius: 16px;
+            padding: 6px 12px;
+            font-size: 11px;
             color: var(--text-muted);
             cursor: pointer;
             transition: var(--transition);
@@ -345,24 +352,50 @@
             color: var(--accent-light);
         }
         
+        /* علامة الخريطة المتحركة */
+        .marker { 
+            fill: var(--accent); 
+            stroke: white; 
+            stroke-width: 2; 
+            filter: drop-shadow(0 4px 8px rgba(0,170,255,0.4));
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        /* تأثيرات المسار */
+        .route-path {
+            stroke-dasharray: 10;
+            animation: dash 1s linear infinite;
+        }
+        
+        @keyframes dash {
+            to {
+                stroke-dashoffset: -20;
+            }
+        }
+        
         /* تحسينات للجوال */
         @media (max-width: 768px) {
             .container {
                 flex-direction: column;
             }
             
-            .sidebar {
+            .navigation-panel, .eva-panel {
                 width: 100%;
                 height: auto;
+            }
+            
+            .eva-panel {
                 max-height: 40vh;
             }
             
-            .message {
-                max-width: 90%;
-            }
-            
-            .quick-actions {
-                grid-template-columns: 1fr;
+            .map-container {
+                min-height: 300px;
             }
         }
     </style>
@@ -372,173 +405,221 @@
     <div class="header">
         <div class="logo">OBP</div>
         <div class="header-title">
-            <h1>إيفا - المساعد الذكي</h1>
-            <div class="subtitle">مرحباً بك في مجمع OBP - المركز الجزائري للأعمال</div>
+            <h1>نظام التوجيه الذكي - OBP</h1>
+            <div class="subtitle">إيفا تساعدك في الوصول إلى وجهتك بسهولة</div>
         </div>
     </div>
 
     <!-- الحاوية الرئيسية -->
     <div class="container">
-        <!-- الشات بوت -->
-        <div class="chat-container">
+        <!-- اللوحة اليسرى - نظام التوجيه -->
+        <div class="navigation-panel">
+            <div class="form-section">
+                <h2><i class="fas fa-location-arrow"></i> توجيه الزائر</h2>
+                
+                <label><i class="fas fa-building"></i> المبنى / Building</label>
+                <select id="building">
+                    <option value="A">المبنى A - الإدارة</option>
+                    <option value="B">المبنى B - الخدمات</option>
+                    <option value="C">المبنى C - التقنية</option>
+                    <option value="D">المبنى D - المؤتمرات</option>
+                </select>
+
+                <label><i class="fas fa-layer-group"></i> الطابق / Floor</label>
+                <input id="floor" type="number" min="0" max="20" placeholder="4" />
+
+                <label><i class="fas fa-door-open"></i> الغرفة / Room</label>
+                <input id="room" type="text" placeholder="203" />
+
+                <div class="row">
+                    <button id="startBtn"><i class="fas fa-play"></i> ابدأ التوجيه</button>
+                    <button id="demoBtn"><i class="fas fa-magic"></i> تجريبي</button>
+                </div>
+            </div>
+            
+            <div class="form-section">
+                <div class="instructions-panel">
+                    <div id="mayaText">أدخل بيانات الغرفة وسأوجهك إليها خطوة بخطوة مع إرشادات صوتية.</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- منطقة الخريطة -->
+        <div class="map-section">
+            <div class="map-container">
+                <svg id="svgMap" viewBox="0 0 900 600" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
+                            <stop offset="0" stop-color="#062033"/>
+                            <stop offset="1" stop-color="#071826"/>
+                        </linearGradient>
+                        
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="3.5" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+
+                    <!-- الخلفية -->
+                    <rect x="0" y="0" width="900" height="600" fill="url(#g1)"></rect>
+
+                    <!-- المدخل المستطيل (الصالة الزجاجية) -->
+                    <rect id="entranceRect" x="40" y="220" width="140" height="120" rx="10" fill="#08314a" stroke="#0ea5e9" stroke-width="2" filter="url(#glow)"/>
+                    <text x="110" y="290" font-size="14" fill="#dff7ff" text-anchor="middle">المدخل | Entrance</text>
+
+                    <!-- التيراس الصغير والمسار -->
+                    <rect x="190" y="240" width="40" height="80" fill="#0b3850" rx="6" />
+                    <path d="M230 280 L320 280" stroke="#7dd3fc" stroke-width="8" stroke-linecap="round"/>
+
+                    <!-- المسار المركزي -->
+                    <line x1="320" y1="280" x2="560" y2="280" stroke="#5eead4" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
+
+                    <!-- نقطة التقاطع -->
+                    <circle id="cross" cx="560" cy="280" r="12" fill="#fff" opacity="0.2"/>
+
+                    <!-- مواقع المباني (يسار/يمين بالتناوب) -->
+                    <!-- A: يسار قريب -->
+                    <g id="A" transform="translate(420,180)">
+                        <rect x="-60" y="-40" width="120" height="80" rx="8" fill="#122b3b" stroke="#38bdf8" stroke-width="2"/>
+                        <text x="0" y="6" font-size="14" text-anchor="middle" fill="#e6f9ff">المبنى A</text>
+                    </g>
+
+                    <!-- B: يمين قليلاً -->
+                    <g id="B" transform="translate(480,340)">
+                        <rect x="-60" y="-40" width="120" height="80" rx="8" fill="#122b3b" stroke="#60a5fa" stroke-width="2"/>
+                        <text x="0" y="6" font-size="14" text-anchor="middle" fill="#e6f9ff">المبنى B</text>
+                    </g>
+
+                    <!-- C: يسار بعد الدرجات -->
+                    <g id="C" transform="translate(620,180)">
+                        <rect x="-60" y="-40" width="120" height="80" rx="8" fill="#0b2a34" stroke="#2dd4bf" stroke-width="2"/>
+                        <text x="0" y="6" font-size="14" text-anchor="middle" fill="#e6f9ff">المبنى C</text>
+                    </g>
+
+                    <!-- D: يمين أخير -->
+                    <g id="D" transform="translate(700,340)">
+                        <rect x="-60" y="-40" width="120" height="80" rx="8" fill="#071823" stroke="#7c3aed" stroke-width="2"/>
+                        <text x="0" y="6" font-size="14" text-anchor="middle" fill="#e6f9ff">المبنى D</text>
+                    </g>
+
+                    <!-- مقاطع المسار (قاعدة غير مرئية للتحريك) -->
+                    <polyline id="routeLine" points="" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="0.0"/>
+
+                    <!-- العلامة المتحركة -->
+                    <g id="marker" transform="translate(50,50)" style="display:none">
+                        <circle cx="0" cy="0" r="10" class="marker"></circle>
+                        <circle cx="0" cy="0" r="4" fill="#fff"></circle>
+                    </g>
+                </svg>
+                
+                <div class="map-overlay">
+                    <img src="https://images.unsplash.com/photo-1549237510-6b1b9ef78d7f?w=200&q=60&auto=format&fit=crop" alt="maya avatar" />
+                    <div>
+                        <div style="font-weight: 600; color: #dff6ff;">إيفا المساعدة</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">جاهزة للإجابة على أسئلتك</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- المساعد إيفا -->
+        <div class="eva-panel">
+            <div class="eva-header">
+                <div class="eva-avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3>إيفا - المساعد الذكي</h3>
+                <div style="font-size: 12px; color: var(--text-muted); margin-top: 4px;">اسألني عن أي شيء في المجمع</div>
+            </div>
+            
             <div class="chat-messages" id="chatMessages">
-                <!-- الرسائل تظهر هنا -->
                 <div class="message eva">
-                    <strong>إيفا:</strong> أهلاً وسهلاً بك! 👋 أنا إيفا، المساعد الذكي لمجمع OBP. أنا هنا لمساعدتك في العثور على أي شيء تحتاجه داخل المجمع. هل تريد التوجيه إلى مكتب معين، أو تبحث عن خدمة محددة؟
+                    <strong>إيفا:</strong> أهلاً! أنا هنا لمساعدتك في العثور على طريقك داخل مجمع OBP. يمكنك استخدام نظام التوجيه على اليسار، أو سؤالي عن أي شيء آخر تحتاج إليه.
                 </div>
             </div>
             
             <div class="chat-input-container">
                 <div class="chat-input">
-                    <textarea id="messageInput" placeholder="اكتب رسالتك هنا..." rows="1"></textarea>
+                    <input type="text" id="messageInput" placeholder="اسأل إيفا عن أي شيء..." />
                     <button class="send-btn" id="sendButton">
                         <i class="fas fa-paper-plane"></i>
                     </button>
                 </div>
                 <div class="suggestions">
-                    <div class="suggestion" data-msg="أين يوجد المطعم؟">أين يوجد المطعم؟</div>
-                    <div class="suggestion" data-msg="أحتاج إلى موقف السيارات">موقف السيارات</div>
-                    <div class="suggestion" data-msg="أبحث عن قسم IT">قسم IT</div>
-                    <div class="suggestion" data-msg="أين المدخل الرئيسي؟">المدخل الرئيسي</div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- اللوحة الجانبية -->
-        <div class="sidebar">
-            <div class="eva-avatar">
-                <div class="avatar-img">
-                    <i class="fas fa-robot"></i>
-                </div>
-                <h3>إيفا - المساعد الذكي</h3>
-                <div class="status">
-                    <div class="status-dot"></div>
-                    <span>متصل وجاهز للمساعدة</span>
-                </div>
-            </div>
-            
-            <div class="sidebar-section">
-                <h3><i class="fas fa-bolt"></i> إجراءات سريعة</h3>
-                <div class="quick-actions">
-                    <div class="action-btn" data-action="navigation">
-                        <i class="fas fa-route"></i>
-                        <div>التوجيه الذكي</div>
-                    </div>
-                    <div class="action-btn" data-action="services">
-                        <i class="fas fa-concierge-bell"></i>
-                        <div>الخدمات</div>
-                    </div>
-                    <div class="action-btn" data-action="emergency">
-                        <i class="fas fa-first-aid"></i>
-                        <div>طوارئ</div>
-                    </div>
-                    <div class="action-btn" data-action="facilities">
-                        <i class="fas fa-building"></i>
-                        <div>مرافق</div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="sidebar-section">
-                <h3><i class="fas fa-info-circle"></i> معلومات المجمع</h3>
-                <div class="info-card">
-                    <h4>⏰ أوقات العمل</h4>
-                    <p>الأحد - الخميس: 8:00 ص - 6:00 م<br>الجمعة - السبت: مغلق</p>
-                </div>
-                <div class="info-card">
-                    <h4>📍 الموقع</h4>
-                    <p>الجزائر العاصمة، بلدية المحمدية</p>
-                </div>
-            </div>
-            
-            <div class="sidebar-section">
-                <h3><i class="fas fa-phone-alt"></i> جهات اتصال مهمة</h3>
-                <div class="info-card">
-                    <h4>📞 الأمن</h4>
-                    <p>الهاتف: 021-123-456</p>
-                </div>
-                <div class="info-card">
-                    <h4>🏥 الإسعاف</h4>
-                    <p>الهاتف: 021-789-012</p>
+                    <div class="suggestion" data-msg="أين المطعم؟">المطعم</div>
+                    <div class="suggestion" data-msg="موقف السيارات">الموقف</div>
+                    <div class="suggestion" data-msg="أين دورات المياه؟">دورات المياه</div>
+                    <div class="suggestion" data-msg="خدمات الطوارئ">الطوارئ</div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // قاعدة المعرفة لـ إيفا - مبنية على بيانات OBP.dz
+        // قاعدة المعرفة لـ إيفا
         const evaKnowledge = {
             greetings: {
                 patterns: ['مرحبا', 'اهلا', 'السلام', 'hello', 'hi', 'bonjour'],
                 responses: [
                     'أهلاً وسهلاً بك! 👋 كيف يمكنني مساعدتك اليوم؟',
-                    'مرحباً بك في مجمع OBP! 😊 أنا إيفا، كيف يمكنني خدمتك؟',
-                    'أهلاً بك! أنا إيفا، المساعد الذكي لمجمع OBP. كيف يمكنني مساعدتك؟'
+                    'مرحباً بك في مجمع OBP! 😊 أنا إيفا، كيف يمكنني خدمتك؟'
                 ]
             },
             
             navigation: {
-                'المدخل الرئيسي': {
-                    location: 'المدخل الشمالي - المبنى الرئيسي',
-                    directions: 'اتجه مباشرة نحو المبنى الزجاجي الرئيسي، المدخل مزود بأبواب أوتوماتيكية',
-                    floor: 'الطابق الأرضي'
-                },
                 'المطعم': {
                     location: 'المبنى B - الطابق الثالث',
                     directions: 'من المدخل الرئيسي، اتجه يميناً ثم استخدم المصعد إلى الطابق الثالث',
-                    hours: '10:00 ص - 10:00 م',
-                    phone: '021-345-678'
+                    hours: '10:00 ص - 10:00 م'
                 },
                 'موقف السيارات': {
                     location: 'الطابق السفلي - المدخل الغربي',
-                    directions: 'اتبع الإشارات إلى المدخل الغربي، ثم انزل بالمصعد إلى الطابق -1',
-                    capacity: '200 سيارة'
+                    directions: 'اتبع الإشارات إلى المدخل الغربي، ثم انزل بالمصعد إلى الطابق -1'
                 },
-                'قسم IT': {
-                    location: 'المبنى C - الطابق الثاني',
-                    directions: 'من المدخل الرئيسي، اتجه يساراً ثم اصعد السلالم إلى الطابق الثاني',
-                    hours: '8:00 ص - 5:00 م',
-                    phone: '021-456-789'
+                'دورات المياه': {
+                    location: 'جميع الطوابق - بجوار المصاعد',
+                    directions: 'ستجدها في كل طابق بالقرب من منطقة المصاعد'
+                },
+                'خدمات الطوارئ': {
+                    location: 'جميع أنحاء المجمع',
+                    directions: 'أزرار الطوارئ الحمراء موجودة في الممرات، والأمن على الرقم: 021-123-456'
                 },
                 'الإدارة': {
                     location: 'المبنى A - الطابق الرابع',
-                    directions: 'استخدم المصعد الرئيسي إلى الطابق الرابع، ثم اتجه يساراً',
-                    phone: '021-234-567'
+                    directions: 'استخدم المصعد الرئيسي إلى الطابق الرابع'
                 },
-                'قاعة المؤتمرات': {
-                    location: 'المبنى D - الطابق الأول',
-                    directions: 'من المدخل الرئيسي، اتجه يميناً نحو المبنى D',
-                    capacity: '300 شخص'
+                'قسم IT': {
+                    location: 'المبنى C - الطابق الثاني',
+                    directions: 'من المدخل الرئيسي، اتجه يساراً ثم اصعد السلالم إلى الطابق الثاني'
                 }
             },
             
             services: {
                 'انترنت': 'يتوفر WiFi مجاني في جميع أنحاء المجمع. اسم الشبكة: OBP-Free',
                 'صراف آلي': 'يوجد صراف آلي في المدخل الرئيسي وبجوار المطعم',
-                'مصلى': 'المصلى موجود في المبنى B - الطابق الأرضي',
-                'مركز الأعمال': 'مركز الأعمال متاح في المبنى A - الطابق الثالث، مجهز بأجهزة الكمبيوتر والطابعات'
-            },
-            
-            emergency: {
-                'أمن': 'اتصل بالأمن على الرقم: 021-123-456 أو اضغط على زر الطوارئ الأحمر',
-                'إسعاف': 'الطوارئ الطبية: 021-789-012',
-                'حريق': 'في حالة الحريق، اتجه إلى أقرب مخرج طوارئ واتصل بالأمن'
-            },
-            
-            facilities: {
-                'دورات مياه': 'متوفرة في كل طابق بجوار المصاعد',
-                'مصاعد': '6 مصاعد موزعة في جميع المباني',
-                'سلالم كهربائية': 'في المدخل الرئيسي والمبنى B',
-                'تكييف': 'مكيف مركزي في جميع أنحاء المجمع'
+                'مصلى': 'المصلى موجود في المبنى B - الطابق الأرضي'
             }
         };
 
-        // DOM Elements
+        // نظام التوجيه - الكود الأصلي
+        const positions = {
+            E: {x:110, y:280},
+            P: {x:230, y:280},
+            Cross: {x:560, y:280},
+            A: {x:420, y:180},
+            B: {x:480, y:340},
+            C: {x:620, y:180},
+            D: {x:700, y:340}
+        };
+
+        // إيفا - الدردشة
         const chatMessages = document.getElementById('chatMessages');
         const messageInput = document.getElementById('messageInput');
         const sendButton = document.getElementById('sendButton');
         const suggestions = document.querySelectorAll('.suggestion');
-        const actionButtons = document.querySelectorAll('.action-btn');
 
         // إضافة رسالة إلى الشات
         function addMessage(text, isUser = false) {
@@ -549,50 +630,20 @@
             chatMessages.scrollTop = chatMessages.scrollHeight;
         }
 
-        // محاكاة الكتابة
-        function showTypingIndicator() {
-            const typingDiv = document.createElement('div');
-            typingDiv.className = 'message typing';
-            typingDiv.id = 'typingIndicator';
-            typingDiv.innerHTML = `
-                <strong>إيفا:</strong> 
-                <div class="typing-dots">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-            `;
-            chatMessages.appendChild(typingDiv);
-            chatMessages.scrollTop = chatMessages.scrollHeight;
-        }
-
-        function hideTypingIndicator() {
-            const typingIndicator = document.getElementById('typingIndicator');
-            if (typingIndicator) {
-                typingIndicator.remove();
-            }
-        }
-
-        // معالجة الرسائل من المستخدم
-        function processUserMessage(message) {
+        // معالجة رسائل إيفا
+        function processEvaMessage(message) {
             const lowerMessage = message.toLowerCase();
             
-            // إضافة رسالة المستخدم
             addMessage(message, true);
             
-            // محاكاة التفكير
-            showTypingIndicator();
-            
-            // البحث عن أفضل رد
             setTimeout(() => {
-                hideTypingIndicator();
-                let response = findBestResponse(lowerMessage);
+                let response = findEvaResponse(lowerMessage);
                 addMessage(response);
-            }, 1500);
+            }, 1000);
         }
 
-        // البحث عن الرد المناسب
-        function findBestResponse(message) {
+        // البحث عن رد إيفا
+        function findEvaResponse(message) {
             // تحيات
             if (evaKnowledge.greetings.patterns.some(pattern => message.includes(pattern))) {
                 return getRandomResponse(evaKnowledge.greetings.responses);
@@ -601,7 +652,7 @@
             // تنقل
             for (const [place, info] of Object.entries(evaKnowledge.navigation)) {
                 if (message.includes(place.toLowerCase())) {
-                    return `📍 ${place}:\n• الموقع: ${info.location}\n• الاتجاهات: ${info.directions}\n• الطابق: ${info.floor}${info.hours ? `\n• أوقات العمل: ${info.hours}` : ''}${info.phone ? `\n• الهاتف: ${info.phone}` : ''}${info.capacity ? `\n• السعة: ${info.capacity}` : ''}`;
+                    return `📍 ${place}:\n• الموقع: ${info.location}\n• الاتجاهات: ${info.directions}${info.hours ? `\n• أوقات العمل: ${info.hours}` : ''}`;
                 }
             }
             
@@ -612,28 +663,8 @@
                 }
             }
             
-            // طوارئ
-            for (const [emergency, info] of Object.entries(evaKnowledge.emergency)) {
-                if (message.includes(emergency.toLowerCase())) {
-                    return `🚨 ${emergency}:\n${info}`;
-                }
-            }
-            
-            // مرافق
-            for (const [facility, description] of Object.entries(evaKnowledge.facilities)) {
-                if (message.includes(facility.toLowerCase())) {
-                    return `🏢 ${facility}:\n${description}`;
-                }
-            }
-            
             // رد افتراضي
-            const defaultResponses = [
-                "عذراً، لم أفهم سؤالك بالكامل. هل يمكنك إعادة صياغته؟",
-                "أنا متخصص في مساعدتك بالتنقل داخل مجمع OBP. هل تريد معرفة موقع مكتب معين أو خدمة محددة؟",
-                "يمكنني مساعدتك في العثور على أي مكان داخل المجمع. جرب أن تسأل عن: المطعم، موقف السيارات، قسم IT، أو أي خدمة أخرى تحتاجها."
-            ];
-            
-            return getRandomResponse(defaultResponses);
+            return "يمكنني مساعدتك في العثور على أماكن داخل المجمع مثل المطعم، موقف السيارات، أو الإدارة. يمكنك أيضاً استخدام نظام التوجيه على اليسار للوصول إلى غرفة محددة.";
         }
 
         // الحصول على رد عشوائي
@@ -641,75 +672,136 @@
             return responses[Math.floor(Math.random() * responses.length)];
         }
 
-        // إرسال رسالة
-        function sendMessage() {
+        // إرسال رسالة لإيفا
+        function sendEvaMessage() {
             const message = messageInput.value.trim();
             if (message) {
-                processUserMessage(message);
+                processEvaMessage(message);
                 messageInput.value = '';
-                messageInput.style.height = 'auto';
             }
         }
-
-        // تكبير textarea تلقائياً
-        messageInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
-        });
-
-        // إرسال بالضغط على Enter
-        messageInput.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
-            }
-        });
 
         // إضافة اقتراحات سريعة
         suggestions.forEach(suggestion => {
             suggestion.addEventListener('click', function() {
                 messageInput.value = this.getAttribute('data-msg');
-                sendMessage();
-            });
-        });
-
-        // إضافة إجراءات سريعة
-        actionButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const action = this.getAttribute('data-action');
-                let message = '';
-                
-                switch(action) {
-                    case 'navigation':
-                        message = 'أحتاج إلى التوجيه داخل المجمع';
-                        break;
-                    case 'services':
-                        message = 'ما هي الخدمات المتوفرة؟';
-                        break;
-                    case 'emergency':
-                        message = 'أين أجد معلومات الطوارئ؟';
-                        break;
-                    case 'facilities':
-                        message = 'ما هي المرافق المتاحة؟';
-                        break;
-                }
-                
-                messageInput.value = message;
-                sendMessage();
+                sendEvaMessage();
             });
         });
 
         // إرسال بالزر
-        sendButton.addEventListener('click', sendMessage);
+        sendButton.addEventListener('click', sendEvaMessage);
 
-        // ترحيب أولي
-        setTimeout(() => {
-            showTypingIndicator();
-            setTimeout(() => {
-                hideTypingIndicator();
-                addMessage("يمكنني مساعدتك في: 🗺️ التنقل بين المباني • 🔧 الخدمات المتاحة • 🚨 معلومات الطوارئ • 🏢 المرافق العامة. فقط اسألني عن أي شيء تحتاجه!");
-            }, 1000);
-        }, 2000);
+        // إرسال بالضغط على Enter
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendEvaMessage();
+            }
+        });
+
+        // نظام التوجيه - الكود الأصلي
+        const L = {
+            en: {
+                welcome: "Welcome. I will guide you to your destination.",
+                fromEntrance: "From the main entrance walk straight along the small terrace and follow the main path.",
+                atCross: "At the crossing, head to Building",
+                thenEnter: "Enter the building, take the elevator to floor",
+                thenRoom: "and go to room",
+                arrived: "You have arrived at your destination. Have a pleasant visit!"
+            },
+            ar: {
+                welcome: "أهلاً بكم. سأرشدكم إلى وجهتكم.",
+                fromEntrance: "من المدخل الرئيسي اتجهوا مستقيمًا عبر التيراس الصغير ثم تابعوا المسار الرئيسي.",
+                atCross: "عند التقاطع اتجهوا نحو المبنى",
+                thenEnter: "ادخل المبنى، واستعمل المصعد إلى الطابق",
+                thenRoom: "ثم توجه إلى الغرفة",
+                arrived: "لقد وصلت إلى وجهتك. نتمنى لكم زيارة سعيدة!"
+            }
+        };
+
+        function buildPath(buildingKey){
+            const points = [
+                positions.E,
+                positions.P,
+                positions.Cross,
+                positions[buildingKey]
+            ];
+            return points;
+        }
+
+        function showRoute(points){
+            const route = document.getElementById('routeLine');
+            const pts = points.map(p=>`${p.x},${p.y}`).join(' ');
+            route.setAttribute('points', pts);
+            route.setAttribute('opacity', '0.95');
+            route.setAttribute('stroke', '#00e5ff');
+            route.setAttribute('stroke-width','6');
+            route.classList.add('route-path');
+
+            const marker = document.getElementById('marker');
+            marker.style.display = 'block';
+            
+            const existing = document.querySelector('#marker animateMotion');
+            if (existing) existing.remove();
+
+            const svgNS = "http://www.w3.org/2000/svg";
+            const motion = document.createElementNS(svgNS, 'animateMotion');
+            motion.setAttribute('dur','8s');
+            motion.setAttribute('repeatCount','1');
+            motion.setAttribute('fill','freeze');
+
+            let d = 'M' + points.map(p=>`${p.x} ${p.y}`).join(' L ');
+            const pm = document.createElementNS(svgNS,'mpath');
+            
+            let pathEl = document.getElementById('animPath');
+            if(pathEl) pathEl.remove();
+            pathEl = document.createElementNS(svgNS,'path');
+            pathEl.setAttribute('d', d);
+            pathEl.setAttribute('id','animPath');
+            pathEl.setAttribute('fill','none');
+            document.getElementById('svgMap').appendChild(pathEl);
+            
+            pm.setAttributeNS('http://www.w3.org/1999/xlink','href','#animPath');
+            motion.appendChild(pm);
+            marker.appendChild(motion);
+            motion.beginElement();
+        }
+
+        function createDirections(building, floor, room, lang){
+            const t = L[lang] || L['ar'];
+            const sentences = [];
+            sentences.push(t.welcome);
+            sentences.push(t.fromEntrance);
+            sentences.push(`${t.atCross} ${building}.`);
+            sentences.push(`${t.thenEnter} ${floor}. ${t.thenRoom} ${room}.`);
+            sentences.push(t.arrived);
+            return sentences.join(' ');
+        }
+
+        function navigateTo(building, floor, room, lang){
+            const pathPts = buildPath(building);
+            showRoute(pathPts);
+            const text = createDirections(building,floor,room,lang);
+            document.getElementById('mayaText').innerText = text;
+            
+            // إضافة إشعار لإيفا
+            addMessage(`🔍 أرى أنك تتجه إلى المبنى ${building}، الطابق ${floor}، الغرفة ${room}. هذا طريق رائع! تحتاج أي مساعدة إضافية؟`);
+        }
+
+        // event handlers
+        document.getElementById('startBtn').addEventListener('click', ()=> {
+            const building = document.getElementById('building').value;
+            const floor = document.getElementById('floor').value || '1';
+            const room = document.getElementById('room').value || '101';
+            navigateTo(building, floor, room, 'ar');
+        });
+
+        document.getElementById('demoBtn').addEventListener('click', ()=>{
+            document.getElementById('building').value='B';
+            document.getElementById('floor').value='4';
+            document.getElementById('room').value='407';
+            navigateTo('B','4','407', 'ar');
+        });
     </script>
 </body>
 </html>
