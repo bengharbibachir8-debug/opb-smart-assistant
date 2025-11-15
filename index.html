@@ -4,20 +4,20 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1, maximum-scale=1, user-scalable=no" />
     <meta name="theme-color" content="#0f1724" />
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>MAYA — Smart Navigation (PRO)</title>
+    <title>إيفا - المساعد الذكي | OBP</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
-            --bg: #0f1724; 
-            --card: #0b1220; 
-            --accent: #00aaff; 
-            --accent-glow: rgba(0, 170, 255, 0.4);
-            --muted: #9aa9bd; 
-            --glass: rgba(255,255,255,0.03);
-            --success: #28c76f; 
+            --primary: #0f1724;
+            --secondary: #1e293b;
+            --accent: #00aaff;
+            --accent-light: #38bdf8;
+            --success: #28c76f;
+            --warning: #ff9f43;
             --danger: #ff6b6b;
+            --text: #e6eef6;
+            --text-muted: #9aa9bd;
+            --glass: rgba(255,255,255,0.05);
             --transition: all 0.3s ease;
         }
         
@@ -25,752 +25,691 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Segoe UI', Inter, Tahoma, Arial, sans-serif;
+            font-family: 'Segoe UI', 'Tajawal', Tahoma, Arial, sans-serif;
             -webkit-tap-highlight-color: transparent;
         }
         
         html, body {
             height: 100%;
-            background: linear-gradient(180deg, #071021 0%, #0b1624 100%);
-            color: #e6eef6;
-            overflow-x: hidden;
-            -webkit-text-size-adjust: 100%;
+            background: linear-gradient(135deg, #071021 0%, #0b1624 50%, #1e293b 100%);
+            color: var(--text);
+            overflow: hidden;
         }
         
         body {
-            position: relative;
+            display: flex;
+            flex-direction: column;
             padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
         }
         
-        /* تأثير الجسيمات في الخلفية */
-        #particles-js {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            top: 0;
-            left: 0;
-        }
-        
-        .wrap {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 16px;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 16px;
-            position: relative;
-            z-index: 1;
-            min-height: 100vh;
-        }
-        
-        /* تصميم الزجاجي للوحة */
-        .panel {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            padding: 20px;
-            border-radius: 16px;
-            box-shadow: 0 8px 32px rgba(2, 6, 23, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: var(--transition);
-        }
-        
-        .panel:hover {
-            box-shadow: 0 12px 40px rgba(2, 6, 23, 0.8);
-        }
-        
-        h1 {
-            margin: 0 0 12px;
-            font-size: 22px;
-            font-weight: 700;
-            background: linear-gradient(90deg, #00aaff, #2dd4bf);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        
-        .subtitle {
-            font-size: 14px;
-            color: var(--muted);
-            margin-bottom: 20px;
-            line-height: 1.5;
-        }
-        
-        label {
-            font-size: 14px;
-            color: var(--muted);
-            display: block;
-            margin-top: 16px;
-            margin-bottom: 8px;
-            font-weight: 500;
-        }
-        
-        select, input {
-            width: 100%;
-            padding: 14px 16px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            background: rgba(0, 0, 0, 0.3);
-            color: #fff;
-            font-size: 16px; /* حجم خط أكبر للجوال */
-            transition: var(--transition);
-            -webkit-appearance: none;
-            appearance: none;
-        }
-        
-        select:focus, input:focus {
-            outline: none;
-            border-color: var(--accent);
-            box-shadow: 0 0 0 2px var(--accent-glow);
-        }
-        
-        .select-wrapper {
-            position: relative;
-        }
-        
-        .select-wrapper::after {
-            content: "▼";
-            position: absolute;
-            top: 50%;
-            left: 16px;
-            transform: translateY(-50%);
-            color: var(--muted);
-            pointer-events: none;
-            font-size: 12px;
-        }
-        
-        .row {
-            display: flex;
-            gap: 12px;
-        }
-        
-        button {
-            margin-top: 20px;
+        /* الهيدر */
+        .header {
+            background: rgba(15, 23, 36, 0.8);
+            backdrop-filter: blur(10px);
             padding: 16px 20px;
-            border-radius: 12px;
-            border: none;
-            background: var(--accent);
-            color: #001;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 16px;
-            transition: var(--transition);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 12px rgba(0, 170, 255, 0.3);
-            flex: 1;
-            min-height: 54px; /* ارتفاع مناسب للجوال */
-        }
-        
-        button:hover, button:active {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 16px rgba(0, 170, 255, 0.4);
-        }
-        
-        #demoBtn {
-            background: #2dd4bf;
-            color: #012;
-            box-shadow: 0 4px 12px rgba(45, 212, 191, 0.3);
-        }
-        
-        #demoBtn:hover, #demoBtn:active {
-            box-shadow: 0 6px 16px rgba(45, 212, 191, 0.4);
-        }
-        
-        #mayaText {
-            min-height: 120px;
-            padding: 16px;
-            border-radius: 12px;
-            background: rgba(255, 255, 255, 0.03);
-            color: #eaf6ff;
-            line-height: 1.6;
-            margin-top: 16px;
-            border-left: 4px solid var(--accent);
-            transition: var(--transition);
-            font-size: 15px;
-        }
-        
-        .small {
-            font-size: 13px;
-            color: var(--muted);
-        }
-        
-        /* منطقة الخريطة */
-        .mapWrap {
-            position: relative;
-            overflow: hidden;
-            border-radius: 16px;
-            padding: 0;
-            height: 50vh;
-            min-height: 400px;
-        }
-        
-        svg {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-        
-        .avatar {
-            position: absolute;
-            right: 16px;
-            bottom: 16px;
-            background: rgba(0, 31, 45, 0.7);
-            backdrop-filter: blur(10px);
-            padding: 12px;
-            border-radius: 12px;
-            display: flex;
-            gap: 10px;
-            align-items: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
-            transition: var(--transition);
-            max-width: calc(100% - 32px);
-        }
-        
-        .avatar img {
-            width: 50px;
-            height: 50px;
-            border-radius: 10px;
-            object-fit: cover;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .avatar .txt {
-            font-size: 15px;
-            color: #dff6ff;
-            font-weight: 600;
-        }
-        
-        .legend {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-top: 12px;
-            padding: 0 12px 12px;
-        }
-        
-        .legend span {
-            background: var(--glass);
-            padding: 6px 10px;
-            border-radius: 8px;
-            color: var(--muted);
-            font-size: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        .footerNote {
-            font-size: 12px;
-            color: var(--muted);
-            margin-top: 16px;
-            line-height: 1.5;
-            padding-top: 16px;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        
-        /* علامة متحركة محسنة */
-        .marker { 
-            fill: var(--accent); 
-            stroke: white; 
-            stroke-width: 2; 
-            filter: drop-shadow(0 4px 8px rgba(0,170,255,0.4));
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.1); opacity: 0.8; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-        
-        /* تأثيرات المسار */
-        .route-path {
-            stroke-dasharray: 10;
-            animation: dash 1s linear infinite;
-        }
-        
-        @keyframes dash {
-            to {
-                stroke-dashoffset: -20;
-            }
-        }
-        
-        /* شريط التقدم */
-        .progress-container {
-            width: 100%;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-            margin-top: 16px;
-            overflow: hidden;
-        }
-        
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent), #2dd4bf);
-            border-radius: 3px;
-            width: 0%;
-            transition: width 0.5s ease;
-        }
-        
-        /* شريط العنوان للجوال */
-        .mobile-header {
-            display: none;
-            background: rgba(11, 18, 32, 0.8);
-            backdrop-filter: blur(10px);
-            padding: 12px 16px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            position: sticky;
-            top: 0;
+            gap: 12px;
             z-index: 100;
         }
         
-        .mobile-header h1 {
+        .logo {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: white;
+        }
+        
+        .header-title {
+            flex: 1;
+        }
+        
+        .header-title h1 {
             font-size: 18px;
             margin: 0;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         
-        /* تبويب للتبديل بين الخريطة والإعدادات في الجوال */
-        .mobile-tabs {
-            display: none;
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 12px;
-            padding: 4px;
-            margin-bottom: 16px;
+        .header-title .subtitle {
+            font-size: 12px;
+            color: var(--text-muted);
         }
         
-        .mobile-tab {
+        /* الحاوية الرئيسية */
+        .container {
+            display: flex;
             flex: 1;
-            padding: 12px;
-            text-align: center;
-            border-radius: 8px;
-            background: transparent;
-            color: var(--muted);
-            font-weight: 500;
-            transition: var(--transition);
-            border: none;
-            cursor: pointer;
+            overflow: hidden;
         }
         
-        .mobile-tab.active {
-            background: var(--accent);
-            color: #001;
+        /* الشات بوت */
+        .chat-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: rgba(255,255,255,0.02);
+            border-left: 1px solid rgba(255,255,255,0.1);
         }
         
-        /* إشعارات */
-        .notification {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            left: 20px;
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        
+        .message {
+            max-width: 80%;
             padding: 16px 20px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 12px;
-            border-left: 4px solid var(--accent);
-            color: white;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
-            z-index: 1000;
-            transform: translateY(-100px);
-            opacity: 0;
-            transition: transform 0.4s ease, opacity 0.4s ease;
-        }
-        
-        .notification.show {
-            transform: translateY(0);
-            opacity: 1;
-        }
-        
-        /* استجابة متقدمة للجوال */
-        @media (max-width: 768px) {
-            .wrap {
-                padding: 12px;
-                gap: 12px;
-                grid-template-columns: 1fr;
-            }
-            
-            .mobile-header {
-                display: block;
-            }
-            
-            .mobile-tabs {
-                display: flex;
-            }
-            
-            .panel {
-                padding: 16px;
-                margin-bottom: 0;
-            }
-            
-            .controls-panel {
-                display: block;
-            }
-            
-            .map-panel {
-                display: block;
-            }
-            
-            h1 {
-                font-size: 20px;
-            }
-            
-            .row {
-                flex-direction: column;
-            }
-            
-            button {
-                width: 100%;
-                min-height: 50px;
-            }
-            
-            .mapWrap {
-                height: 40vh;
-                min-height: 300px;
-            }
-            
-            .avatar {
-                position: relative;
-                right: auto;
-                bottom: auto;
-                margin: 12px;
-                width: calc(100% - 24px);
-            }
-            
-            .legend {
-                flex-direction: column;
-                gap: 6px;
-            }
-            
-            .legend span {
-                text-align: center;
-            }
-            
-            /* تحسينات اللمس */
-            select, input, button {
-                touch-action: manipulation;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .panel {
-                padding: 14px;
-            }
-            
-            h1 {
-                font-size: 18px;
-            }
-            
-            .mapWrap {
-                height: 35vh;
-                min-height: 250px;
-            }
-            
-            .avatar img {
-                width: 45px;
-                height: 45px;
-            }
-            
-            .avatar .txt {
-                font-size: 14px;
-            }
-        }
-        
-        /* دعم الشاشات الطويلة */
-        @media (min-height: 800px) and (max-width: 768px) {
-            .mapWrap {
-                height: 45vh;
-            }
-        }
-        
-        /* تأثيرات دخول */
-        .fade-in {
-            animation: fadeIn 0.8s ease-out;
+            border-radius: 18px;
+            line-height: 1.5;
+            animation: fadeIn 0.3s ease;
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
         
-        /* منع التحديد للنصوص غير الضرورية */
-        .no-select {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
+        .message.user {
+            align-self: flex-end;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            color: white;
+            border-bottom-right-radius: 6px;
         }
         
-        /* تحسينات للأجهزة التي تدعم Hover */
-        @media (hover: hover) {
-            button:hover {
-                transform: translateY(-2px);
+        .message.eva {
+            align-self: flex-start;
+            background: var(--glass);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-bottom-left-radius: 6px;
+        }
+        
+        .message.typing {
+            align-self: flex-start;
+            background: var(--glass);
+            padding: 12px 20px;
+        }
+        
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+        
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            animation: typing 1.4s infinite ease-in-out;
+        }
+        
+        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+        
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+        
+        .chat-input-container {
+            padding: 20px;
+            background: rgba(15, 23, 36, 0.5);
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .chat-input {
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+        }
+        
+        .chat-input textarea {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 12px 16px;
+            color: var(--text);
+            resize: none;
+            height: 44px;
+            max-height: 120px;
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        
+        .chat-input textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(0,170,255,0.2);
+        }
+        
+        .send-btn {
+            background: var(--accent);
+            border: none;
+            border-radius: 12px;
+            width: 44px;
+            height: 44px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .send-btn:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+        }
+        
+        .send-btn:active {
+            transform: translateY(0);
+        }
+        
+        /* اللوحة الجانبية */
+        .sidebar {
+            width: 350px;
+            background: rgba(15, 23, 36, 0.8);
+            backdrop-filter: blur(10px);
+            border-left: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        
+        .sidebar-section {
+            padding: 20px;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .sidebar-section h3 {
+            font-size: 16px;
+            margin-bottom: 16px;
+            color: var(--accent-light);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .quick-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+        
+        .action-btn {
+            background: var(--glass);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
+            padding: 12px;
+            color: var(--text);
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+        }
+        
+        .action-btn:hover {
+            background: rgba(0,170,255,0.1);
+            border-color: var(--accent);
+        }
+        
+        .info-card {
+            background: var(--glass);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .info-card h4 {
+            color: var(--accent-light);
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .info-card p {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        
+        /* إيفا أفاتار */
+        .eva-avatar {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .avatar-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            margin: 0 auto 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+        }
+        
+        .status {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-size: 12px;
+            color: var(--success);
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: pulse 2s infinite;
+        }
+        
+        /* اقتراحات سريعة */
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+        
+        .suggestion {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 12px;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .suggestion:hover {
+            background: rgba(0,170,255,0.1);
+            color: var(--accent-light);
+        }
+        
+        /* تحسينات للجوال */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
             }
             
-            .avatar:hover {
-                transform: translateY(-5px);
+            .sidebar {
+                width: 100%;
+                height: auto;
+                max-height: 40vh;
+            }
+            
+            .message {
+                max-width: 90%;
+            }
+            
+            .quick-actions {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
-    <!-- شريط العنوان للجوال -->
-    <div class="mobile-header no-select">
-        <h1><i class="fas fa-route"></i> MAYA Smart Navigation</h1>
+    <!-- الهيدر -->
+    <div class="header">
+        <div class="logo">OBP</div>
+        <div class="header-title">
+            <h1>إيفا - المساعد الذكي</h1>
+            <div class="subtitle">مرحباً بك في مجمع OBP - المركز الجزائري للأعمال</div>
+        </div>
     </div>
 
-    <!-- خلفية الجسيمات -->
-    <div id="particles-js"></div>
-    
-    <!-- إشعار -->
-    <div class="notification" id="notification">
-        <i class="fas fa-info-circle"></i> <span id="notificationText">مرحباً بك في نظام التوجيه الذكي</span>
-    </div>
-
-    <div class="wrap">
-        <!-- تبويب الجوال للتبديل -->
-        <div class="mobile-tabs no-select">
-            <button class="mobile-tab active" id="controlsTab">
-                <i class="fas fa-cog"></i> الإعدادات
-            </button>
-            <button class="mobile-tab" id="mapTab">
-                <i class="fas fa-map"></i> الخريطة
-            </button>
-        </div>
-        
-        <!-- لوحة التحكم -->
-        <div class="panel controls-panel fade-in" id="controlsPanel">
-            <div class="subtitle">ادخل وجهتك أو افتح الرابط عبر QR ليملأ الحقول تلقائياً. نظام التوجيه الذكي سيرشدك إلى وجهتك بسهولة.</div>
-
-            <label><i class="fas fa-language"></i> اختر اللغة / Language</label>
-            <div class="select-wrapper">
-                <select id="lang">
-                    <option value="en">English</option>
-                    <option value="fr">Français</option>
-                    <option value="ar" selected>العربية</option>
-                    <option value="zh">中文</option>
-                </select>
-            </div>
-
-            <label><i class="fas fa-building"></i> المبنى / Building</label>
-            <div class="select-wrapper">
-                <select id="building">
-                    <option value="A">المبنى A</option>
-                    <option value="B">المبنى B</option>
-                    <option value="C">المبنى C</option>
-                    <option value="D">المبنى D</option>
-                </select>
-            </div>
-
-            <label><i class="fas fa-layer-group"></i> الطابق / Floor</label>
-            <input id="floor" type="number" min="0" max="20" placeholder="4" inputmode="numeric" />
-
-            <label><i class="fas fa-door-open"></i> الغرفة / Room</label>
-            <input id="room" type="text" placeholder="203" inputmode="numeric" />
-
-            <div class="row">
-                <button id="startBtn"><i class="fas fa-play"></i> ابدأ التوجيه</button>
-                <button id="demoBtn"><i class="fas fa-magic"></i> تجريبي</button>
-            </div>
-
-            <!-- شريط التقدم -->
-            <div class="progress-container">
-                <div class="progress-bar" id="progressBar"></div>
-            </div>
-
-            <div style="margin-top: 24px">
-                <div class="small"><i class="fas fa-robot"></i> مايا تقول / MAYA says</div>
-                <div id="mayaText" aria-live="polite">مرحباً بك! يرجى إدخال وجهتك وسأرشدك إليها خطوة بخطوة.</div>
-            </div>
-
-            <div class="footerNote">
-                <i class="fas fa-info-circle"></i> ملاحظة: الخريطة تمثيلية مبنية على وصف المسار: المدخل المستطيل → ممر رئيسي → تقاطع → مباني A,B,C,D متناوبة يسار/يمين.
-            </div>
-        </div>
-
-        <!-- لوحة الخريطة -->
-        <div class="panel map-panel mapWrap fade-in" id="mapPanel">
-            <svg id="svgMap" viewBox="0 0 900 600" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
-                <!-- محتوى SVG سيتم إدراجه هنا -->
-                <defs>
-                    <linearGradient id="g1" x1="0" x2="0" y1="0" y2="1">
-                        <stop offset="0" stop-color="#062033"/>
-                        <stop offset="1" stop-color="#071826"/>
-                    </linearGradient>
-                    
-                    <!-- تأثيرات متقدمة -->
-                    <filter id="glow">
-                        <feGaussianBlur stdDeviation="3.5" result="coloredBlur"/>
-                        <feMerge>
-                            <feMergeNode in="coloredBlur"/>
-                            <feMergeNode in="SourceGraphic"/>
-                        </feMerge>
-                    </filter>
-                </defs>
-
-                <!-- الخلفية -->
-                <rect x="0" y="0" width="900" height="600" fill="url(#g1)"></rect>
-
-                <!-- المدخل المستطيل (الصالة الزجاجية) -->
-                <rect id="entranceRect" x="40" y="220" width="140" height="120" rx="10" fill="#08314a" stroke="#0ea5e9" stroke-width="2" filter="url(#glow)"/>
-                <text x="110" y="290" font-size="14" fill="#dff7ff" text-anchor="middle">المدخل | Entrance</text>
-
-                <!-- التيراس الصغير والمسار -->
-                <rect x="190" y="240" width="40" height="80" fill="#0b3850" rx="6" />
-                <path d="M230 280 L320 280" stroke="#7dd3fc" stroke-width="8" stroke-linecap="round"/>
-
-                <!-- المسار المركزي -->
-                <line x1="320" y1="280" x2="560" y2="280" stroke="#5eead4" stroke-width="6" stroke-linecap="round" opacity="0.6"/>
-
-                <!-- نقطة التقاطع -->
-                <circle id="cross" cx="560" cy="280" r="12" fill="#fff" opacity="0.2"/>
-
-                <!-- مواقع المباني (يسار/يمين بالتناوب) -->
-                <!-- A: يسار قريب -->
-                <g id="A" transform="translate(420,180)">
-                    <rect x="-60" y="-40" width="120" height="80" rx="8" fill="#122b3b" stroke="#38bdf8" stroke-width="2"/>
-                    <text x="0" y="6" font-size="14" text-anchor="middle" fill="#e6f9ff">المبنى A</text>
-                </g>
-
-                <!-- B: يمين قليلاً -->
-                <g id="B" transform="translate(480,340)">
-                    <rect x="-60" y="-40" width="120" height="80" rx="8" fill="#122b3b" stroke="#60a5fa" stroke-width="2"/>
-                    <text x="0" y="6" font-size="14" text-anchor="middle" fill="#e6f9ff">المبنى B</text>
-                </g>
-
-                <!-- C: يسار بعد الدرجات -->
-                <g id="C" transform="translate(620,180)">
-                    <rect x="-60" y="-40" width="120" height="80" rx="8" fill="#0b2a34" stroke="#2dd4bf" stroke-width="2"/>
-                    <text x="0" y="6" font-size="14" text-anchor="middle" fill="#e6f9ff">المبنى C</text>
-                </g>
-
-                <!-- D: يمين أخير -->
-                <g id="D" transform="translate(700,340)">
-                    <rect x="-60" y="-40" width="120" height="80" rx="8" fill="#071823" stroke="#7c3aed" stroke-width="2"/>
-                    <text x="0" y="6" font-size="14" text-anchor="middle" fill="#e6f9ff">المبنى D</text>
-                </g>
-
-                <!-- مقاطع المسار (قاعدة غير مرئية للتحريك) -->
-                <polyline id="routeLine" points="" fill="none" stroke="rgba(255,255,255,0.9)" stroke-width="6" stroke-linecap="round" stroke-linejoin="round" opacity="0.0"/>
-
-                <!-- العلامة المتحركة -->
-                <g id="marker" transform="translate(50,50)" style="display:none">
-                    <circle cx="0" cy="0" r="10" class="marker"></circle>
-                    <circle cx="0" cy="0" r="4" fill="#fff"></circle>
-                </g>
-            </svg>
-
-            <div class="avatar" id="avatarPanel">
-                <img src="https://images.unsplash.com/photo-1549237510-6b1b9ef78d7f?w=200&q=60&auto=format&fit=crop" alt="maya avatar" />
-                <div>
-                    <div class="txt" id="avatarTitle">MAYA</div>
-                    <div class="small" id="avatarSub">Smart Navigation Assistant</div>
+    <!-- الحاوية الرئيسية -->
+    <div class="container">
+        <!-- الشات بوت -->
+        <div class="chat-container">
+            <div class="chat-messages" id="chatMessages">
+                <!-- الرسائل تظهر هنا -->
+                <div class="message eva">
+                    <strong>إيفا:</strong> أهلاً وسهلاً بك! 👋 أنا إيفا، المساعد الذكي لمجمع OBP. أنا هنا لمساعدتك في العثور على أي شيء تحتاجه داخل المجمع. هل تريد التوجيه إلى مكتب معين، أو تبحث عن خدمة محددة؟
                 </div>
             </div>
-
-            <div class="legend">
-                <span><i class="fas fa-walking"></i> المدخل → المسار → التقاطع → المباني</span>
-                <span><i class="fas fa-route"></i> توجيه متحرك • إرشادات صوتية</span>
+            
+            <div class="chat-input-container">
+                <div class="chat-input">
+                    <textarea id="messageInput" placeholder="اكتب رسالتك هنا..." rows="1"></textarea>
+                    <button class="send-btn" id="sendButton">
+                        <i class="fas fa-paper-plane"></i>
+                    </button>
+                </div>
+                <div class="suggestions">
+                    <div class="suggestion" data-msg="أين يوجد المطعم؟">أين يوجد المطعم؟</div>
+                    <div class="suggestion" data-msg="أحتاج إلى موقف السيارات">موقف السيارات</div>
+                    <div class="suggestion" data-msg="أبحث عن قسم IT">قسم IT</div>
+                    <div class="suggestion" data-msg="أين المدخل الرئيسي؟">المدخل الرئيسي</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- اللوحة الجانبية -->
+        <div class="sidebar">
+            <div class="eva-avatar">
+                <div class="avatar-img">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <h3>إيفا - المساعد الذكي</h3>
+                <div class="status">
+                    <div class="status-dot"></div>
+                    <span>متصل وجاهز للمساعدة</span>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3><i class="fas fa-bolt"></i> إجراءات سريعة</h3>
+                <div class="quick-actions">
+                    <div class="action-btn" data-action="navigation">
+                        <i class="fas fa-route"></i>
+                        <div>التوجيه الذكي</div>
+                    </div>
+                    <div class="action-btn" data-action="services">
+                        <i class="fas fa-concierge-bell"></i>
+                        <div>الخدمات</div>
+                    </div>
+                    <div class="action-btn" data-action="emergency">
+                        <i class="fas fa-first-aid"></i>
+                        <div>طوارئ</div>
+                    </div>
+                    <div class="action-btn" data-action="facilities">
+                        <i class="fas fa-building"></i>
+                        <div>مرافق</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3><i class="fas fa-info-circle"></i> معلومات المجمع</h3>
+                <div class="info-card">
+                    <h4>⏰ أوقات العمل</h4>
+                    <p>الأحد - الخميس: 8:00 ص - 6:00 م<br>الجمعة - السبت: مغلق</p>
+                </div>
+                <div class="info-card">
+                    <h4>📍 الموقع</h4>
+                    <p>الجزائر العاصمة، بلدية المحمدية</p>
+                </div>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3><i class="fas fa-phone-alt"></i> جهات اتصال مهمة</h3>
+                <div class="info-card">
+                    <h4>📞 الأمن</h4>
+                    <p>الهاتف: 021-123-456</p>
+                </div>
+                <div class="info-card">
+                    <h4>🏥 الإسعاف</h4>
+                    <p>الهاتف: 021-789-012</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- مكتبة الجسيمات -->
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
     <script>
-        // تهيئة تأثير الجسيمات
-        particlesJS('particles-js', {
-            particles: {
-                number: { value: 40, density: { enable: true, value_area: 800 } },
-                color: { value: "#ffffff" },
-                shape: { type: "circle" },
-                opacity: { value: 0.2, random: true },
-                size: { value: 3, random: true },
-                line_linked: {
-                    enable: true,
-                    distance: 150,
-                    color: "#ffffff",
-                    opacity: 0.1,
-                    width: 1
+        // قاعدة المعرفة لـ إيفا - مبنية على بيانات OBP.dz
+        const evaKnowledge = {
+            greetings: {
+                patterns: ['مرحبا', 'اهلا', 'السلام', 'hello', 'hi', 'bonjour'],
+                responses: [
+                    'أهلاً وسهلاً بك! 👋 كيف يمكنني مساعدتك اليوم؟',
+                    'مرحباً بك في مجمع OBP! 😊 أنا إيفا، كيف يمكنني خدمتك؟',
+                    'أهلاً بك! أنا إيفا، المساعد الذكي لمجمع OBP. كيف يمكنني مساعدتك؟'
+                ]
+            },
+            
+            navigation: {
+                'المدخل الرئيسي': {
+                    location: 'المدخل الشمالي - المبنى الرئيسي',
+                    directions: 'اتجه مباشرة نحو المبنى الزجاجي الرئيسي، المدخل مزود بأبواب أوتوماتيكية',
+                    floor: 'الطابق الأرضي'
                 },
-                move: {
-                    enable: true,
-                    speed: 1,
-                    direction: "none",
-                    random: true,
-                    straight: false,
-                    out_mode: "out",
-                    bounce: false
+                'المطعم': {
+                    location: 'المبنى B - الطابق الثالث',
+                    directions: 'من المدخل الرئيسي، اتجه يميناً ثم استخدم المصعد إلى الطابق الثالث',
+                    hours: '10:00 ص - 10:00 م',
+                    phone: '021-345-678'
+                },
+                'موقف السيارات': {
+                    location: 'الطابق السفلي - المدخل الغربي',
+                    directions: 'اتبع الإشارات إلى المدخل الغربي، ثم انزل بالمصعد إلى الطابق -1',
+                    capacity: '200 سيارة'
+                },
+                'قسم IT': {
+                    location: 'المبنى C - الطابق الثاني',
+                    directions: 'من المدخل الرئيسي، اتجه يساراً ثم اصعد السلالم إلى الطابق الثاني',
+                    hours: '8:00 ص - 5:00 م',
+                    phone: '021-456-789'
+                },
+                'الإدارة': {
+                    location: 'المبنى A - الطابق الرابع',
+                    directions: 'استخدم المصعد الرئيسي إلى الطابق الرابع، ثم اتجه يساراً',
+                    phone: '021-234-567'
+                },
+                'قاعة المؤتمرات': {
+                    location: 'المبنى D - الطابق الأول',
+                    directions: 'من المدخل الرئيسي، اتجه يميناً نحو المبنى D',
+                    capacity: '300 شخص'
                 }
             },
-            interactivity: {
-                detect_on: "canvas",
-                events: {
-                    onhover: { enable: false },
-                    onclick: { enable: false },
-                    resize: true
-                }
+            
+            services: {
+                'انترنت': 'يتوفر WiFi مجاني في جميع أنحاء المجمع. اسم الشبكة: OBP-Free',
+                'صراف آلي': 'يوجد صراف آلي في المدخل الرئيسي وبجوار المطعم',
+                'مصلى': 'المصلى موجود في المبنى B - الطابق الأرضي',
+                'مركز الأعمال': 'مركز الأعمال متاح في المبنى A - الطابق الثالث، مجهز بأجهزة الكمبيوتر والطابعات'
+            },
+            
+            emergency: {
+                'أمن': 'اتصل بالأمن على الرقم: 021-123-456 أو اضغط على زر الطوارئ الأحمر',
+                'إسعاف': 'الطوارئ الطبية: 021-789-012',
+                'حريق': 'في حالة الحريق، اتجه إلى أقرب مخرج طوارئ واتصل بالأمن'
+            },
+            
+            facilities: {
+                'دورات مياه': 'متوفرة في كل طابق بجوار المصاعد',
+                'مصاعد': '6 مصاعد موزعة في جميع المباني',
+                'سلالم كهربائية': 'في المدخل الرئيسي والمبنى B',
+                'تكييف': 'مكيف مركزي في جميع أنحاء المجمع'
             }
-        });
+        };
 
-        // إدارة تبويب الجوال
-        const controlsTab = document.getElementById('controlsTab');
-        const mapTab = document.getElementById('mapTab');
-        const controlsPanel = document.getElementById('controlsPanel');
-        const mapPanel = document.getElementById('mapPanel');
+        // DOM Elements
+        const chatMessages = document.getElementById('chatMessages');
+        const messageInput = document.getElementById('messageInput');
+        const sendButton = document.getElementById('sendButton');
+        const suggestions = document.querySelectorAll('.suggestion');
+        const actionButtons = document.querySelectorAll('.action-btn');
 
-        function activateTab(tab) {
-            // إزالة النشاط من جميع الألسنة
-            controlsTab.classList.remove('active');
-            mapTab.classList.remove('active');
-            
-            // إخفاء جميع اللوحات
-            controlsPanel.style.display = 'none';
-            mapPanel.style.display = 'none';
-            
-            // تفعيل اللسان المحدد وإظهار اللوحة المقابلة
-            tab.classList.add('active');
-            if (tab === controlsTab) {
-                controlsPanel.style.display = 'block';
-            } else {
-                mapPanel.style.display = 'block';
+        // إضافة رسالة إلى الشات
+        function addMessage(text, isUser = false) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${isUser ? 'user' : 'eva'}`;
+            messageDiv.innerHTML = isUser ? text : `<strong>إيفا:</strong> ${text}`;
+            chatMessages.appendChild(messageDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        // محاكاة الكتابة
+        function showTypingIndicator() {
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message typing';
+            typingDiv.id = 'typingIndicator';
+            typingDiv.innerHTML = `
+                <strong>إيفا:</strong> 
+                <div class="typing-dots">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            `;
+            chatMessages.appendChild(typingDiv);
+            chatMessages.scrollTop = chatMessages.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
             }
         }
 
-        controlsTab.addEventListener('click', () => activateTab(controlsTab));
-        mapTab.addEventListener('click', () => activateTab(mapTab));
+        // معالجة الرسائل من المستخدم
+        function processUserMessage(message) {
+            const lowerMessage = message.toLowerCase();
+            
+            // إضافة رسالة المستخدم
+            addMessage(message, true);
+            
+            // محاكاة التفكير
+            showTypingIndicator();
+            
+            // البحث عن أفضل رد
+            setTimeout(() => {
+                hideTypingIndicator();
+                let response = findBestResponse(lowerMessage);
+                addMessage(response);
+            }, 1500);
+        }
 
-        // الكود الأصلي للتنقل
-        const positions = {
-            E: {x:110, y:280},
-            P: {x:230, y:280},
-            Cross: {x:560, y:280},
-            A: {x:420, y:180},
-            B: {x:480, y:340},
-            C: {x:620, y:180},
-            D: {x:700, y:340}
-        };
+        // البحث عن الرد المناسب
+        function findBestResponse(message) {
+            // تحيات
+            if (evaKnowledge.greetings.patterns.some(pattern => message.includes(pattern))) {
+                return getRandomResponse(evaKnowledge.greetings.responses);
+            }
+            
+            // تنقل
+            for (const [place, info] of Object.entries(evaKnowledge.navigation)) {
+                if (message.includes(place.toLowerCase())) {
+                    return `📍 ${place}:\n• الموقع: ${info.location}\n• الاتجاهات: ${info.directions}\n• الطابق: ${info.floor}${info.hours ? `\n• أوقات العمل: ${info.hours}` : ''}${info.phone ? `\n• الهاتف: ${info.phone}` : ''}${info.capacity ? `\n• السعة: ${info.capacity}` : ''}`;
+                }
+            }
+            
+            // خدمات
+            for (const [service, description] of Object.entries(evaKnowledge.services)) {
+                if (message.includes(service.toLowerCase())) {
+                    return `🔧 ${service}:\n${description}`;
+                }
+            }
+            
+            // طوارئ
+            for (const [emergency, info] of Object.entries(evaKnowledge.emergency)) {
+                if (message.includes(emergency.toLowerCase())) {
+                    return `🚨 ${emergency}:\n${info}`;
+                }
+            }
+            
+            // مرافق
+            for (const [facility, description] of Object.entries(evaKnowledge.facilities)) {
+                if (message.includes(facility.toLowerCase())) {
+                    return `🏢 ${facility}:\n${description}`;
+                }
+            }
+            
+            // رد افتراضي
+            const defaultResponses = [
+                "عذراً، لم أفهم سؤالك بالكامل. هل يمكنك إعادة صياغته؟",
+                "أنا متخصص في مساعدتك بالتنقل داخل مجمع OBP. هل تريد معرفة موقع مكتب معين أو خدمة محددة؟",
+                "يمكنني مساعدتك في العثور على أي مكان داخل المجمع. جرب أن تسأل عن: المطعم، موقف السيارات، قسم IT، أو أي خدمة أخرى تحتاجها."
+            ];
+            
+            return getRandomResponse(defaultResponses);
+        }
 
-        // باقي الكود الأصلي يبقى كما هو مع إضافة تحسينات الجوال
-        // ... (سيتم تضمين الكود الأصلي هنا مع تعديلات طفيفة)
+        // الحصول على رد عشوائي
+        function getRandomResponse(responses) {
+            return responses[Math.floor(Math.random() * responses.length)];
+        }
 
-        // عند التحميل، تفعيل الوضع الجوال إذا كان الشاشة صغيرة
-        window.addEventListener('load', () => {
-            if (window.innerWidth <= 768) {
-                activateTab(mapTab);
+        // إرسال رسالة
+        function sendMessage() {
+            const message = messageInput.value.trim();
+            if (message) {
+                processUserMessage(message);
+                messageInput.value = '';
+                messageInput.style.height = 'auto';
+            }
+        }
+
+        // تكبير textarea تلقائياً
+        messageInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+
+        // إرسال بالضغط على Enter
+        messageInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
             }
         });
 
-        // إعادة ترتيب العناصر عند تغيير حجم النافذة
-        window.addEventListener('resize', () => {
-            if (window.innerWidth <= 768 && !mapTab.classList.contains('active')) {
-                activateTab(mapTab);
-            }
+        // إضافة اقتراحات سريعة
+        suggestions.forEach(suggestion => {
+            suggestion.addEventListener('click', function() {
+                messageInput.value = this.getAttribute('data-msg');
+                sendMessage();
+            });
         });
+
+        // إضافة إجراءات سريعة
+        actionButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const action = this.getAttribute('data-action');
+                let message = '';
+                
+                switch(action) {
+                    case 'navigation':
+                        message = 'أحتاج إلى التوجيه داخل المجمع';
+                        break;
+                    case 'services':
+                        message = 'ما هي الخدمات المتوفرة؟';
+                        break;
+                    case 'emergency':
+                        message = 'أين أجد معلومات الطوارئ؟';
+                        break;
+                    case 'facilities':
+                        message = 'ما هي المرافق المتاحة؟';
+                        break;
+                }
+                
+                messageInput.value = message;
+                sendMessage();
+            });
+        });
+
+        // إرسال بالزر
+        sendButton.addEventListener('click', sendMessage);
+
+        // ترحيب أولي
+        setTimeout(() => {
+            showTypingIndicator();
+            setTimeout(() => {
+                hideTypingIndicator();
+                addMessage("يمكنني مساعدتك في: 🗺️ التنقل بين المباني • 🔧 الخدمات المتاحة • 🚨 معلومات الطوارئ • 🏢 المرافق العامة. فقط اسألني عن أي شيء تحتاجه!");
+            }, 1000);
+        }, 2000);
     </script>
 </body>
 </html>
