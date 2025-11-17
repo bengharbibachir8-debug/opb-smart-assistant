@@ -606,55 +606,6 @@
             }
         }
         
-        /* زر الأعياد الصينية */
-        .festival-btn {
-            background: linear-gradient(135deg, #FF0000, #FFA500, #FF0000);
-            background-size: 200% 200%;
-            animation: festivalGradient 3s ease infinite;
-            border: none;
-            border-radius: 14px;
-            padding: 14px 20px;
-            color: white;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            transition: var(--transition);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 15px rgba(255, 100, 0, 0.4);
-            margin-top: 15px;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        @keyframes festivalGradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        
-        .festival-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-            transition: left 0.6s;
-        }
-        
-        .festival-btn:hover::before {
-            left: 100%;
-        }
-        
-        .festival-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(255, 100, 0, 0.6);
-        }
-        
         /* تحسينات للجوال */
         @media (max-width: 768px) {
             .container {
@@ -811,12 +762,6 @@
                     <button id="startBtn"><i class="fas fa-play"></i> <span id="startBtnText">ابدأ التوجيه</span></button>
                     <button id="demoBtn"><i class="fas fa-magic"></i> <span id="demoBtnText">تجريبي</span></button>
                 </div>
-
-                <!-- زر الأعياد الصينية - الإضافة الجديدة -->
-                <button class="festival-btn" onclick="openFestivalSystem()">
-                    <i class="fas fa-dragon"></i> 
-                    <span id="festivalBtnText">الأعياد الصينية</span>
-                </button>
             </div>
             
             <div class="form-section">
@@ -958,7 +903,6 @@
                 roomLabel: "الغرفة",
                 startBtnText: "ابدأ التوجيه",
                 demoBtnText: "تجريبي",
-                festivalBtnText: "الأعياد الصينية",
                 defaultInstruction: "أدخل بيانات الغرفة وسأوجهك إليها خطوة بخطوة مع إرشادات صوتية.",
                 entranceText: "المدخل",
                 buildingAText: "المبنى A - الإدارة",
@@ -986,7 +930,6 @@
                 roomLabel: "Room", 
                 startBtnText: "Start Navigation",
                 demoBtnText: "Demo",
-                festivalBtnText: "Chinese Festivals",
                 defaultInstruction: "Enter room details and I'll guide you step by step with voice instructions.",
                 entranceText: "Entrance",
                 buildingAText: "Building A - Administration",
@@ -1014,7 +957,6 @@
                 roomLabel: "房间",
                 startBtnText: "开始导航", 
                 demoBtnText: "演示",
-                festivalBtnText: "中国节日",
                 defaultInstruction: "输入房间详细信息，我将通过语音指示逐步引导您。",
                 entranceText: "入口",
                 buildingAText: "A座 - 行政",
@@ -1042,7 +984,6 @@
                 roomLabel: "Salle",
                 startBtnText: "Commencer la Navigation",
                 demoBtnText: "Démo",
-                festivalBtnText: "Fêtes Chinoises",
                 defaultInstruction: "Entrez les détails de la salle et je vous guiderai étape par étape avec des instructions vocales.",
                 entranceText: "Entrée",
                 buildingAText: "Bâtiment A - Administration",
@@ -1140,7 +1081,6 @@
             document.getElementById('roomLabel').textContent = translations[lang].roomLabel;
             document.getElementById('startBtnText').textContent = translations[lang].startBtnText;
             document.getElementById('demoBtnText').textContent = translations[lang].demoBtnText;
-            document.getElementById('festivalBtnText').textContent = translations[lang].festivalBtnText;
             document.getElementById('mayaText').textContent = translations[lang].defaultInstruction;
             document.getElementById('entranceText').textContent = translations[lang].entranceText;
             document.getElementById('buildingAText').textContent = translations[lang].buildingAText;
@@ -1298,186 +1238,6 @@
             }
         }
 
-        // فتح نظام الأعياد الصينية
-        function openFestivalSystem() {
-            const festivalWindow = window.open('', 'festivals', 'width=1000,height=700,scrollbars=yes,resizable=yes');
-            
-            festivalWindow.document.write(`
-                <!DOCTYPE html>
-                <html lang="ar" dir="rtl">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>نظام الأعياد الصينية - OBP</title>
-                    <style>
-                        * { margin: 0; padding: 0; box-sizing: border-box; }
-                        body { 
-                            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-                            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #2d1b69 100%);
-                            color: #f8fafc; min-height: 100vh; direction: rtl;
-                            padding: 20px;
-                        }
-                        .container { max-width: 1200px; margin: 0 auto; }
-                        header { text-align: center; margin-bottom: 40px; color: white; }
-                        header h1 { font-size: 2.5em; margin-bottom: 10px; background: linear-gradient(90deg, #FF0000, #FFA500); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-                        .language-switcher { display: flex; justify-content: center; gap: 10px; margin: 20px 0; }
-                        .lang-btn { background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.3); color: white; padding: 8px 16px; border-radius: 20px; cursor: pointer; }
-                        .lang-btn.active { background: #FF0000; }
-                        .current-festival { background: rgba(255,255,255,0.1); border-radius: 20px; padding: 30px; margin-bottom: 30px; text-align: center; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
-                        .festivals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-                        .festival-card { background: rgba(255,255,255,0.1); border-radius: 15px; padding: 20px; text-align: center; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); transition: transform 0.3s; }
-                        .festival-card:hover { transform: translateY(-5px); }
-                        .festival-icon { font-size: 3em; margin-bottom: 15px; }
-                        .countdown { background: #FF0000; color: white; padding: 8px 16px; border-radius: 20px; display: inline-block; margin-top: 10px; }
-                        .close-btn { background: #6366f1; color: white; border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; margin-top: 20px; }
-                    </style>
-                </head>
-                <body>
-                    <div class="container">
-                        <header>
-                            <h1>🎎 نظام الأعياد الصينية</h1>
-                            <p>OBP Smart Assistant - Chinese Festivals System</p>
-                            <div class="language-switcher">
-                                <button class="lang-btn active" onclick="switchLanguage('ar')">العربية</button>
-                                <button class="lang-btn" onclick="switchLanguage('zh')">中文</button>
-                                <button class="lang-btn" onclick="switchLanguage('en')">English</button>
-                            </div>
-                        </header>
-
-                        <div class="current-festival" id="currentFestival">
-                            <div class="loading">جاري تحميل الأعياد...</div>
-                        </div>
-
-                        <div class="upcoming-section">
-                            <h2 style="text-align: center; margin-bottom: 20px; color: #FFA500;">🎊 الأعياد القادمة</h2>
-                            <div class="festivals-grid" id="festivalsGrid">
-                                <div class="loading">جاري تحميل البيانات...</div>
-                            </div>
-                        </div>
-
-                        <button class="close-btn" onclick="window.close()">إغلاق النافذة</button>
-                    </div>
-
-                    <script>
-                        const festivalData = {
-                            ar: [
-                                {name: "عيد الربيع", date: "2024-02-10", icon: "🎉", color: "#FF0000", description: "أهم عيد في الصين، رأس السنة القمرية الجديدة"},
-                                {name: "عيد الفوانيس", date: "2024-02-24", icon: "🏮", color: "#FFA500", description: "عيد الفوانيس ونهاية احتفالات رأس السنة"},
-                                {name: "عيد تشينغمينغ", date: "2024-04-04", icon: "🌿", color: "#008000", description: "عيد تنظيف القبور وتذكر الأسلاف"},
-                                {name: "عيد قوارب التنين", date: "2024-06-10", icon: "🐉", color: "#0000FF", description: "سباق قوارب التنين وأكل الزونزي"},
-                                {name: "عيد منتصف الخريف", date: "2024-09-17", icon: "🌕", color: "#FFD700", description: "contemplation القمر وأكل كعك القمر"},
-                                {name: "اليوم الوطني", date: "2024-10-01", icon: "🇨🇳", color: "#FF0000", description: "ذكرى تأسيس جمهورية الصين الشعبية"}
-                            ],
-                            en: [
-                                {name: "Spring Festival", date: "2024-02-10", icon: "🎉", color: "#FF0000", description: "Most important festival in China, Lunar New Year"},
-                                {name: "Lantern Festival", date: "2024-02-24", icon: "🏮", color: "#FFA500", description: "Lantern Festival and end of New Year celebrations"},
-                                {name: "Qingming Festival", date: "2024-04-04", icon: "🌿", color: "#008000", description: "Tomb-sweeping day and ancestor remembrance"},
-                                {name: "Dragon Boat Festival", date: "2024-06-10", icon: "🐉", color: "#0000FF", description: "Dragon boat racing and eating zongzi"},
-                                {name: "Mid-Autumn Festival", date: "2024-09-17", icon: "🌕", color: "#FFD700", description: "Moon contemplation and eating mooncakes"},
-                                {name: "National Day", date: "2024-10-01", icon: "🇨🇳", color: "#FF0000", description: "Anniversary of the founding of the People's Republic of China"}
-                            ],
-                            zh: [
-                                {name: "春节", date: "2024-02-10", icon: "🎉", color: "#FF0000", description: "中国最重要的节日，农历新年"},
-                                {name: "元宵节", date: "2024-02-24", icon: "🏮", color: "#FFA500", description: "灯笼节，新年庆祝的结束"},
-                                {name: "清明节", date: "2024-04-04", icon: "🌿", color: "#008000", description: "扫墓节，缅怀祖先"},
-                                {name: "端午节", date: "2024-06-10", icon: "🐉", color: "#0000FF", description: "龙舟竞赛，吃粽子"},
-                                {name: "中秋节", date: "2024-09-17", icon: "🌕", color: "#FFD700", description: "赏月，吃月饼"},
-                                {name: "国庆节", date: "2024-10-01", icon: "🇨🇳", color: "#FF0000", description: "中华人民共和国成立纪念日"}
-                            ]
-                        };
-
-                        let currentLang = 'ar';
-
-                        function switchLanguage(lang) {
-                            currentLang = lang;
-                            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-                            event.target.classList.add('active');
-                            displayFestivals();
-                        }
-
-                        function displayFestivals() {
-                            const festivals = festivalData[currentLang];
-                            const now = new Date();
-                            
-                            // العيد الحالي أو القادم
-                            let currentFestival = null;
-                            let upcomingFestivals = [];
-                            
-                            festivals.forEach(fest => {
-                                const festDate = new Date(fest.date);
-                                const daysUntil = Math.ceil((festDate - now) / (1000 * 60 * 60 * 24));
-                                
-                                if (daysUntil >= 0 && daysUntil <= 30) {
-                                    if (!currentFestival || daysUntil < currentFestival.daysUntil) {
-                                        currentFestival = {...fest, daysUntil};
-                                    }
-                                    upcomingFestivals.push({...fest, daysUntil});
-                                }
-                            });
-                            
-                            // عرض العيد الحالي
-                            const currentContainer = document.getElementById('currentFestival');
-                            if (currentFestival) {
-                                const countdownText = currentFestival.daysUntil === 0 ? 
-                                    '🎉 العيد اليوم!' : 
-                                    \`\${currentFestival.daysUntil} \${currentLang === 'ar' ? 'يوم متبقي' : currentLang === 'zh' ? '天剩余' : 'days left'}\`;
-                                
-                                currentContainer.innerHTML = \`
-                                    <div style="display: flex; align-items: center; justify-content: center; gap: 30px; flex-wrap: wrap;">
-                                        <div style="font-size: 4em;">\${currentFestival.icon}</div>
-                                        <div style="flex: 1; min-width: 300px;">
-                                            <div style="font-size: 2em; margin-bottom: 10px;">\${currentFestival.name}</div>
-                                            <div style="font-size: 1.2em; margin-bottom: 15px; opacity: 0.8;">\${currentFestival.date}</div>
-                                            <div style="margin-bottom: 20px; line-height: 1.6;">\${currentFestival.description}</div>
-                                            <div class="countdown" style="background: \${currentFestival.color}">\${countdownText}</div>
-                                        </div>
-                                    </div>
-                                \`;
-                            } else {
-                                currentContainer.innerHTML = \`
-                                    <div style="text-align: center;">
-                                        <div style="font-size: 3em;">🎊</div>
-                                        <div style="font-size: 1.5em; margin: 15px 0;">\${currentLang === 'ar' ? 'لا توجد أعياد قريبة' : currentLang === 'zh' ? '近期无节日' : 'No upcoming festivals'}</div>
-                                        <div>\${currentLang === 'ar' ? 'سيتم إشعارك عند اقتراب أي عيد' : currentLang === 'zh' ? '临近节日时会通知您' : 'You will be notified when a festival approaches'}</div>
-                                    </div>
-                                \`;
-                            }
-                            
-                            // عرض الأعياد القادمة
-                            const gridContainer = document.getElementById('festivalsGrid');
-                            if (upcomingFestivals.length > 0) {
-                                gridContainer.innerHTML = upcomingFestivals.map(fest => \`
-                                    <div class="festival-card" style="border-left: 4px solid \${fest.color}">
-                                        <div class="festival-icon">\${fest.icon}</div>
-                                        <div style="font-size: 1.3em; margin-bottom: 10px; font-weight: bold;">\${fest.name}</div>
-                                        <div style="margin-bottom: 10px; opacity: 0.8;">\${fest.date}</div>
-                                        <div style="margin-bottom: 15px; font-size: 0.9em; line-height: 1.4;">\${fest.description}</div>
-                                        <div class="countdown" style="background: \${fest.color}">
-                                            \${fest.daysUntil} \${currentLang === 'ar' ? 'يوم' : currentLang === 'zh' ? '天' : 'days'}
-                                        </div>
-                                    </div>
-                                \`).join('');
-                            } else {
-                                gridContainer.innerHTML = \`
-                                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #94a3b8;">
-                                        \${currentLang === 'ar' ? 'لا توجد أعياد قادمة في الشهر القادم' : 
-                                          currentLang === 'zh' ? '下个月没有即将到来的节日' : 
-                                          'No upcoming festivals in the next month'}
-                                    </div>
-                                \`;
-                            }
-                        }
-
-                        // تهيئة النظام
-                        displayFestivals();
-                    </script>
-                </body>
-                </html>
-            `);
-            
-            festivalWindow.document.close();
-        }
-
         // إضافة مستمعي الأحداث
         document.querySelectorAll('.lang-btn').forEach(btn => {
             btn.addEventListener('click', function() {
@@ -1620,3 +1380,4 @@
     </script>
 </body>
 </html>
+index.html ملف
