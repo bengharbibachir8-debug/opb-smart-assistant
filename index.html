@@ -3,48 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OBP Business Complex - المجمع التجاري</title>
-    <link rel="stylesheet" href="business-theme.css">
+    <title>OBP - دليل الزوار الذكي</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- شريط اللغات العائم -->
-    <div class="language-bar">
-        <button class="lang-btn active" onclick="setLanguage('ar')">العربية</button>
-        <button class="lang-btn" onclick="setLanguage('en')">English</button>
-        <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
-    </div>
-
-    <div class="business-header">
-        <h1 data-translate="welcome">مرحباً بكم في مجمع OBP التجاري</h1>
-        <p class="subtitle" data-translate="subtitle">نظام التوجيه الذكي للموظفين والزوار</p>
-    </div>
-
-    <div class="business-container">
-        <div class="welcome-card animate-in">
-            <h2 data-translate="findOffice">ابحث عن مكتبك بسهولة</h2>
-            <p style="color: #666; margin-bottom: 30px; font-size: 1.1em;">
-                نظام التوجيه الذكي سيساعدك للوصول إلى مكتبك في المجمع
-            </p>
+    <div class="container">
+        <!-- الهيدر -->
+        <div class="header">
+            <h1 id="welcomeTitle">مرحباً بكم في OBP</h1>
+            <p id="welcomeSubtitle">نظام التوجيه الذكي لراحتكم</p>
             
-            <button class="business-btn" onclick="startNavigation()" data-translate="start">
-                ابدأ البحث عن المكتب
+            <!-- شريط اللغات -->
+            <div class="language-bar">
+                <button class="lang-btn active" onclick="setLanguage('ar')">العربية</button>
+                <button class="lang-btn" onclick="setLanguage('en')">English</button>
+                <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
+            </div>
+        </div>
+
+        <!-- البطاقة الرئيسية -->
+        <div class="main-card">
+            <h2 id="mainTitle">ابحث عن وجهتك بسهولة</h2>
+            <p id="mainDescription">
+                بعد رحلة السفر الطويلة، نظامنا الذكي سيرشدك إلى مكتبك في المجمع 
+                بدقة وسهولة. اختر لغتك المفضلة وابدأ رحلتك.
+            </p>
+            <button class="primary-btn" onclick="startNavigation()" id="startButton">
+                ابدأ الرحلة
             </button>
         </div>
 
-        <div class="welcome-card animate-in" style="animation-delay: 0.2s">
-            <h3>🏢 معلومات المجمع</h3>
-            <div style="text-align: left; margin-top: 20px; color: #666;">
-                <p>📍 الموقع: مجمع OBP التجاري</p>
-                <p>🏢 المباني: A, B, C, D</p>
-                <p>👥 الخدمات: مكاتب شركات - مرافق للعمال - إرشاد ذكي</p>
-                <p>🕒 أوقات العمل: 8:00 صباحاً - 6:00 مساءً</p>
-            </div>
+        <!-- التذييل -->
+        <div class="footer">
+            <p>OBP Smart Navigation System © 2024</p>
+            <p>مجمع OBP التجاري - نظام التوجيه الذكي</p>
         </div>
-    </div>
-
-    <div class="business-footer">
-        <p>OBP Business Complex © 2024</p>
-        <p>المجمع التجاري - نظام التوجيه الذكي</p>
     </div>
 
     <script src="language-system.js"></script>
@@ -55,7 +48,7 @@
 
         // تطبيق اللغة عند التحميل
         document.addEventListener('DOMContentLoaded', function() {
-            const savedLang = localStorage.getItem('obp_language') || 'zh';
+            const savedLang = localStorage.getItem('obp_language') || 'ar';
             setLanguage(savedLang);
         });
     </script>
