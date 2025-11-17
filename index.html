@@ -4,7 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OBP - الدليل الذكي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
+        :root {
+            --primary: #2E86AB;
+            --secondary: #A23B72;
+            --accent: #F18F01;
+            --dark: #1A1A2E;
+            --light: #F8F9FA;
+            --success: #2ECC71;
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,191 +22,280 @@
         }
 
         body {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--dark) 0%, #16213E 100%);
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
             min-height: 100vh;
-            color: white;
+            color: var(--light);
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 400px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* الهيدر */
+        .header {
             text-align: center;
+            padding: 40px 0 30px;
         }
 
-        /* الهيدر العصري */
-        .hero {
-            padding: 80px 20px 60px;
+        .logo {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            margin: 0 auto 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            box-shadow: 0 10px 30px rgba(46, 134, 171, 0.3);
         }
 
-        .hero h1 {
-            font-size: 3.5em;
-            font-weight: 300;
-            margin-bottom: 20px;
-            background: linear-gradient(135deg, #fff 0%, #f0f0f0 100%);
+        .header h1 {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--light), #E8E8E8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
-        .hero p {
-            font-size: 1.3em;
-            opacity: 0.9;
-            margin-bottom: 40px;
+        .header p {
+            color: #B8B8B8;
+            font-size: 1.1em;
         }
 
-        /* شريط اللغات العائم */
+        /* شريط اللغات */
         .language-bar {
             display: flex;
-            justify-content: center;
-            gap: 15px;
-            margin-bottom: 50px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 15px;
+            padding: 8px;
+            margin: 20px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .lang-btn {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 25px;
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 12px;
+            border-radius: 12px;
+            color: var(--light);
+            font-weight: 600;
             cursor: pointer;
-            font-size: 16px;
             transition: all 0.3s ease;
         }
 
         .lang-btn.active {
-            background: white;
-            color: #667eea;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            background: var(--primary);
+            box-shadow: 0 4px 15px rgba(46, 134, 171, 0.4);
         }
 
         /* البطاقة الرئيسية */
         .main-card {
             background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(15px);
+            backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 25px;
-            padding: 60px 40px;
-            margin: 0 auto 40px;
-            max-width: 600px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            padding: 30px 25px;
+            margin: 20px 0;
+            text-align: center;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
         }
 
         .main-card h2 {
-            font-size: 2.2em;
-            margin-bottom: 20px;
+            font-size: 1.5em;
+            margin-bottom: 15px;
             font-weight: 600;
         }
 
         .main-card p {
-            font-size: 1.2em;
-            opacity: 0.9;
-            margin-bottom: 40px;
-            line-height: 1.6;
+            color: #B8B8B8;
+            margin-bottom: 25px;
+            font-size: 1em;
         }
 
-        /* زر البدء العصري */
+        /* زر البدء */
         .start-btn {
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
             border: none;
-            padding: 20px 50px;
-            border-radius: 50px;
-            font-size: 1.3em;
-            font-weight: 600;
+            padding: 18px 30px;
+            border-radius: 15px;
+            font-size: 1.2em;
+            font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+            box-shadow: 0 10px 25px rgba(46, 134, 171, 0.4);
+            width: 100%;
             position: relative;
             overflow: hidden;
         }
 
-        .start-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        .start-btn:active {
+            transform: scale(0.98);
+        }
+
+        .start-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .start-btn:active::before {
+            left: 100%;
+        }
+
+        /* الميزات */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 25px 0;
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px 15px;
+            border-radius: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .feature i {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .feature span {
+            font-size: 0.9em;
+            color: #B8B8B8;
         }
 
         /* التذييل */
         .footer {
-            margin-top: 60px;
-            opacity: 0.7;
+            text-align: center;
+            margin-top: auto;
+            padding: 30px 0 20px;
+            color: #666;
+            font-size: 0.9em;
         }
 
-        /* الاستجابة للجوال */
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5em;
+        /* تأثيرات الهاتف */
+        @media (max-width: 480px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .header {
+                padding: 30px 0 20px;
             }
             
             .main-card {
-                padding: 40px 25px;
-                margin: 0 20px 40px;
+                padding: 25px 20px;
             }
             
-            .language-bar {
-                flex-wrap: wrap;
+            .features {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <!-- الهيدر الرئيسي -->
-        <div class="hero">
-            <h1 id="welcomeTitle">مرحباً بكم في OBP</h1>
-            <p id="welcomeSubtitle">الدليل الذكي لراحتكم بعد السفر</p>
-            
-            <!-- شريط اللغات -->
-            <div class="language-bar">
-                <button class="lang-btn active" onclick="setLanguage('ar')">العربية</button>
-                <button class="lang-btn" onclick="setLanguage('en')">English</button>
-                <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
+        <!-- الهيدر -->
+        <div class="header">
+            <div class="logo">
+                <i class="fas fa-map-marker-alt"></i>
             </div>
+            <h1 id="welcomeTitle">مرحباً في OBP</h1>
+            <p id="welcomeSubtitle">دليلك الذكي إلى الغرفة</p>
+        </div>
+
+        <!-- شريط اللغات -->
+        <div class="language-bar">
+            <button class="lang-btn active" onclick="setLanguage('ar')">العربية</button>
+            <button class="lang-btn" onclick="setLanguage('en')">English</button>
+            <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
         </div>
 
         <!-- البطاقة الرئيسية -->
         <div class="main-card">
-            <h2 id="mainTitle">دليلك إلى الغرفة</h2>
+            <h2 id="mainTitle">ابحث عن غرفتك</h2>
             <p id="mainDescription">
-                نظام التوجيه الذكي سيرشدك إلى غرفتك في المجمع بسهولة وسلاسة
+                نظام التوجيه الذكي سيرشدك إلى غرفتك في المجمع بسهولة تامة
             </p>
             <button class="start-btn" onclick="startNavigation()" id="startButton">
-                ابدأ الرحلة
+                <i class="fas fa-play"></i> ابدأ الآن
             </button>
+        </div>
+
+        <!-- الميزات -->
+        <div class="features">
+            <div class="feature">
+                <i class="fas fa-building"></i>
+                <span>4 مباني</span>
+            </div>
+            <div class="feature">
+                <i class="fas fa-route"></i>
+                <span>مسار واضح</span>
+            </div>
+            <div class="feature">
+                <i class="fas fa-mobile-alt"></i>
+                <span>متوافق مع الجوال</span>
+            </div>
+            <div class="feature">
+                <i class="fas fa-language"></i>
+                <span>3 لغات</span>
+            </div>
         </div>
 
         <!-- التذييل -->
         <div class="footer">
-            <p>OBP Smart Guide System</p>
+            <p>OBP Smart Navigation</p>
+            <p>نظام التوجيه الذكي</p>
         </div>
     </div>
 
     <script>
-        // نظام اللغات البسيط
+        // نظام اللغات
         const translations = {
             ar: {
-                welcomeTitle: "مرحباً بكم في OBP",
-                welcomeSubtitle: "الدليل الذكي لراحتكم بعد السفر",
-                mainTitle: "دليلك إلى الغرفة",
-                mainDescription: "نظام التوجيه الذكي سيرشدك إلى غرفتك في المجمع بسهولة وسلاسة",
-                startButton: "ابدأ الرحلة"
+                welcomeTitle: "مرحباً في OBP",
+                welcomeSubtitle: "دليلك الذكي إلى الغرفة",
+                mainTitle: "ابحث عن غرفتك",
+                mainDescription: "نظام التوجيه الذكي سيرشدك إلى غرفتك في المجمع بسهولة تامة",
+                startButton: "ابدأ الآن"
             },
             en: {
                 welcomeTitle: "Welcome to OBP",
-                welcomeSubtitle: "Smart Guide for Your Comfort After Travel",
-                mainTitle: "Your Guide to the Room",
-                mainDescription: "The smart navigation system will guide you to your room in the complex with ease",
-                startButton: "Start Journey"
+                welcomeSubtitle: "Your Smart Room Guide",
+                mainTitle: "Find Your Room",
+                mainDescription: "Smart navigation system will guide you to your room with ease",
+                startButton: "Start Now"
             },
             zh: {
                 welcomeTitle: "欢迎来到OBP",
-                welcomeSubtitle: "旅行后的智能指南，让您舒适安心",
-                mainTitle: "您的房间指南",
-                mainDescription: "智能导航系统将轻松引导您到园区内的房间",
-                startButton: "开始旅程"
+                welcomeSubtitle: "您的智能房间指南",
+                mainTitle: "寻找您的房间",
+                mainDescription: "智能导航系统将轻松引导您到房间",
+                startButton: "立即开始"
             }
         };
 
@@ -205,13 +304,11 @@
         function setLanguage(lang) {
             currentLang = lang;
             
-            // تحديث الأزرار النشطة
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
             
-            // تطبيق الترجمات
             applyTranslations();
         }
 
