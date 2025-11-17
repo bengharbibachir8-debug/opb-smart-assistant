@@ -1,60 +1,73 @@
+// نظام اللغات المتقدم مع التخزين التلقائي
 const translations = {
     ar: {
-        welcome: "مرحباً بك في نظام التوجيه الذكي",
+        welcome: "مرحباً بكم في فندق OBP",
+        subtitle: "نرحب بكم بعد رحلة السفر الطويلة",
         company: "اسم الشركة",
-        office: "رقم المكتب", 
-        next: "التالي",
+        office: "رقم الغرفة", 
+        next: "ابدأ الرحلة",
         destination: "وجهتك",
         distance: "المسافة",
         steps: "خطوة",
         showMap: "عرض الخريطة",
-        yourPath: "مسارك",
-        reception: "الاستقبال",
+        yourPath: "مسارك إلى الغرفة",
+        reception: "قاعة الاستقبال",
         terrace: "الطيراس",
         building: "مبنى",
         back: "رجوع",
-        required: "الرجاء إدخال كل المعلومات"
+        required: "الرجاء إدخال كل المعلومات",
+        relax: "استرح، نحن نرشدك",
+        room: "الغرفة",
+        welcomeBack: "مرحباً بعودتك"
     },
     en: {
-        welcome: "Welcome to Smart Navigation System",
+        welcome: "Welcome to OBP Hotel",
+        subtitle: "We welcome you after your long journey",
         company: "Company Name",
-        office: "Office Number",
-        next: "Next",
-        destination: "Your Destination", 
+        office: "Room Number",
+        next: "Start Journey", 
+        destination: "Your Destination",
         distance: "Distance",
         steps: "steps",
         showMap: "Show Map",
-        yourPath: "Your Path",
-        reception: "Reception",
+        yourPath: "Your Path to Room",
+        reception: "Reception Hall",
         terrace: "Terrace",
         building: "Building",
         back: "Back",
-        required: "Please enter all information"
+        required: "Please enter all information",
+        relax: "Relax, we guide you",
+        room: "Room",
+        welcomeBack: "Welcome Back"
     },
     zh: {
-        welcome: "欢迎使用智能导航系统",
+        welcome: "欢迎来到OBP酒店",
+        subtitle: "长途旅行后，我们热烈欢迎您",
         company: "公司名称",
-        office: "办公室号码",
-        next: "下一步",
-        destination: "您的目的地",
-        distance: "距离", 
+        office: "房间号码",
+        next: "开始旅程",
+        destination: "您的目的地", 
+        distance: "距离",
         steps: "步",
         showMap: "显示地图",
-        yourPath: "您的路径",
-        reception: "接待处",
+        yourPath: "前往房间的路径",
+        reception: "接待大厅",
         terrace: "露台",
         building: "大楼",
         back: "返回",
-        required: "请输入所有信息"
+        required: "请输入所有信息",
+        relax: "放松，我们为您指引",
+        room: "房间",
+        welcomeBack: "欢迎回来"
     }
 };
 
-let currentLang = 'ar';
+// الحصول على اللغة المحفوظة أو استخدام العربية كافتراضي
+let currentLang = localStorage.getItem('obp_language') || 'zh';
 
 function setLanguage(lang) {
     currentLang = lang;
-    document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-    event.target.classList.add('active');
+    localStorage.setItem('obp_language', lang);
     applyTranslations();
 }
 
@@ -73,3 +86,8 @@ function applyTranslations() {
         element.placeholder = t(key);
     });
 }
+
+// تطبيق اللغة تلقائياً عند تحميل الصفحة
+document.addEventListener('DOMContentLoaded', function() {
+    applyTranslations();
+});
