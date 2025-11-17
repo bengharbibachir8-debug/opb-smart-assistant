@@ -5,21 +5,202 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>OBP - Smart Navigation</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="netrix-style.css">
+    <style>
+        /* تصميم OBP.dz الأصلي */
+        :root {
+            --primary: #2C5530;
+            --primary-dark: #1E3A23;
+            --primary-light: #4A7C59;
+            --secondary: #D4AF37;
+            --dark: #1A1A1A;
+            --light: #F5F5F5;
+            --gray: #6B7280;
+            --border: #E5E7EB;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        /* الهيدر مثل OBP.dz */
+        .header {
+            background: var(--primary);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        /* الهيرو مثل OBP.dz */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3em;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 1.3em;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+
+        /* شريط اللغات */
+        .language-bar {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 30px 0;
+        }
+
+        .lang-btn {
+            background: rgba(255,255,255,0.2);
+            border: 2px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: white;
+            color: var(--primary);
+        }
+
+        /* زر البدء */
+        .cta-button {
+            background: var(--secondary);
+            color: var(--dark);
+            border: none;
+            padding: 18px 40px;
+            border-radius: 30px;
+            font-size: 1.2em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 1px solid var(--border);
+        }
+
+        .feature-icon {
+            font-size: 3em;
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        /* الفوتر مثل OBP.dz */
+        .footer {
+            background: var(--dark);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        /* تصميم الموبايل */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2em;
+            }
+            
+            .hero p {
+                font-size: 1.1em;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+            
+            .language-bar {
+                flex-wrap: wrap;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <!-- الهيدر -->
-        <nav class="navbar">
+    <!-- الهيدر مثل OBP.dz -->
+    <header class="header">
+        <nav class="nav">
             <div class="logo">
-                <div class="logo-icon">
-                    <i class="fas fa-map-marker-alt"></i>
-                </div>
-                <span>OBP Navigator</span>
+                <i class="fas fa-map-marker-alt"></i>
+                <span>OBP Navigation</span>
             </div>
         </nav>
+    </header>
 
+    <!-- الهيرو مثل OBP.dz -->
+    <section class="hero">
+        <h1 id="welcomeTitle">مرحباً بكم في OBP</h1>
+        <p id="welcomeSubtitle">نظام التوجيه الذكي لراحتكم</p>
+        
         <!-- شريط اللغات -->
         <div class="language-bar">
             <button class="lang-btn active" onclick="setLanguage('ar')">العربية</button>
@@ -27,78 +208,62 @@
             <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
         </div>
 
-        <!-- البطاقة الرئيسية -->
-        <div class="card">
-            <div class="card-header">
-                <h1 class="card-title" id="welcomeTitle">مرحباً في OBP</h1>
-                <p class="card-subtitle" id="welcomeSubtitle">دليلك الذكي إلى الغرفة</p>
+        <button class="cta-button" onclick="startNavigation()" id="startButton">
+            ابدأ الرحلة إلى الغرفة
+        </button>
+    </section>
+
+    <!-- المحتوى الرئيسي -->
+    <section class="main-content">
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-building"></i>
+                </div>
+                <h3>4 مباني متاحة</h3>
+                <p>المباني A, B, C, D مع مسارات واضحة</p>
             </div>
-
-            <div style="text-align: center; margin: 30px 0;">
-                <div style="font-size: 4em; margin-bottom: 20px;">
-                    <i class="fas fa-location-arrow" style="background: linear-gradient(135deg, #2563EB, #1D4ED8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-route"></i>
                 </div>
-                <p style="color: #9CA3AF; margin-bottom: 30px;" id="mainDescription">
-                    نظام التوجيه الذكي سيرشدك إلى غرفتك في المجمع بسهولة تامة
-                </p>
+                <h3>توجيه دقيق</h3>
+                <p>مسار مفصل من الاستقبال إلى غرفتك</p>
             </div>
-
-            <button class="btn btn-primary" onclick="startNavigation()" id="startButton">
-                <i class="fas fa-play"></i>
-                <span>ابدأ الرحلة</span>
-            </button>
-        </div>
-
-        <!-- ميزات النظام -->
-        <div class="card">
-            <h3 style="text-align: center; margin-bottom: 20px; color: #D1D5DB;">المميزات</h3>
-            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
-                <div style="text-align: center; padding: 15px;">
-                    <i class="fas fa-building" style="font-size: 1.5em; color: #2563EB; margin-bottom: 8px;"></i>
-                    <div style="font-size: 0.9em; color: #9CA3AF;">4 مباني</div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-mobile-alt"></i>
                 </div>
-                <div style="text-align: center; padding: 15px;">
-                    <i class="fas fa-route" style="font-size: 1.5em; color: #10B981; margin-bottom: 8px;"></i>
-                    <div style="font-size: 0.9em; color: #9CA3AF;">مسار واضح</div>
-                </div>
-                <div style="text-align: center; padding: 15px;">
-                    <i class="fas fa-mobile-alt" style="font-size: 1.5em; color: #8B5CF6; margin-bottom: 8px;"></i>
-                    <div style="font-size: 0.9em; color: #9CA3AF;">متوافق مع الجوال</div>
-                </div>
-                <div style="text-align: center; padding: 15px;">
-                    <i class="fas fa-language" style="font-size: 1.5em; color: #F59E0B; margin-bottom: 8px;"></i>
-                    <div style="font-size: 0.9em; color: #9CA3AF;">3 لغات</div>
-                </div>
+                <h3>متوافق مع الجوال</h3>
+                <p>تصميم متجاوب لجميع الأجهزة</p>
             </div>
         </div>
+    </section>
 
-        <!-- التذييل -->
-        <div class="footer">
-            <p>OBP Smart Navigation System</p>
-            <p style="font-size: 0.8em; margin-top: 5px;">نظام التوجيه الذكي</p>
-        </div>
-    </div>
+    <!-- الفوتر مثل OBP.dz -->
+    <footer class="footer">
+        <p>&copy; 2024 OBP Smart Navigation System. جميع الحقوق محفوظة.</p>
+    </footer>
 
     <script>
         // نظام اللغات
         const translations = {
             ar: {
-                welcomeTitle: "مرحباً في OBP",
-                welcomeSubtitle: "دليلك الذكي إلى الغرفة",
-                mainDescription: "نظام التوجيه الذكي سيرشدك إلى غرفتك في المجمع بسهولة تامة",
-                startButton: "ابدأ الرحلة"
+                welcomeTitle: "مرحباً بكم في OBP",
+                welcomeSubtitle: "نظام التوجيه الذكي لراحتكم",
+                startButton: "ابدأ الرحلة إلى الغرفة"
             },
             en: {
                 welcomeTitle: "Welcome to OBP",
-                welcomeSubtitle: "Your Smart Room Guide",
-                mainDescription: "Smart navigation system will guide you to your room with ease",
-                startButton: "Start Journey"
+                welcomeSubtitle: "Smart Navigation System for Your Comfort",
+                startButton: "Start Journey to Room"
             },
             zh: {
                 welcomeTitle: "欢迎来到OBP",
-                welcomeSubtitle: "您的智能房间指南",
-                mainDescription: "智能导航系统将轻松引导您到房间",
-                startButton: "开始旅程"
+                welcomeSubtitle: "智能导航系统，让您舒适安心",
+                startButton: "开始前往房间"
             }
         };
 
@@ -128,7 +293,6 @@
             window.location.href = 'form.html';
         }
 
-        // تطبيق اللغة عند التحميل
         document.addEventListener('DOMContentLoaded', function() {
             applyTranslations();
         });
