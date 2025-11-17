@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maya – Result</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #0d0d0d;
+        color: white;
+        text-align: center;
+        font-family: Arial, sans-serif;
+    }
+    .box {
+        margin-top: 100px;
+    }
+    button {
+        margin-top: 30px;
+        padding: 14px 40px;
+        background: #6f4af4;
+        border: none;
+        border-radius: 30px;
+        color: white;
+        cursor: pointer;
+        font-size: 18px;
+    }
+</style>
+
+</head>
+<body>
+
+<div class="box">
+    <h2 id="title"></h2>
+    <p id="steps">المسافة: 138 خطوة</p>
+
+    <button onclick="goMap()">عرض الخريطة</button>
+</div>
+
+<script>
+const p = new URLSearchParams(window.location.search);
+const company = p.get("company");
+const office = p.get("office");
+
+document.getElementById("title").innerText = `وجهتك: شركة ${company} – مكتب ${office}`;
+
+function goMap() {
+    window.location.href = `map.html?company=${encodeURIComponent(company)}&office=${office}`;
+}
+</script>
+
+</body>
+</html>
