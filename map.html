@@ -3,317 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OBP - الخريطة المتحركة</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: linear-gradient(135deg, #1e3a8a 0%, #0f172a 100%);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-height: 100vh;
-            color: white;
-            overflow-x: hidden;
-        }
-
-        .container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 20px;
-        }
-
-        .header {
-            text-align: center;
-            padding: 30px 20px;
-        }
-
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #60a5fa, #3b82f6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        /* الخريطة المتحركة */
-        .animated-map {
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: 20px;
-            padding: 30px;
-            margin: 20px auto;
-            position: relative;
-            height: 500px;
-            border: 2px solid #334155;
-            overflow: hidden;
-        }
-
-        /* المباني */
-        .building {
-            position: absolute;
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            color: white;
-            font-weight: bold;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
-            border: 2px solid #60a5fa;
-            transition: all 0.3s ease;
-        }
-
-        .reception {
-            width: 140px;
-            height: 100px;
-            bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, #10b981, #059669);
-            z-index: 5;
-        }
-
-        .building-a {
-            width: 120px;
-            height: 140px;
-            top: 60px;
-            left: 150px;
-            background: linear-gradient(135deg, #ef4444, #dc2626);
-        }
-
-        .building-b {
-            width: 120px;
-            height: 140px;
-            top: 60px;
-            right: 150px;
-            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
-        }
-
-        .building-c {
-            width: 120px;
-            height: 140px;
-            top: 250px;
-            left: 150px;
-            background: linear-gradient(135deg, #f59e0b, #d97706);
-        }
-
-        .building-d {
-            width: 120px;
-            height: 140px;
-            top: 250px;
-            right: 150px;
-            background: linear-gradient(135deg, #ec4899, #db2777);
-        }
-
-        /* المسارات */
-        .path {
-            position: absolute;
-            background: linear-gradient(90deg, #60a5fa, #3b82f6);
-            border-radius: 8px;
-        }
-
-        .vertical-path {
-            width: 10px;
-            height: 180px;
-            top: 60px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .horizontal-path {
-            width: 400px;
-            height: 10px;
-            top: 150px;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        /* النقطة المتحركة */
-        .moving-dot {
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            background: #fbbf24;
-            border-radius: 50%;
-            box-shadow: 0 0 20px #fbbf24, 0 0 40px #f59e0b;
-            z-index: 10;
-            animation: moveThroughBuildings 8s ease-in-out infinite;
-        }
-
-        @keyframes moveThroughBuildings {
-            0% {
-                bottom: 70px;
-                left: 50%;
-                transform: translateX(-50%);
-            }
-            12% {
-                bottom: 200px;
-                left: 50%;
-                transform: translateX(-50%);
-            }
-            25% {
-                top: 130px;
-                left: 210px;
-            }
-            37% {
-                top: 130px;
-                left: 50%;
-                transform: translateX(-50%);
-            }
-            50% {
-                top: 130px;
-                right: 210px;
-            }
-            62% {
-                top: 130px;
-                left: 50%;
-                transform: translateX(-50%);
-            }
-            75% {
-                bottom: 320px;
-                left: 210px;
-            }
-            87% {
-                bottom: 320px;
-                left: 50%;
-                transform: translateX(-50%);
-            }
-            100% {
-                bottom: 320px;
-                right: 210px;
-            }
-        }
-
-        /* الأسهم */
-        .arrow {
-            position: absolute;
-            font-size: 28px;
-            color: #fbbf24;
-            z-index: 5;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
-        }
-
-        .arrow-1 { top: 120px; left: 48%; }
-        .arrow-2 { top: 150px; left: 300px; }
-        .arrow-3 { top: 150px; right: 300px; }
-        .arrow-4 { top: 280px; left: 300px; }
-        .arrow-5 { top: 280px; right: 300px; }
-
-        .controls {
-            text-align: center;
-            margin-top: 30px;
-        }
-
-        .btn {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            color: white;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 25px;
-            font-size: 1.1em;
-            cursor: pointer;
-            margin: 0 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.3);
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
-        }
-
-        .destination-info {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px auto;
-            max-width: 600px;
-            text-align: center;
-        }
-    </style>
+    <title>OBP - الخريطة التفاعلية</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="netrix-style.css">
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>🗺️ الخريطة المتحركة</h1>
-            <p>شاهد المسار الكامل من الاستقبال إلى مبناك</p>
+        <!-- الهيدر -->
+        <nav class="navbar">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-map"></i>
+                </div>
+                <span>الخريطة التفاعلية</span>
+            </div>
+        </nav>
+
+        <!-- شريط اللغات -->
+        <div class="language-bar">
+            <button class="lang-btn active" onclick="setLanguage('ar')">العربية</button>
+            <button class="lang-btn" onclick="setLanguage('en')">English</button>
+            <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
         </div>
 
         <!-- معلومات الوجهة -->
-        <div class="destination-info">
-            <h3 id="destinationText">🚀 جاري تحميل وجهتك...</h3>
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title" id="destinationTitle">وجهتك</h1>
+                <p class="card-subtitle" id="destinationDetails">جاري تحميل المعلومات...</p>
+            </div>
         </div>
 
-        <!-- الخريطة المتحركة -->
-        <div class="animated-map">
-            <!-- النقطة المتحركة -->
-            <div class="moving-dot"></div>
-
-            <!-- الأسهم -->
-            <div class="arrow arrow-1">⬆️</div>
-            <div class="arrow arrow-2">➡️</div>
-            <div class="arrow arrow-3">⬅️</div>
-            <div class="arrow arrow-4">➡️</div>
-            <div class="arrow arrow-5">⬅️</div>
-
-            <!-- المباني -->
-            <div class="building reception">
-                🏢 الاستقبال<br>📍 بداية الرحلة
-            </div>
-            <div class="building building-a">
-                🏢 المبنى A<br>🔴 على اليسار
-            </div>
-            <div class="building building-b">
-                🏢 المبنى B<br>🟣 على اليمين  
-            </div>
-            <div class="building building-c">
-                🏢 المبنى C<br>🟠 على اليسار
-            </div>
-            <div class="building building-d">
-                🏢 المبنى D<br>🔵 على اليمين
+        <!-- الخريطة التفاعلية -->
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">الخريطة التفاعلية</h2>
+                <p class="card-subtitle">شاهد المسار من الاستقبال إلى مبناك</p>
             </div>
 
-            <!-- المسارات -->
-            <div class="path vertical-path"></div>
-            <div class="path horizontal-path"></div>
+            <div class="map-container">
+                <div class="building-map">
+                    <!-- النقطة المتحركة -->
+                    <div class="moving-dot"></div>
+
+                    <!-- المسارات -->
+                    <div class="path-line path-vertical"></div>
+                    <div class="path-line path-horizontal"></div>
+
+                    <!-- المباني -->
+                    <div class="map-building reception" id="receptionBuilding">
+                        <i class="fas fa-door-open"></i><br>
+                        <span style="font-size: 0.8em;">الاستقبال</span>
+                    </div>
+                    <div class="map-building a" id="mapBuildingA">
+                        <i class="fas fa-building"></i><br>
+                        <span style="font-size: 0.8em;">المبنى A</span>
+                    </div>
+                    <div class="map-building b" id="mapBuildingB">
+                        <i class="fas fa-building"></i><br>
+                        <span style="font-size: 0.8em;">المبنى B</span>
+                    </div>
+                    <div class="map-building c" id="mapBuildingC">
+                        <i class="fas fa-building"></i><br>
+                        <span style="font-size: 0.8em;">المبنى C</span>
+                    </div>
+                    <div class="map-building d" id="mapBuildingD">
+                        <i class="fas fa-building"></i><br>
+                        <span style="font-size: 0.8em;">المبنى D</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- تعليمات المسار -->
+            <div style="background: rgba(16, 185, 129, 0.1); border: 1px solid rgba(16, 185, 129, 0.3); border-radius: 10px; padding: 15px; margin: 20px 0;">
+                <h4 style="color: #10B981; margin-bottom: 10px;">
+                    <i class="fas fa-route"></i>
+                    تعليمات المسار
+                </h4>
+                <div style="color: #9CA3AF; font-size: 0.9em; line-height: 1.6;">
+                    <div>• ابدأ من قاعة الاستقبال 🏢</div>
+                    <div>• امشِ 35 خطوة إلى الطيراس 🌿</div>
+                    <div>• المباني: A (يسار) ← B (يمين) ← C (يسار) ← D (يمين)</div>
+                    <div>• المسافة الإجمالية: 140-160 خطوة</div>
+                </div>
+            </div>
+
+            <!-- أزرار التحكم -->
+            <div style="display: flex; gap: 12px;">
+                <button class="btn btn-secondary" onclick="goBack()" id="backButton">
+                    <i class="fas fa-arrow-right"></i>
+                    <span>رجوع</span>
+                </button>
+                <button class="btn btn-primary" onclick="restartAnimation()" id="restartButton">
+                    <i class="fas fa-redo"></i>
+                    <span>إعادة التشغيل</span>
+                </button>
+            </div>
         </div>
 
-        <!-- أزرار التحكم -->
-        <div class="controls">
-            <button class="btn" onclick="goBack()">↩️ رجوع</button>
-            <button class="btn" onclick="restartAnimation()">🔄 إعادة التشغيل</button>
-            <button class="btn" onclick="showInstructions()">📋 تعليمات المسار</button>
+        <!-- التذييل -->
+        <div class="footer">
+            <p>OBP Navigation System</p>
         </div>
     </div>
 
     <script>
-        // الحصول على بيانات الرحلة من الرابط
+        // الحصول على بيانات الرحلة
         const urlParams = new URLSearchParams(window.location.search);
         const building = urlParams.get('building');
         const room = urlParams.get('room');
 
-        // تحديث معلومات الوجهة
+        // ترجمة إضافية لهذه الصفحة
+        const mapTranslations = {
+            ar: {
+                destinationTitle: "وجهتك",
+                backButton: "رجوع",
+                restartButton: "إعادة التشغيل",
+                receptionBuilding: "الاستقبال",
+                mapBuildingA: "المبنى A",
+                mapBuildingB: "المبنى B",
+                mapBuildingC: "المبنى C",
+                mapBuildingD: "المبنى D"
+            },
+            en: {
+                destinationTitle: "Your Destination",
+                backButton: "Back",
+                restartButton: "Restart",
+                receptionBuilding: "Reception",
+                mapBuildingA: "Building A",
+                mapBuildingB: "Building B",
+                mapBuildingC: "Building C",
+                mapBuildingD: "Building D"
+            },
+            zh: {
+                destinationTitle: "您的目的地",
+                backButton: "返回",
+                restartButton: "重新开始",
+                receptionBuilding: "接待处",
+                mapBuildingA: "大楼 A",
+                mapBuildingB: "大楼 B",
+                mapBuildingC: "大楼 C",
+                mapBuildingD: "大楼 D"
+            }
+        };
+
         function updateDestination() {
-            const destinationText = document.getElementById('destinationText');
+            const destinationDetails = document.getElementById('destinationDetails');
             if (building && room) {
-                destinationText.innerHTML = `🎯 <strong>وجهتك:</strong> المبنى ${building} - الغرفة ${room}`;
+                destinationDetails.textContent = `المبنى ${building} - الغرفة ${room}`;
                 
-                // تمييز المبنى المختار
-                const selectedBuilding = document.querySelector(`.building-${building.toLowerCase()}`);
-                if (selectedBuilding) {
-                    selectedBuilding.style.background = 'linear-gradient(135deg, #fbbf24, #f59e0b)';
-                    selectedBuilding.style.transform = 'scale(1.1)';
-                    selectedBuilding.style.boxShadow = '0 0 30px #fbbf24';
+                // تمييز المبنى المختار على الخريطة
+                const selectedMapBuilding = document.getElementById(`mapBuilding${building}`);
+                if (selectedMapBuilding) {
+                    selectedMapBuilding.classList.add('selected');
                 }
-            } else {
-                destinationText.textContent = '🚀 اختر مبنى وغرفة لرؤية المسار';
             }
         }
 
@@ -325,25 +169,24 @@
             const dot = document.querySelector('.moving-dot');
             dot.style.animation = 'none';
             setTimeout(() => {
-                dot.style.animation = 'moveThroughBuildings 8s ease-in-out infinite';
+                dot.style.animation = 'moveDot 6s ease-in-out infinite';
             }, 10);
         }
 
-        function showInstructions() {
-            alert(`🧭 تعليمات المسار:
-            
-1. ابدأ من قاعة الاستقبال 🏢
-2. امشِ 35 خطوة إلى الطيراس 🌿  
-3. المباني مرتبة كالتالي:
-   - المبنى A ← على اليسار (35 خطوة)
-   - المبنى B ← على اليمين (35 خطوة)
-   - المبنى C ← على اليسار (35 خطوة) 
-   - المبنى D ← على اليمين (35 خطوة)
-4. المسافة الإجمالية: 140-160 خطوة`);
+        function applyMapTranslations() {
+            for (const [key, value] of Object.entries(mapTranslations[currentLang])) {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.textContent = value;
+                }
+            }
         }
 
         // تطبيق عند التحميل
         document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('obp_language') || 'ar';
+            setLanguage(savedLang);
+            applyMapTranslations();
             updateDestination();
         });
     </script>
