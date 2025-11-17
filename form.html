@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maya Smart Welcome – Form</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #0d0d0d;
+        font-family: Arial, sans-serif;
+        color: white;
+        text-align: center;
+    }
+    .container {
+        margin-top: 70px;
+    }
+    input, select {
+        width: 80%;
+        padding: 12px;
+        border-radius: 10px;
+        border: none;
+        margin-top: 15px;
+        font-size: 18px;
+    }
+    button {
+        margin-top: 25px;
+        padding: 14px 45px;
+        background: #6f4af4;
+        border: none;
+        border-radius: 30px;
+        font-size: 18px;
+        color: white;
+        cursor: pointer;
+    }
+</style>
+
+</head>
+<body>
+
+<div class="container">
+    <h2>مرحبا بك، اختر وجهتك</h2>
+
+    <input id="company" type="text" placeholder="اسم الشركة" />
+
+    <input id="office" type="number" placeholder="رقم المكتب" />
+
+    <button onclick="go()">التالي</button>
+</div>
+
+<script>
+function go() {
+    let c = document.getElementById("company").value;
+    let o = document.getElementById("office").value;
+
+    if (c === "" || o === "") {
+        alert("الرجاء إدخال كل المعلومات");
+        return;
+    }
+
+    window.location.href = `result.html?company=${encodeURIComponent(c)}&office=${o}`;
+}
+</script>
+
+</body>
+</html>
