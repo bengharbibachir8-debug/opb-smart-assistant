@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maya – Map</title>
+
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        background: #0d0d0d;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+
+    .map-box {
+        margin-top: 30px;
+    }
+
+    .building {
+        width: 200px;
+        padding: 20px;
+        background: #222;
+        margin: 15px auto;
+        border-radius: 10px;
+        font-size: 22px;
+    }
+
+    .arrow {
+        font-size: 40px;
+        margin: 10px auto;
+    }
+
+    button {
+        margin-top: 30px;
+        padding: 14px 40px;
+        background: #6f4af4;
+        border: none;
+        border-radius: 30px;
+        color: white;
+        cursor: pointer;
+        font-size: 18px;
+    }
+</style>
+
+</head>
+<body>
+
+<h2>مسارك</h2>
+
+<div class="map-box">
+
+    <div class="building">🚪 الاستقبال (Start)</div>
+    <div class="arrow">⬇⬇⬇</div>
+
+    <div class="building">🌿 الطيراس</div>
+    <div class="arrow">⬇⬇⬇</div>
+
+    <div class="building">🏢 المبنى A</div>
+    <div class="arrow">➡➡➡</div>
+
+    <div class="building">🏢 المبنى B</div>
+    <div class="arrow">⬅⬅⬅</div>
+
+    <div class="building">🏢 المبنى C</div>
+    <div class="arrow">➡➡➡</div>
+
+    <div class="building">🏢 المبنى D (Goal)</div>
+
+</div>
+
+<button onclick="back()">رجوع</button>
+
+<script>
+function back() {
+    history.back();
+}
+</script>
+
+</body>
+</html>
