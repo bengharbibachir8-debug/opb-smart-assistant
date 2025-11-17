@@ -3,53 +3,158 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maya – Result</title>
-    <link rel="stylesheet" href="chinese-theme.css">
+    <title>OBP Hotel - Your Destination</title>
+    <link rel="stylesheet" href="luxury-hotel-theme.css">
     <style>
-        .result-box {
-            background: linear-gradient(135deg, rgba(198, 47, 47, 0.9), rgba(139, 0, 0, 0.9));
-            padding: 30px;
-            border-radius: 20px;
-            border: 3px solid #D4AF37;
-            margin: 40px auto;
+        .result-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+            backdrop-filter: blur(20px);
+            padding: 50px 40px;
+            border-radius: 25px;
+            border: 2px solid var(--luxury-gold);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
+            margin: 30px auto;
             max-width: 500px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
         }
+
+        .result-card::before {
+            content: '🎯';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2em;
+            opacity: 0.3;
+        }
+
+        .destination-info {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .destination-icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .destination-title {
+            font-size: 1.8em;
+            color: var(--luxury-gold);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+
+        .distance-card {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(52, 152, 219, 0.1));
+            padding: 25px;
+            border-radius: 20px;
+            border: 1px solid var(--luxury-gold);
+            margin: 25px 0;
+        }
+
         .distance-info {
-            font-size: 24px;
-            color: #FFD700;
-            margin: 20px 0;
+            font-size: 1.3em;
+            color: var(--text-light);
+            margin-bottom: 10px;
         }
+
         .steps-count {
-            font-size: 28px;
+            font-size: 2.5em;
             font-weight: bold;
-            color: #FFD700;
+            color: var(--accent-gold);
+            margin: 0 10px;
+        }
+
+        .steps-text {
+            font-size: 1.2em;
+            color: var(--text-muted);
+        }
+
+        .estimated-time {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border-left: 4px solid var(--luxury-gold);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .secondary-btn {
+            background: transparent;
+            border: 2px solid var(--luxury-gold);
+            color: var(--luxury-gold);
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .secondary-btn:hover {
+            background: var(--luxury-gold);
+            color: var(--dark-bg);
         }
     </style>
 </head>
 <body>
-    <div class="chinese-header">
+    <!-- شريط اللغات العائم -->
+    <div class="language-bar">
+        <button class="lang-btn" onclick="setLanguage('ar')">العربية</button>
+        <button class="lang-btn" onclick="setLanguage('en')">English</button>
+        <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
+    </div>
+
+    <div class="luxury-header">
+        <div class="welcome-icon">📍</div>
         <h1 data-translate="destination">وجهتك</h1>
-        <div class="language-bar">
-            <button class="lang-btn active" onclick="setLanguage('ar')">العربية</button>
-            <button class="lang-btn" onclick="setLanguage('en')">English</button>
-            <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
-        </div>
+        <div class="subtitle" data-translate="welcomeBack">مرحباً بعودتك</div>
     </div>
 
-    <div class="chinese-container">
-        <div class="result-box">
-            <h2 id="title"></h2>
-            <div class="distance-info">
-                <span data-translate="distance">المسافة:</span>
-                <span class="steps-count">138</span>
-                <span data-translate="steps">خطوة</span>
+    <div class="luxury-container animate-in">
+        <div class="result-card">
+            <div class="destination-info">
+                <div class="destination-icon">🚶‍♂️</div>
+                <div class="destination-title" id="title"></div>
             </div>
-            <button class="chinese-btn" onclick="goMap()" data-translate="showMap">عرض الخريطة</button>
+
+            <div class="distance-card">
+                <div class="distance-info">
+                    <span data-translate="distance">المسافة:</span>
+                    <span class="steps-count">138</span>
+                    <span data-translate="steps">خطوة</span>
+                </div>
+                <div class="steps-text">⏱️ وقت الوصول المقدر: دقيقتان</div>
+            </div>
+
+            <div class="estimated-time">
+                <strong>💡 نصيحة:</strong> استرح قليلاً، المسافة قصيرة ومريحة
+            </div>
+
+            <div class="action-buttons">
+                <button class="luxury-btn" onclick="goMap()" data-translate="showMap">عرض الخريطة</button>
+                <button class="secondary-btn" onclick="goBack()">تغيير الوجهة</button>
+            </div>
         </div>
     </div>
 
-    <script src="languages.js"></script>
+    <div class="luxury-footer">
+        <p>OBP Hotel - نرحب بكم دائماً</p>
+    </div>
+
+    <script src="language-system.js"></script>
     <script>
         const p = new URLSearchParams(window.location.search);
         const company = p.get("company");
@@ -57,7 +162,7 @@
         const building = p.get("building");
 
         function updateTitle() {
-            const title = t('destination') + `: ${company} – ${t('office')} ${office} – ${t('building')} ${building}`;
+            const title = `${company} - ${t('room')} ${office} - ${t('building')} ${building}`;
             document.getElementById("title").innerText = title;
         }
 
@@ -65,10 +170,19 @@
             window.location.href = `map.html?company=${encodeURIComponent(company)}&office=${office}&building=${building}`;
         }
 
-        // تطبيق اللغة عند التحميل
+        function goBack() {
+            window.location.href = 'form.html';
+        }
+
+        // تعيين الزر النشط للغة الحالية
         document.addEventListener('DOMContentLoaded', function() {
-            applyTranslations();
             updateTitle();
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent === 'العربية' && currentLang === 'ar') btn.classList.add('active');
+                if (btn.textContent === 'English' && currentLang === 'en') btn.classList.add('active');
+                if (btn.textContent === '中文' && currentLang === 'zh') btn.classList.add('active');
+            });
         });
     </script>
 </body>
