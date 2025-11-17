@@ -3,230 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OBP - الدليل الذكي</title>
+    <title>OBP - Smart Navigation</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        :root {
-            --primary: #2E86AB;
-            --secondary: #A23B72;
-            --accent: #F18F01;
-            --dark: #1A1A2E;
-            --light: #F8F9FA;
-            --success: #2ECC71;
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            background: linear-gradient(135deg, var(--dark) 0%, #16213E 100%);
-            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
-            min-height: 100vh;
-            color: var(--light);
-            line-height: 1.6;
-        }
-
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        /* الهيدر */
-        .header {
-            text-align: center;
-            padding: 40px 0 30px;
-        }
-
-        .logo {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 20px;
-            margin: 0 auto 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2em;
-            box-shadow: 0 10px 30px rgba(46, 134, 171, 0.3);
-        }
-
-        .header h1 {
-            font-size: 1.8em;
-            font-weight: 700;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, var(--light), #E8E8E8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .header p {
-            color: #B8B8B8;
-            font-size: 1.1em;
-        }
-
-        /* شريط اللغات */
-        .language-bar {
-            display: flex;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border-radius: 15px;
-            padding: 8px;
-            margin: 20px 0;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .lang-btn {
-            flex: 1;
-            background: transparent;
-            border: none;
-            padding: 12px;
-            border-radius: 12px;
-            color: var(--light);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .lang-btn.active {
-            background: var(--primary);
-            box-shadow: 0 4px 15px rgba(46, 134, 171, 0.4);
-        }
-
-        /* البطاقة الرئيسية */
-        .main-card {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 30px 25px;
-            margin: 20px 0;
-            text-align: center;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-        }
-
-        .main-card h2 {
-            font-size: 1.5em;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-
-        .main-card p {
-            color: #B8B8B8;
-            margin-bottom: 25px;
-            font-size: 1em;
-        }
-
-        /* زر البدء */
-        .start-btn {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            padding: 18px 30px;
-            border-radius: 15px;
-            font-size: 1.2em;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 25px rgba(46, 134, 171, 0.4);
-            width: 100%;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .start-btn:active {
-            transform: scale(0.98);
-        }
-
-        .start-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .start-btn:active::before {
-            left: 100%;
-        }
-
-        /* الميزات */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin: 25px 0;
-        }
-
-        .feature {
-            background: rgba(255, 255, 255, 0.05);
-            padding: 20px 15px;
-            border-radius: 15px;
-            text-align: center;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .feature i {
-            font-size: 1.8em;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .feature span {
-            font-size: 0.9em;
-            color: #B8B8B8;
-        }
-
-        /* التذييل */
-        .footer {
-            text-align: center;
-            margin-top: auto;
-            padding: 30px 0 20px;
-            color: #666;
-            font-size: 0.9em;
-        }
-
-        /* تأثيرات الهاتف */
-        @media (max-width: 480px) {
-            .container {
-                padding: 15px;
-            }
-            
-            .header {
-                padding: 30px 0 20px;
-            }
-            
-            .main-card {
-                padding: 25px 20px;
-            }
-            
-            .features {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="netrix-style.css">
 </head>
 <body>
     <div class="container">
         <!-- الهيدر -->
-        <div class="header">
+        <nav class="navbar">
             <div class="logo">
-                <i class="fas fa-map-marker-alt"></i>
+                <div class="logo-icon">
+                    <i class="fas fa-map-marker-alt"></i>
+                </div>
+                <span>OBP Navigator</span>
             </div>
-            <h1 id="welcomeTitle">مرحباً في OBP</h1>
-            <p id="welcomeSubtitle">دليلك الذكي إلى الغرفة</p>
-        </div>
+        </nav>
 
         <!-- شريط اللغات -->
         <div class="language-bar">
@@ -236,40 +28,54 @@
         </div>
 
         <!-- البطاقة الرئيسية -->
-        <div class="main-card">
-            <h2 id="mainTitle">ابحث عن غرفتك</h2>
-            <p id="mainDescription">
-                نظام التوجيه الذكي سيرشدك إلى غرفتك في المجمع بسهولة تامة
-            </p>
-            <button class="start-btn" onclick="startNavigation()" id="startButton">
-                <i class="fas fa-play"></i> ابدأ الآن
+        <div class="card">
+            <div class="card-header">
+                <h1 class="card-title" id="welcomeTitle">مرحباً في OBP</h1>
+                <p class="card-subtitle" id="welcomeSubtitle">دليلك الذكي إلى الغرفة</p>
+            </div>
+
+            <div style="text-align: center; margin: 30px 0;">
+                <div style="font-size: 4em; margin-bottom: 20px;">
+                    <i class="fas fa-location-arrow" style="background: linear-gradient(135deg, #2563EB, #1D4ED8); -webkit-background-clip: text; -webkit-text-fill-color: transparent;"></i>
+                </div>
+                <p style="color: #9CA3AF; margin-bottom: 30px;" id="mainDescription">
+                    نظام التوجيه الذكي سيرشدك إلى غرفتك في المجمع بسهولة تامة
+                </p>
+            </div>
+
+            <button class="btn btn-primary" onclick="startNavigation()" id="startButton">
+                <i class="fas fa-play"></i>
+                <span>ابدأ الرحلة</span>
             </button>
         </div>
 
-        <!-- الميزات -->
-        <div class="features">
-            <div class="feature">
-                <i class="fas fa-building"></i>
-                <span>4 مباني</span>
-            </div>
-            <div class="feature">
-                <i class="fas fa-route"></i>
-                <span>مسار واضح</span>
-            </div>
-            <div class="feature">
-                <i class="fas fa-mobile-alt"></i>
-                <span>متوافق مع الجوال</span>
-            </div>
-            <div class="feature">
-                <i class="fas fa-language"></i>
-                <span>3 لغات</span>
+        <!-- ميزات النظام -->
+        <div class="card">
+            <h3 style="text-align: center; margin-bottom: 20px; color: #D1D5DB;">المميزات</h3>
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px;">
+                <div style="text-align: center; padding: 15px;">
+                    <i class="fas fa-building" style="font-size: 1.5em; color: #2563EB; margin-bottom: 8px;"></i>
+                    <div style="font-size: 0.9em; color: #9CA3AF;">4 مباني</div>
+                </div>
+                <div style="text-align: center; padding: 15px;">
+                    <i class="fas fa-route" style="font-size: 1.5em; color: #10B981; margin-bottom: 8px;"></i>
+                    <div style="font-size: 0.9em; color: #9CA3AF;">مسار واضح</div>
+                </div>
+                <div style="text-align: center; padding: 15px;">
+                    <i class="fas fa-mobile-alt" style="font-size: 1.5em; color: #8B5CF6; margin-bottom: 8px;"></i>
+                    <div style="font-size: 0.9em; color: #9CA3AF;">متوافق مع الجوال</div>
+                </div>
+                <div style="text-align: center; padding: 15px;">
+                    <i class="fas fa-language" style="font-size: 1.5em; color: #F59E0B; margin-bottom: 8px;"></i>
+                    <div style="font-size: 0.9em; color: #9CA3AF;">3 لغات</div>
+                </div>
             </div>
         </div>
 
         <!-- التذييل -->
         <div class="footer">
-            <p>OBP Smart Navigation</p>
-            <p>نظام التوجيه الذكي</p>
+            <p>OBP Smart Navigation System</p>
+            <p style="font-size: 0.8em; margin-top: 5px;">نظام التوجيه الذكي</p>
         </div>
     </div>
 
@@ -279,23 +85,20 @@
             ar: {
                 welcomeTitle: "مرحباً في OBP",
                 welcomeSubtitle: "دليلك الذكي إلى الغرفة",
-                mainTitle: "ابحث عن غرفتك",
                 mainDescription: "نظام التوجيه الذكي سيرشدك إلى غرفتك في المجمع بسهولة تامة",
-                startButton: "ابدأ الآن"
+                startButton: "ابدأ الرحلة"
             },
             en: {
                 welcomeTitle: "Welcome to OBP",
                 welcomeSubtitle: "Your Smart Room Guide",
-                mainTitle: "Find Your Room",
                 mainDescription: "Smart navigation system will guide you to your room with ease",
-                startButton: "Start Now"
+                startButton: "Start Journey"
             },
             zh: {
                 welcomeTitle: "欢迎来到OBP",
                 welcomeSubtitle: "您的智能房间指南",
-                mainTitle: "寻找您的房间",
                 mainDescription: "智能导航系统将轻松引导您到房间",
-                startButton: "立即开始"
+                startButton: "开始旅程"
             }
         };
 
