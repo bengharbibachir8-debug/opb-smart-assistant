@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBP - التوجيه الذكي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* تصميم OBP.dz الاحترافي */
+        :root {
+            --obp-green: #1a472a;
+            --obp-gold: #d4af37;
+            --obp-dark: #0f172a;
+            --obp-light: #f8fafc;
+            --obp-gray: #64748b;
+            --obp-border: #e2e8f0;
+            --obp-success: #10b981;
+            --obp-warning: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, var(--obp-light) 0%, #f1f5f9 100%);
+            color: var(--obp-dark);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        /* الهيدر الثابت */
+        .header {
+            background: var(--obp-green);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--obp-gold);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-btn {
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Tajawal', sans-serif;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+            max-width: 1200px;
+            margin: 80px auto 0;
+            padding: 2rem;
+        }
+
+        /* بطاقة التوجيه */
+        .navigation-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            border: 1px solid var(--obp-border);
+            overflow: hidden;
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--obp-green), #2d5a3d);
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .card-header h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+        }
+
+        .card-header p {
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .card-body {
+            padding: 2rem;
+        }
+
+        /* نموذج التوجيه */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-section {
+            background: var(--obp-light);
+            padding: 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--obp-border);
+        }
+
+        .form-section h3 {
+            color: var(--obp-green);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--obp-dark);
+            font-weight: 500;
+            font-size: 1rem;
+        }
+
+        .form-select, .form-input {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 2px solid var(--obp-border);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: 'Tajawal', sans-serif;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-select:focus, .form-input:focus {
+            outline: none;
+            border-color: var(--obp-green);
+            box-shadow: 0 0 0 3px rgba(26, 71, 42, 0.1);
+        }
+
+        /* خيارات المباني */
+        .buildings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .building-option {
+            background: white;
+            border: 2px solid var(--obp-border);
+            border-radius: 10px;
+            padding: 1.5rem 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .building-option:hover {
+            border-color: var(--obp-green);
+            transform: translateY(-2px);
+        }
+
+        .building-option.selected {
+            background: var(--obp-green);
+            color: white;
+            border-color: var(--obp-green);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(26, 71, 42, 0.3);
+        }
+
+        .building-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .building-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        /* معلومات المبنى */
+        .building-info {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 1px solid #bbf7d0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .building-info h4 {
+            color: var(--obp-green);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* معاينة الخريطة */
+        .map-preview {
+            background: var(--obp-light);
+            border: 2px dashed var(--obp-border);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        .map-preview-content {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .path-visualization {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .path-step {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: white;
+            padding: 0.75rem 1rem;
+            border-radius: 25px;
+            border: 1px solid var(--obp-border);
+            font-size: 0.9rem;
+        }
+
+        .path-arrow {
+            color: var(--obp-gray);
+        }
+
+        /* أزرار التحكم */
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .btn-primary {
+            background: var(--obp-green);
+            color: white;
+            box-shadow: 0 4px 15px rgba(26, 71, 42, 0.3);
+        }
+
+        .btn-primary:hover {
+            background: #2d5a3d;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(26, 71, 42, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--obp-dark);
+            border: 2px solid var(--obp-border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--obp-light);
+            border-color: var(--obp-green);
+        }
+
+        /* شريط اللغات */
+        .language-bar {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: var(--obp-light);
+            border-bottom: 1px solid var(--obp-border);
+        }
+
+        .lang-btn {
+            background: white;
+            border: 2px solid var(--obp-border);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--obp-green);
+            color: white;
+            border-color: var(--obp-green);
+        }
+
+        /* الفوتر */
+        .footer {
+            background: var(--obp-dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        /* التجاوب مع الجوال */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
+                margin-top: 70px;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .buildings-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+            
+            .nav-buttons {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+            
+            .path-visualization {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- الهيدر الثابت -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-route"></i>
+                </div>
+                <span>OBP Navigation</span>
+            </div>
+            <div class="nav-buttons">
+                <a href="index.html" class="nav-btn">
+                    <i class="fas fa-home"></i>
+                    الرئيسية
+                </a>
+                <a href="index.html" class="nav-btn">
+                    <i class="fas fa-robot"></i>
+                    محادثة أيفا
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <div class="container">
+        <div class="main-content">
+            <!-- شريط اللغات -->
+            <div class="language-bar">
+                <button class="lang-btn active" onclick="setLanguage('ar')">العربية</button>
+                <button class="lang-btn" onclick="setLanguage('en')">English</button>
+                <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
+            </div>
+
+            <!-- بطاقة التوجيه -->
+            <div class="navigation-card">
+                <div class="card-header">
+                    <h1 id="pageTitle">التوجيه الذكي إلى غرفتك</h1>
+                    <p id="pageSubtitle">ابحث عن طريقك بسهولة في مجمع OBP</p>
+                </div>
+
+                <div class="card-body">
+                    <!-- نموذج إدخال البيانات -->
+                    <div class="form-grid">
+                        <!-- قسم اختيار المبنى -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-building"></i> <span id="buildingSectionTitle">اختر المبنى</span></h3>
+                            <p id="buildingSectionDesc" style="color: var(--obp-gray); margin-bottom: 1rem;">
+                                اختر المبنى الذي توجد به غرفتك
+                            </p>
+
+                            <div class="buildings-grid">
+                                <div class="building-option" onclick="selectBuilding('A')">
+                                    <div class="building-icon">🏢</div>
+                                    <div class="building-name" id="buildingAName">المبنى A</div>
+                                    <small id="buildingADesc" style="font-size: 0.8rem; opacity: 0.7;">المكاتب الإدارية</small>
+                                </div>
+                                <div class="building-option" onclick="selectBuilding('B')">
+                                    <div class="building-icon">🏢</div>
+                                    <div class="building-name" id="buildingBName">المبنى B</div>
+                                    <small id="buildingBDesc" style="font-size: 0.8rem; opacity: 0.7;">قاعات الاجتماعات</small>
+                                </div>
+                                <div class="building-option" onclick="selectBuilding('C')">
+                                    <div class="building-icon">🏢</div>
+                                    <div class="building-name" id="buildingCName">المبنى C</div>
+                                    <small id="buildingCDesc" style="font-size: 0.8rem; opacity: 0.7;">المعامل والتجارب</small>
+                                </div>
+                                <div class="building-option" onclick="selectBuilding('D')">
+                                    <div class="building-icon">🏢</div>
+                                    <div class="building-name" id="buildingDName">المبنى D</div>
+                                    <small id="buildingDDesc" style="font-size: 0.8rem; opacity: 0.7;">الغرف والسكن</small>
+                                </div>
+                            </div>
+
+                            <!-- معلومات المبنى المختار -->
+                            <div class="building-info" id="buildingInfo" style="display: none;">
+                                <h4><i class="fas fa-info-circle"></i> <span id="buildingInfoTitle">معلومات المبنى</span></h4>
+                                <p id="buildingInfoText"></p>
+                            </div>
+                        </div>
+
+                        <!-- قسم إدخال رقم الغرفة -->
+                        <div class="form-section">
+                            <h3><i class="fas fa-door-open"></i> <span id="roomSectionTitle">أدخل رقم الغرفة</span></h3>
+                            <p id="roomSectionDesc" style="color: var(--obp-gray); margin-bottom: 1rem;">
+                                ادخل رقم الغرفة المخصصة لك
+                            </p>
+
+                            <div class="form-group">
+                                <label class="form-label" id="roomLabel">رقم الغرفة</label>
+                                <input type="number" class="form-input" id="roomInput" 
+                                       placeholder="مثال: 101 أو 205" min="100" max="499">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" id="companyLabel">اسم الشركة (اختياري)</label>
+                                <input type="text" class="form-input" id="companyInput" 
+                                       placeholder="اسم الشركة أو المؤسسة">
+                            </div>
+
+                            <!-- معلومات المسار -->
+                            <div style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 1rem; margin-top: 1rem;">
+                                <h4 style="color: #d97706; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                                    <i class="fas fa-route"></i> <span id="pathInfoTitle">معلومات المسار</span>
+                                </h4>
+                                <p id="pathInfoText" style="color: #92400e; font-size: 0.9rem;">
+                                    المسافة بين المباني: 35-40 خطوة<br>
+                                    مدة الوصول التقريبية: 2-3 دقائق
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- معاينة المسار -->
+                    <div class="map-preview">
+                        <div class="map-preview-content">
+                            <h3 id="previewTitle" style="color: var(--obp-green); margin-bottom: 1rem;">معاينة المسار</h3>
+                            <p id="previewDesc" style="color: var(--obp-gray); margin-bottom: 1.5rem;">
+                                اضغط على "عرض الخريطة" لرؤية المسار التفصيلي
+                            </p>
+
+                            <div class="path-visualization">
+                                <div class="path-step">
+                                    <i class="fas fa-map-marker-alt" style="color: var(--obp-success);"></i>
+                                    <span id="stepStart">الاستقبال</span>
+                                </div>
+                                <div class="path-arrow">→</div>
+                                <div class="path-step">
+                                    <i class="fas fa-walking" style="color: var(--obp-warning);"></i>
+                                    <span id="stepWalk">35 خطوة</span>
+                                </div>
+                                <div class="path-arrow">→</div>
+                                <div class="path-step">
+                                    <i class="fas fa-flag" style="color: var(--obp-green);"></i>
+                                    <span id="stepDestination">الوجهة</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- أزرار التحكم -->
+                    <div class="action-buttons">
+                        <button class="btn btn-secondary" onclick="goBack()" id="backButton">
+                            <i class="fas fa-arrow-right"></i>
+                            رجوع
+                        </button>
+                        <button class="btn btn-primary" onclick="startNavigation()" id="navigateButton">
+                            <i class="fas fa-map-marked-alt"></i>
+                            عرض الخريطة
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- الفوتر -->
+    <footer class="footer">
+        <p>&copy; 2024 OBP Smart Navigation System. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        // بيانات المباني من OBP.dz
+        const buildingsData = {
+            'A': {
+                ar: { name: 'المبنى A', desc: 'المكاتب الإدارية', info: 'المبنى الرئيسي للإدارة والمكاتب التنفيذية' },
+                en: { name: 'Building A', desc: 'Administrative Offices', info: 'Main building for management and executive offices' },
+                zh: { name: '大楼 A', desc: '行政办公室', info: '管理和行政办公室的主楼' }
+            },
+            'B': {
+                ar: { name: 'المبنى B', desc: 'قاعات الاجتماعات', info: 'مخصص للاجتماعات والعروض التقديمية' },
+                en: { name: 'Building B', desc: 'Meeting Halls', info: 'Dedicated for meetings and presentations' },
+                zh: { name: '大楼 B', desc: '会议室', info: '专门用于会议和演示' }
+            },
+            'C': {
+                ar: { name: 'المبنى C', desc: 'المعامل والتجارب', info: 'يحتوي على المعامل المتطورة ومناطق البحث' },
+                en: { name: 'Building C', desc: 'Laboratories', info: 'Contains advanced laboratories and research areas' },
+                zh: { name: '大楼 C', desc: '实验室', info: '包含先进实验室和研究区' }
+            },
+            'D': {
+                ar: { name: 'المبنى D', desc: 'الغرف والسكن', info: 'مخصص للإقامة والغرف الشخصية' },
+                en: { name: 'Building D', desc: 'Rooms & Accommodation', info: 'Dedicated for accommodation and personal rooms' },
+                zh: { name: '大楼 D', desc: '房间和住宿', info: '专门用于住宿和个人房间' }
+            }
+        };
+
+        // نظام اللغات
+        const translations = {
+            ar: {
+                pageTitle: 'التوجيه الذكي إلى غرفتك',
+                pageSubtitle: 'ابحث عن طريقك بسهولة في مجمع OBP',
+                buildingSectionTitle: 'اختر المبنى',
+                buildingSectionDesc: 'اختر المبنى الذي توجد به غرفتك',
+                roomSectionTitle: 'أدخل رقم الغرفة',
+                roomSectionDesc: 'ادخل رقم الغرفة المخصصة لك',
+                roomLabel: 'رقم الغرفة',
+                companyLabel: 'اسم الشركة (اختياري)',
+                pathInfoTitle: 'معلومات المسار',
+                pathInfoText: 'المسافة بين المباني: 35-40 خطوة<br>مدة الوصول التقريبية: 2-3 دقائق',
+                previewTitle: 'معاينة المسار',
+                previewDesc: 'اضغط على "عرض الخريطة" لرؤية المسار التفصيلي',
+                stepStart: 'الاستقبال',
+                stepWalk: '35 خطوة',
+                stepDestination: 'الوجهة',
+                backButton: 'رجوع',
+                navigateButton: 'عرض الخريطة',
+                buildingInfoTitle: 'معلومات المبنى'
+            },
+            en: {
+                pageTitle: 'Smart Navigation to Your Room',
+                pageSubtitle: 'Find your way easily in OBP complex',
+                buildingSectionTitle: 'Choose Building',
+                buildingSectionDesc: 'Select the building where your room is located',
+                roomSectionTitle: 'Enter Room Number',
+                roomSectionDesc: 'Enter your assigned room number',
+                roomLabel: 'Room Number',
+                companyLabel: 'Company Name (Optional)',
+                pathInfoTitle: 'Path Information',
+                pathInfoText: 'Distance between buildings: 35-40 steps<br>Approximate arrival time: 2-3 minutes',
+                previewTitle: 'Path Preview',
+                previewDesc: 'Click "Show Map" to see the detailed path',
+                stepStart: 'Reception',
+                stepWalk: '35 steps',
+                stepDestination: 'Destination',
+                backButton: 'Back',
+                navigateButton: 'Show Map',
+                buildingInfoTitle: 'Building Information'
+            },
+            zh: {
+                pageTitle: '智能导航到您的房间',
+                pageSubtitle: '在OBP园区轻松找到您的路',
+                buildingSectionTitle: '选择大楼',
+                buildingSectionDesc: '选择您房间所在的大楼',
+                roomSectionTitle: '输入房间号码',
+                roomSectionDesc: '输入分配给您的房间号码',
+                roomLabel: '房间号码',
+                companyLabel: '公司名称（可选）',
+                pathInfoTitle: '路径信息',
+                pathInfoText: '楼宇之间的距离：35-40步<br>预计到达时间：2-3分钟',
+                previewTitle: '路径预览',
+                previewDesc: '点击"显示地图"查看详细路径',
+                stepStart: '接待处',
+                stepWalk: '35步',
+                stepDestination: '目的地',
+                backButton: '返回',
+                navigateButton: '显示地图',
+                buildingInfoTitle: '大楼信息'
+            }
+        };
+
+        let currentLang = 'ar';
+        let selectedBuilding = '';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            applyTranslations();
+        }
+
+        function applyTranslations() {
+            // تطبيق النصوص
+            for (const [key, value] of Object.entries(translations[currentLang])) {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.textContent = value;
+                }
+            }
+
+            // تطبيق بيانات المباني
+            for (const building of ['A', 'B', 'C', 'D']) {
+                const data = buildingsData[building][currentLang];
+                document.getElementById(`building${building}Name`).textContent = data.name;
+                document.getElementById(`building${building}Desc`).textContent = data.desc;
+            }
+
+            // تحديث العناصر الأخرى
+            document.getElementById('roomInput').placeholder = currentLang === 'ar' ? 'مثال: 101 أو 205' : 
+                                                              currentLang === 'en' ? 'Example: 101 or 205' : '例如: 101 或 205';
+            document.getElementById('companyInput').placeholder = currentLang === 'ar' ? 'اسم الشركة أو المؤسسة' : 
+                                                                 currentLang === 'en' ? 'Company or organization name' : '公司或组织名称';
+        }
+
+        function selectBuilding(building) {
+            selectedBuilding = building;
+            
+            // تحديث الواجهة
+            document.querySelectorAll('.building-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            // عرض معلومات المبنى
+            const buildingInfo = document.getElementById('buildingInfo');
+            const buildingInfoText = document.getElementById('buildingInfoText');
+            const data = buildingsData[building][currentLang];
+            
+            buildingInfoText.textContent = data.info;
+            buildingInfo.style.display = 'block';
+            
+            // تحديث معاينة المسار
+            document.getElementById('stepDestination').textContent = data.name;
+        }
+
+        function startNavigation() {
+            const room = document.getElementById('roomInput').value;
+            const company = document.getElementById('companyInput').value;
+            
+            if (!selectedBuilding) {
+                alert(currentLang === 'ar' ? 'الرجاء اختيار المبنى' : 
+                      currentLang === 'en' ? 'Please select a building' : '请选择一座大楼');
+                return;
+            }
+            
+            if (!room) {
+                alert(currentLang === 'ar' ? 'الرجاء إدخال رقم الغرفة' : 
+                      currentLang === 'en' ? 'Please enter room number' : '请输入房间号码');
+                return;
+            }
+
+            // الانتقال إلى صفحة الخريطة
+            let url = `map.html?building=${selectedBuilding}&room=${room}`;
+            if (company) {
+                url += `&company=${encodeURIComponent(company)}`;
+            }
+            
+            window.location.href = url;
+        }
+
+        function goBack() {
+            window.location.href = 'index.html';
+        }
+
+        // التحميل الأولي
+        document.addEventListener('DOMContentLoaded', function() {
+            applyTranslations();
+        });
+    </script>
+</body>
+</html>
