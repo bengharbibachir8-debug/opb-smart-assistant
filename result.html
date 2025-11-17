@@ -1,55 +1,75 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maya – Result</title>
-
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        background: #0d0d0d;
-        color: white;
-        text-align: center;
-        font-family: Arial, sans-serif;
-    }
-    .box {
-        margin-top: 100px;
-    }
-    button {
-        margin-top: 30px;
-        padding: 14px 40px;
-        background: #6f4af4;
-        border: none;
-        border-radius: 30px;
-        color: white;
-        cursor: pointer;
-        font-size: 18px;
-    }
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maya – Result</title>
+    <link rel="stylesheet" href="chinese-theme.css">
+    <style>
+        .result-box {
+            background: linear-gradient(135deg, rgba(198, 47, 47, 0.9), rgba(139, 0, 0, 0.9));
+            padding: 30px;
+            border-radius: 20px;
+            border: 3px solid #D4AF37;
+            margin: 40px auto;
+            max-width: 500px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .distance-info {
+            font-size: 24px;
+            color: #FFD700;
+            margin: 20px 0;
+        }
+        .steps-count {
+            font-size: 28px;
+            font-weight: bold;
+            color: #FFD700;
+        }
+    </style>
 </head>
 <body>
+    <div class="chinese-header">
+        <h1 data-translate="destination">وجهتك</h1>
+        <div class="language-bar">
+            <button class="lang-btn active" onclick="setLanguage('ar')">العربية</button>
+            <button class="lang-btn" onclick="setLanguage('en')">English</button>
+            <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
+        </div>
+    </div>
 
-<div class="box">
-    <h2 id="title"></h2>
-    <p id="steps">المسافة: 138 خطوة</p>
+    <div class="chinese-container">
+        <div class="result-box">
+            <h2 id="title"></h2>
+            <div class="distance-info">
+                <span data-translate="distance">المسافة:</span>
+                <span class="steps-count">138</span>
+                <span data-translate="steps">خطوة</span>
+            </div>
+            <button class="chinese-btn" onclick="goMap()" data-translate="showMap">عرض الخريطة</button>
+        </div>
+    </div>
 
-    <button onclick="goMap()">عرض الخريطة</button>
-</div>
+    <script src="languages.js"></script>
+    <script>
+        const p = new URLSearchParams(window.location.search);
+        const company = p.get("company");
+        const office = p.get("office");
+        const building = p.get("building");
 
-<script>
-const p = new URLSearchParams(window.location.search);
-const company = p.get("company");
-const office = p.get("office");
+        function updateTitle() {
+            const title = t('destination') + `: ${company} – ${t('office')} ${office} – ${t('building')} ${building}`;
+            document.getElementById("title").innerText = title;
+        }
 
-document.getElementById("title").innerText = `وجهتك: شركة ${company} – مكتب ${office}`;
+        function goMap() {
+            window.location.href = `map.html?company=${encodeURIComponent(company)}&office=${office}&building=${building}`;
+        }
 
-function goMap() {
-    window.location.href = `map.html?company=${encodeURIComponent(company)}&office=${office}`;
-}
-</script>
-
+        // تطبيق اللغة عند التحميل
+        document.addEventListener('DOMContentLoaded', function() {
+            applyTranslations();
+            updateTitle();
+        });
+    </script>
 </body>
 </html>
