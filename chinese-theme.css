@@ -1,0 +1,327 @@
+/* chinese-theme.css - التصميم الصيني */
+:root {
+    --primary-red: #C62F2F;
+    --primary-gold: #D4AF37;
+    --primary-dark: #1a1a1a;
+    --accent-red: #FF6B6B;
+    --accent-gold: #FFD700;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, #2a0f0f 100%);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: white;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* خلفية زخارف صينية */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: 
+        radial-gradient(circle at 20% 80%, rgba(198, 47, 47, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+    z-index: -1;
+}
+
+/* رأس الصفحة مع الزخارف الصينية */
+.chinese-header {
+    background: linear-gradient(135deg, var(--primary-red), #8B0000);
+    padding: 30px 20px;
+    text-align: center;
+    position: relative;
+    border-bottom: 3px solid var(--primary-gold);
+}
+
+.chinese-header h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+}
+
+/* أزرار الطابع الصيني */
+.chinese-btn {
+    background: linear-gradient(135deg, var(--primary-red), var(--accent-red));
+    color: white;
+    border: none;
+    padding: 15px 35px;
+    border-radius: 25px;
+    font-size: 18px;
+    cursor: pointer;
+    margin: 10px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(198, 47, 47, 0.3);
+}
+
+.chinese-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(198, 47, 47, 0.4);
+}
+
+/* حقول الإدخال */
+.chinese-input {
+    width: 80%;
+    max-width: 400px;
+    padding: 15px 20px;
+    border: 2px solid var(--primary-gold);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 16px;
+    margin: 15px auto;
+    transition: all 0.3s ease;
+    display: block;
+}
+
+.chinese-input:focus {
+    outline: none;
+    border-color: var(--accent-red);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 0 20px rgba(198, 47, 47, 0.3);
+}
+
+/* حاوية رئيسية */
+.chinese-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+}
+
+/* شريط اللغات */
+.language-bar {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.lang-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--primary-gold);
+    color: var(--primary-gold);
+    padding: 8px 15px;
+    border-radius: 15px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.lang-btn.active {
+    background: var(--primary-gold);
+    color: var(--primary-dark);
+}
+
+.lang-btn:hover {
+    background: var(--primary-gold);
+    color: var(--primary-dark);
+}
+
+/* الخريطة المتحركة */
+.animated-map {
+    position: relative;
+    margin: 40px auto;
+    max-width: 600px;
+}
+
+.building {
+    background: linear-gradient(135deg, rgba(198, 47, 47, 0.8), rgba(139, 0, 0, 0.8));
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 10px;
+    border: 2px solid var(--primary-gold);
+    position: relative;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeInUp 0.6s ease forwards;
+}
+
+.animated-arrow {
+    font-size: 30px;
+    color: var(--primary-gold);
+    margin: 10px auto;
+    opacity: 0;
+    animation: bounceIn 0.8s ease forwards;
+}
+
+.animated-arrow.moving {
+    animation: moveArrow 2s ease-in-out infinite;
+}
+
+@keyframes fadeInUp {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes moveArrow {
+    0%, 100% {
+        transform: translateX(0);
+    }
+    50% {
+        transform: translateX(10px);
+    }
+}
+
+/* تذييل الصفحة */
+.chinese-footer {
+    background: linear-gradient(135deg, var(--primary-dark), #2a0f0f);
+    padding: 20px;
+    text-align: center;
+    border-top: 2px solid var(--primary-gold);
+    margin-top: 40px;
+}
+
+/* تأثيرات الاستجابة */
+@media (max-width: 768px) {
+    .chinese-container {
+        padding: 10px;
+    }
+    
+    .chinese-input {
+        width: 90%;
+    }
+    
+    .language-bar {
+        position: static;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+}
+
+/* خيارات المباني */
+.building-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin: 20px auto;
+    max-width: 400px;
+}
+
+.building-btn {
+    background: linear-gradient(135deg, #C62F2F, #8B0000);
+    color: white;
+    border: 2px solid #D4AF37;
+    padding: 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    font-size: 18px;
+    transition: all 0.3s ease;
+}
+
+.building-btn:hover {
+    transform: scale(1.05);
+    border-color: #FFD700;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+}
+
+.building-btn.selected {
+    background: linear-gradient(135deg, #D4AF37, #FFD700);
+    color: #1a1a1a;
+    border-color: #FFD700;
+}
+
+/* صندوق النتائج */
+.result-box {
+    background: linear-gradient(135deg, rgba(198, 47, 47, 0.9), rgba(139, 0, 0, 0.9));
+    padding: 30px;
+    border-radius: 20px;
+    border: 3px solid #D4AF37;
+    margin: 40px auto;
+    max-width: 500px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.distance-info {
+    font-size: 24px;
+    color: #FFD700;
+    margin: 20px 0;
+}
+
+.steps-count {
+    font-size: 28px;
+    font-weight: bold;
+    color: #FFD700;
+}
+
+/* تعليمات الخريطة */
+.map-instructions {
+    background: rgba(212, 175, 55, 0.1);
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px auto;
+    max-width: 600px;
+    border: 2px solid #D4AF37;
+}
+
+.instruction-step {
+    margin: 15px 0;
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    border-right: 3px solid #C62F2F;
+}
+
+.path-animation {
+    position: relative;
+    margin: 30px auto;
+    max-width: 500px;
+    height: 200px;
+}
+
+.path-line {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, #C62F2F, #D4AF37);
+    transform: translateX(-50%);
+    z-index: 1;
+}
+
+.path-dot {
+    position: absolute;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    background: #FFD700;
+    border-radius: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+    animation: moveDot 3s ease-in-out infinite;
+}
+
+@keyframes moveDot {
+    0% { top: 0%; }
+    100% { top: 100%; }
+}
