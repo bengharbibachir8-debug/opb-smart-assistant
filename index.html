@@ -1,63 +1,151 @@
-<!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OBP Smart Hotel - الفندق الذكي</title>
-    <link rel="stylesheet" href="luxury-hotel-theme.css">
-</head>
-<body>
-    <!-- شريط اللغات العائم -->
-    <div class="language-bar">
-        <button class="lang-btn active" onclick="setLanguage('ar')">العربية</button>
-        <button class="lang-btn" onclick="setLanguage('en')">English</button>
-        <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
-    </div>
+/* business-theme.css - تصميم مجمع الشركات */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-    <div class="luxury-header">
-        <h1 data-translate="welcome">مرحباً بكم في فندق OBP</h1>
-        <p class="subtitle" data-translate="subtitle">نرحب بكم بعد رحلة السفر الطويلة</p>
-    </div>
+body {
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    color: #333;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+}
 
-    <div class="luxury-container">
-        <div class="welcome-card animate-in">
-            <h2 data-translate="relax">استرح، نحن نرشدك</h2>
-            <p style="color: #94a3b8; margin-bottom: 30px; font-size: 1.1em;">
-                نظام التوجيه الذكي سيساعدك للوصول إلى غرفتك بسهولة
-            </p>
-            
-            <button class="luxury-btn" onclick="startNavigation()" data-translate="next">
-                ابدأ الرحلة إلى الغرفة
-            </button>
-        </div>
+.language-bar {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    gap: 10px;
+    z-index: 1000;
+}
 
-        <div class="welcome-card animate-in" style="animation-delay: 0.2s">
-            <h3>🏨 معلومات الفندق</h3>
-            <div style="text-align: left; margin-top: 20px; color: #94a3b8;">
-                <p>📍 الموقع: مجمع OBP الفندقي</p>
-                <p>🏢 المباني: A, B, C, D</p>
-                <p>🛎️ الخدمات: إرشاد ذكي - إنترنت مجاني - خدمة 24/7</p>
-            </div>
-        </div>
-    </div>
+.lang-btn {
+    background: #3498db;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 20px;
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
 
-    <div class="luxury-footer">
-        <p>OBP Smart Hotel System © 2024</p>
-        <p>نظام الفندق الذكي - راحة بعد السفر</p>
-    </div>
+.lang-btn.active {
+    background: #2980b9;
+}
 
-    <script src="language-system.js"></script>
-    <script>
-        function startNavigation() {
-            window.location.href = 'form.html';
-        }
+.lang-btn:hover {
+    background: #2980b9;
+    transform: translateY(-2px);
+}
 
-        // تطبيق اللغة عند التحميل
-        document.addEventListener('DOMContentLoaded', function() {
-            // جلب اللغة المحفوظة
-            const savedLang = localStorage.getItem('obp_language') || 'zh';
-            setLanguage(savedLang);
-        });
-    </script>
-</body>
-</html>
+.business-header {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    padding: 80px 20px 40px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.business-header h1 {
+    font-size: 2.5em;
+    margin-bottom: 15px;
+    font-weight: 300;
+}
+
+.subtitle {
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+
+.business-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.welcome-card {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 15px;
+    margin-bottom: 25px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-left: 5px solid #3498db;
+}
+
+.welcome-card h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 1.8em;
+}
+
+.welcome-card h3 {
+    color: #3498db;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.business-btn {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    border: none;
+    padding: 18px 40px;
+    border-radius: 30px;
+    font-size: 1.1em;
+    cursor: pointer;
+    margin-top: 20px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+}
+
+.business-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(52, 152, 219, 0.4);
+}
+
+.business-footer {
+    text-align: center;
+    padding: 30px;
+    color: #bdc3c7;
+    background: #34495e;
+    margin-top: 50px;
+}
+
+/* تأثيرات الحركة */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-in {
+    animation: fadeInUp 0.6s ease-out;
+}
+
+/* الاستجابة للجوال */
+@media (max-width: 768px) {
+    .business-container {
+        padding: 20px 15px;
+    }
+    
+    .business-header {
+        padding: 60px 15px 30px;
+    }
+    
+    .business-header h1 {
+        font-size: 2em;
+    }
+    
+    .welcome-card {
+        padding: 30px 20px;
+    }
+}
