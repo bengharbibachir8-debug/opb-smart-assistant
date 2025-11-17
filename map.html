@@ -3,113 +3,267 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maya – Map</title>
-    <link rel="stylesheet" href="chinese-theme.css">
+    <title>OBP Hotel - Navigation Map</title>
+    <link rel="stylesheet" href="luxury-hotel-theme.css">
     <style>
-        .map-instructions {
-            background: rgba(212, 175, 55, 0.1);
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px auto;
-            max-width: 600px;
-            border: 2px solid #D4AF37;
-        }
-        .instruction-step {
-            margin: 15px 0;
-            padding: 10px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            border-right: 3px solid #C62F2F;
-        }
-        .path-animation {
-            position: relative;
+        .map-container {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.95), rgba(15, 23, 42, 0.95));
+            backdrop-filter: blur(20px);
+            padding: 40px 30px;
+            border-radius: 25px;
+            border: 2px solid var(--luxury-gold);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.4);
             margin: 30px auto;
-            max-width: 500px;
-            height: 200px;
+            max-width: 600px;
+            position: relative;
         }
-        .path-line {
-            position: absolute;
-            top: 0;
-            left: 50%;
-            width: 4px;
+
+        .journey-path {
+            position: relative;
+            margin: 40px 0;
+        }
+
+        .path-step {
+            display: flex;
+            align-items: center;
+            margin: 25px 0;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            border-right: 4px solid var(--luxury-gold);
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateX(20px);
+            animation: slideIn 0.6s ease forwards;
+        }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .path-step:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .step-icon {
+            font-size: 2em;
+            margin-left: 20px;
+            min-width: 60px;
+            text-align: center;
+        }
+
+        .step-content {
+            flex: 1;
+            text-align: right;
+        }
+
+        .step-title {
+            font-size: 1.2em;
+            color: var(--luxury-gold);
+            margin-bottom: 5px;
+        }
+
+        .step-description {
+            color: var(--text-muted);
+            font-size: 0.95em;
+        }
+
+        .step-distance {
+            background: var(--luxury-gold);
+            color: var(--dark-bg);
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.85em;
+            font-weight: bold;
+            margin-top: 5px;
+            display: inline-block;
+        }
+
+        .path-connector {
+            text-align: center;
+            margin: 10px 0;
+            color: var(--luxury-gold);
+            font-size: 1.5em;
+            opacity: 0;
+            animation: fadeIn 0.6s ease forwards 0.3s;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .current-location {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(52, 152, 219, 0.2));
+            border-right: 4px solid var(--accent-gold);
+        }
+
+        .final-destination {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.3), rgba(52, 152, 219, 0.3));
+            border-right: 4px solid #00ff00;
+        }
+
+        .navigation-controls {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
             height: 100%;
-            background: linear-gradient(to bottom, #C62F2F, #D4AF37);
-            transform: translateX(-50%);
-            z-index: 1;
+            background: linear-gradient(135deg, var(--luxury-gold), var(--accent-gold));
+            border-radius: 3px;
+            width: 0%;
+            animation: progressFill 2s ease-in-out forwards;
         }
-        .path-dot {
-            position: absolute;
-            left: 50%;
-            width: 12px;
-            height: 12px;
-            background: #FFD700;
-            border-radius: 50%;
-            transform: translateX(-50%);
-            z-index: 2;
-            animation: moveDot 3s ease-in-out infinite;
+
+        @keyframes progressFill {
+            to { width: 100%; }
         }
-        @keyframes moveDot {
-            0% { top: 0%; }
-            100% { top: 100%; }
+
+        .destination-badge {
+            background: linear-gradient(135deg, var(--luxury-gold), var(--accent-gold));
+            color: var(--dark-bg);
+            padding: 15px 25px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 20px 0;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <div class="chinese-header">
-        <h1 data-translate="yourPath">مسارك</h1>
-        <div class="language-bar">
-            <button class="lang-btn active" onclick="setLanguage('ar')">العربية</button>
-            <button class="lang-btn" onclick="setLanguage('en')">English</button>
-            <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
+    <!-- شريط اللغات العائم -->
+    <div class="language-bar">
+        <button class="lang-btn" onclick="setLanguage('ar')">العربية</button>
+        <button class="lang-btn" onclick="setLanguage('en')">English</button>
+        <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
+    </div>
+
+    <div class="luxury-header">
+        <div class="welcome-icon">🗺️</div>
+        <h1 data-translate="yourPath">مسارك إلى الغرفة</h1>
+        <div class="subtitle">دليل تفصيلي خطوة بخطوة</div>
+    </div>
+
+    <div class="luxury-container animate-in">
+        <div class="map-container">
+            <div class="destination-badge" id="finalDestination"></div>
+            
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+
+            <div class="journey-path">
+                <!-- نقطة البداية -->
+                <div class="path-step current-location" style="animation-delay: 0.1s">
+                    <div class="step-icon">🚪</div>
+                    <div class="step-content">
+                        <div class="step-title">📍 نقطة البداية</div>
+                        <div class="step-description">قاعة الاستقبال الرئيسية</div>
+                    </div>
+                </div>
+
+                <div class="path-connector" style="animation-delay: 0.2s">⬇️</div>
+
+                <!-- الخطوة 1 -->
+                <div class="path-step" style="animation-delay: 0.3s">
+                    <div class="step-icon">🚶‍♂️</div>
+                    <div class="step-content">
+                        <div class="step-title">الخطوة 1: الخروج من الباب الرئيسي</div>
+                        <div class="step-description">اتجه نحو الباب المقابل للواجهة</div>
+                        <div class="step-distance">0 خطوة</div>
+                    </div>
+                </div>
+
+                <div class="path-connector" style="animation-delay: 0.4s">⬇️</div>
+
+                <!-- الخطوة 2 -->
+                <div class="path-step" style="animation-delay: 0.5s">
+                    <div class="step-icon">🌿</div>
+                    <div class="step-content">
+                        <div class="step-title">الخطوة 2: الوصول إلى الطيراس</div>
+                        <div class="step-description">امشي مباشرة إلى منطقة الطيراس</div>
+                        <div class="step-distance">35 خطوة</div>
+                    </div>
+                </div>
+
+                <div class="path-connector" style="animation-delay: 0.6s">⬇️</div>
+
+                <!-- المبني A -->
+                <div class="path-step" style="animation-delay: 0.7s">
+                    <div class="step-icon">🏢</div>
+                    <div class="step-content">
+                        <div class="step-title">المبنى A (على اليسار)</div>
+                        <div class="step-description">المبنى الأول على يسارك</div>
+                        <div class="step-distance">35 خطوة</div>
+                    </div>
+                </div>
+
+                <div class="path-connector" style="animation-delay: 0.8s">➡️</div>
+
+                <!-- المبني B -->
+                <div class="path-step" style="animation-delay: 0.9s">
+                    <div class="step-icon">🏢</div>
+                    <div class="step-content">
+                        <div class="step-title">المبنى B (على اليمين)</div>
+                        <div class="step-description">المبنى الثاني على يمينك</div>
+                        <div class="step-distance">35 خطوة</div>
+                    </div>
+                </div>
+
+                <div class="path-connector" style="animation-delay: 1.0s">⬅️</div>
+
+                <!-- المبني C -->
+                <div class="path-step" style="animation-delay: 1.1s">
+                    <div class="step-icon">🏢</div>
+                    <div class="step-content">
+                        <div class="step-title">المبنى C (على اليسار)</div>
+                        <div class="step-description">المبنى الثالث على يسارك</div>
+                        <div class="step-distance">35 خطوة</div>
+                    </div>
+                </div>
+
+                <div class="path-connector" style="animation-delay: 1.2s">➡️</div>
+
+                <!-- المبني D - الوجهة النهائية -->
+                <div class="path-step final-destination" style="animation-delay: 1.3s">
+                    <div class="step-icon">🎯</div>
+                    <div class="step-content">
+                        <div class="step-title" id="buildingTitle">الوجهة النهائية</div>
+                        <div class="step-description" id="roomInfo">استمتع بإقامتك!</div>
+                        <div class="step-distance">35 خطوة</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="navigation-controls">
+                <button class="luxury-btn" onclick="startNavigation()">بدء التنقل</button>
+                <button class="secondary-btn" onclick="goBack()">العودة للخلف</button>
+                <button class="secondary-btn" onclick="goHome()">الصفحة الرئيسية</button>
+            </div>
         </div>
     </div>
 
-    <div class="chinese-container">
-        <div class="map-instructions">
-            <h3>🚶 تعليمات المسار:</h3>
-            
-            <div class="instruction-step">
-                <strong>📍 نقطة البداية:</strong> قاعة الاستقبال الرئيسية
-            </div>
-            
-            <div class="instruction-step">
-                <strong>🚪 الخطوة 1:</strong> اخرج من الباب المقابل للواجهة
-            </div>
-            
-            <div class="instruction-step">
-                <strong>🌿 الخطوة 2:</strong> امشي 35 خطوة إلى الطيراس
-            </div>
-
-            <div class="building animated-map" style="animation-delay: 0.2s">
-                🏢 <strong data-translate="building">المبنى</strong> A (على اليسار - 35 خطوة)
-            </div>
-            
-            <div class="building animated-map" style="animation-delay: 0.4s">
-                🏢 <strong data-translate="building">المبنى</strong> B (على اليمين - 35 خطوة)
-            </div>
-            
-            <div class="building animated-map" style="animation-delay: 0.6s">
-                🏢 <strong data-translate="building">المبنى</strong> C (على اليسار - 35 خطوة)
-            </div>
-            
-            <div class="building animated-map" style="animation-delay: 0.8s">
-                🏢 <strong data-translate="building">المبنى</strong> D (على اليمين - 35 خطوة)
-            </div>
-
-            <div class="instruction-step">
-                <strong>🎯 الوجهة النهائية:</strong> <span id="finalDestination"></span>
-            </div>
-        </div>
-
-        <div class="path-animation">
-            <div class="path-line"></div>
-            <div class="path-dot"></div>
-        </div>
-
-        <button class="chinese-btn" onclick="back()" data-translate="back">رجوع</button>
+    <div class="luxury-footer">
+        <p>OBP Hotel - نتمنى لكم إقامة سعيدة</p>
     </div>
 
-    <script src="languages.js"></script>
+    <script src="language-system.js"></script>
     <script>
         const p = new URLSearchParams(window.location.search);
         const company = p.get("company");
@@ -117,18 +271,33 @@
         const building = p.get("building");
 
         function updateDestination() {
-            const destination = `${company} - ${t('office')} ${office} - ${t('building')} ${building}`;
+            const destination = `${company} - ${t('room')} ${office} - ${t('building')} ${building}`;
             document.getElementById('finalDestination').textContent = destination;
+            document.getElementById('buildingTitle').textContent = `${t('building')} ${building} - ${t('room')} ${office}`;
+            document.getElementById('roomInfo').textContent = `${company} - استمتع بإقامتك!`;
         }
 
-        function back() {
+        function startNavigation() {
+            alert('🚀 بدأ التنقل! اتبع التعليمات على الشاشة.');
+        }
+
+        function goBack() {
             history.back();
         }
 
-        // تطبيق اللغة عند التحميل
+        function goHome() {
+            window.location.href = 'form.html';
+        }
+
+        // تعيين الزر النشط للغة الحالية
         document.addEventListener('DOMContentLoaded', function() {
-            applyTranslations();
             updateDestination();
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent === 'العربية' && currentLang === 'ar') btn.classList.add('active');
+                if (btn.textContent === 'English' && currentLang === 'en') btn.classList.add('active');
+                if (btn.textContent === '中文' && currentLang === 'zh') btn.classList.add('active');
+            });
         });
     </script>
 </body>
