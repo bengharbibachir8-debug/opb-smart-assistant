@@ -1,83 +1,135 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maya – Map</title>
-
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        background: #0d0d0d;
-        color: white;
-        font-family: Arial, sans-serif;
-        text-align: center;
-    }
-
-    .map-box {
-        margin-top: 30px;
-    }
-
-    .building {
-        width: 200px;
-        padding: 20px;
-        background: #222;
-        margin: 15px auto;
-        border-radius: 10px;
-        font-size: 22px;
-    }
-
-    .arrow {
-        font-size: 40px;
-        margin: 10px auto;
-    }
-
-    button {
-        margin-top: 30px;
-        padding: 14px 40px;
-        background: #6f4af4;
-        border: none;
-        border-radius: 30px;
-        color: white;
-        cursor: pointer;
-        font-size: 18px;
-    }
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maya – Map</title>
+    <link rel="stylesheet" href="chinese-theme.css">
+    <style>
+        .map-instructions {
+            background: rgba(212, 175, 55, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px auto;
+            max-width: 600px;
+            border: 2px solid #D4AF37;
+        }
+        .instruction-step {
+            margin: 15px 0;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            border-right: 3px solid #C62F2F;
+        }
+        .path-animation {
+            position: relative;
+            margin: 30px auto;
+            max-width: 500px;
+            height: 200px;
+        }
+        .path-line {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #C62F2F, #D4AF37);
+            transform: translateX(-50%);
+            z-index: 1;
+        }
+        .path-dot {
+            position: absolute;
+            left: 50%;
+            width: 12px;
+            height: 12px;
+            background: #FFD700;
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            animation: moveDot 3s ease-in-out infinite;
+        }
+        @keyframes moveDot {
+            0% { top: 0%; }
+            100% { top: 100%; }
+        }
+    </style>
 </head>
 <body>
+    <div class="chinese-header">
+        <h1 data-translate="yourPath">مسارك</h1>
+        <div class="language-bar">
+            <button class="lang-btn active" onclick="setLanguage('ar')">العربية</button>
+            <button class="lang-btn" onclick="setLanguage('en')">English</button>
+            <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
+        </div>
+    </div>
 
-<h2>مسارك</h2>
+    <div class="chinese-container">
+        <div class="map-instructions">
+            <h3>🚶 تعليمات المسار:</h3>
+            
+            <div class="instruction-step">
+                <strong>📍 نقطة البداية:</strong> قاعة الاستقبال الرئيسية
+            </div>
+            
+            <div class="instruction-step">
+                <strong>🚪 الخطوة 1:</strong> اخرج من الباب المقابل للواجهة
+            </div>
+            
+            <div class="instruction-step">
+                <strong>🌿 الخطوة 2:</strong> امشي 35 خطوة إلى الطيراس
+            </div>
 
-<div class="map-box">
+            <div class="building animated-map" style="animation-delay: 0.2s">
+                🏢 <strong data-translate="building">المبنى</strong> A (على اليسار - 35 خطوة)
+            </div>
+            
+            <div class="building animated-map" style="animation-delay: 0.4s">
+                🏢 <strong data-translate="building">المبنى</strong> B (على اليمين - 35 خطوة)
+            </div>
+            
+            <div class="building animated-map" style="animation-delay: 0.6s">
+                🏢 <strong data-translate="building">المبنى</strong> C (على اليسار - 35 خطوة)
+            </div>
+            
+            <div class="building animated-map" style="animation-delay: 0.8s">
+                🏢 <strong data-translate="building">المبنى</strong> D (على اليمين - 35 خطوة)
+            </div>
 
-    <div class="building">🚪 الاستقبال (Start)</div>
-    <div class="arrow">⬇⬇⬇</div>
+            <div class="instruction-step">
+                <strong>🎯 الوجهة النهائية:</strong> <span id="finalDestination"></span>
+            </div>
+        </div>
 
-    <div class="building">🌿 الطيراس</div>
-    <div class="arrow">⬇⬇⬇</div>
+        <div class="path-animation">
+            <div class="path-line"></div>
+            <div class="path-dot"></div>
+        </div>
 
-    <div class="building">🏢 المبنى A</div>
-    <div class="arrow">➡➡➡</div>
+        <button class="chinese-btn" onclick="back()" data-translate="back">رجوع</button>
+    </div>
 
-    <div class="building">🏢 المبنى B</div>
-    <div class="arrow">⬅⬅⬅</div>
+    <script src="languages.js"></script>
+    <script>
+        const p = new URLSearchParams(window.location.search);
+        const company = p.get("company");
+        const office = p.get("office");
+        const building = p.get("building");
 
-    <div class="building">🏢 المبنى C</div>
-    <div class="arrow">➡➡➡</div>
+        function updateDestination() {
+            const destination = `${company} - ${t('office')} ${office} - ${t('building')} ${building}`;
+            document.getElementById('finalDestination').textContent = destination;
+        }
 
-    <div class="building">🏢 المبنى D (Goal)</div>
+        function back() {
+            history.back();
+        }
 
-</div>
-
-<button onclick="back()">رجوع</button>
-
-<script>
-function back() {
-    history.back();
-}
-</script>
-
+        // تطبيق اللغة عند التحميل
+        document.addEventListener('DOMContentLoaded', function() {
+            applyTranslations();
+            updateDestination();
+        });
+    </script>
 </body>
 </html>
