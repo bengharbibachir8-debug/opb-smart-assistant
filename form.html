@@ -1,68 +1,96 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maya Smart Welcome – Form</title>
-
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        background: #0d0d0d;
-        font-family: Arial, sans-serif;
-        color: white;
-        text-align: center;
-    }
-    .container {
-        margin-top: 70px;
-    }
-    input, select {
-        width: 80%;
-        padding: 12px;
-        border-radius: 10px;
-        border: none;
-        margin-top: 15px;
-        font-size: 18px;
-    }
-    button {
-        margin-top: 25px;
-        padding: 14px 45px;
-        background: #6f4af4;
-        border: none;
-        border-radius: 30px;
-        font-size: 18px;
-        color: white;
-        cursor: pointer;
-    }
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maya Smart Welcome – Form</title>
+    <link rel="stylesheet" href="chinese-theme.css">
+    <style>
+        .building-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin: 20px auto;
+            max-width: 400px;
+        }
+        .building-btn {
+            background: linear-gradient(135deg, #C62F2F, #8B0000);
+            color: white;
+            border: 2px solid #D4AF37;
+            padding: 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+        .building-btn:hover {
+            transform: scale(1.05);
+            border-color: #FFD700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
+        }
+        .building-btn.selected {
+            background: linear-gradient(135deg, #D4AF37, #FFD700);
+            color: #1a1a1a;
+            border-color: #FFD700;
+        }
+    </style>
 </head>
 <body>
+    <div class="chinese-header">
+        <h1 data-translate="welcome">مرحباً بك في نظام التوجيه الذكي</h1>
+        <div class="language-bar">
+            <button class="lang-btn active" onclick="setLanguage('ar')">العربية</button>
+            <button class="lang-btn" onclick="setLanguage('en')">English</button>
+            <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
+        </div>
+    </div>
 
-<div class="container">
-    <h2>مرحبا بك، اختر وجهتك</h2>
+    <div class="chinese-container">
+        <h2>اختر المبنى</h2>
+        
+        <div class="building-options">
+            <button class="building-btn" onclick="selectBuilding('A')">🏢 المبنى A</button>
+            <button class="building-btn" onclick="selectBuilding('B')">🏢 المبنى B</button>
+            <button class="building-btn" onclick="selectBuilding('C')">🏢 المبنى C</button>
+            <button class="building-btn" onclick="selectBuilding('D')">🏢 المبنى D</button>
+        </div>
 
-    <input id="company" type="text" placeholder="اسم الشركة" />
+        <input id="company" class="chinese-input" type="text" data-placeholder="company" placeholder="اسم الشركة" />
+        <input id="office" class="chinese-input" type="number" data-placeholder="office" placeholder="رقم المكتب" />
+        
+        <button class="chinese-btn" onclick="go()" data-translate="next">التالي</button>
+    </div>
 
-    <input id="office" type="number" placeholder="رقم المكتب" />
+    <script src="languages.js"></script>
+    <script>
+        let selectedBuilding = '';
 
-    <button onclick="go()">التالي</button>
-</div>
+        function selectBuilding(building) {
+            selectedBuilding = building;
+            // إزالة التحديد من جميع الأزرار
+            document.querySelectorAll('.building-btn').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            // إضافة التحديد للزر المختار
+            event.target.classList.add('selected');
+        }
 
-<script>
-function go() {
-    let c = document.getElementById("company").value;
-    let o = document.getElementById("office").value;
+        function go() {
+            let c = document.getElementById("company").value;
+            let o = document.getElementById("office").value;
+            
+            if (c === "" || o === "" || selectedBuilding === "") {
+                alert(t('required'));
+                return;
+            }
+            
+            window.location.href = `result.html?company=${encodeURIComponent(c)}&office=${o}&building=${selectedBuilding}`;
+        }
 
-    if (c === "" || o === "") {
-        alert("الرجاء إدخال كل المعلومات");
-        return;
-    }
-
-    window.location.href = `result.html?company=${encodeURIComponent(c)}&office=${o}`;
-}
-</script>
-
+        // تطبيق اللغة عند التحميل
+        document.addEventListener('DOMContentLoaded', function() {
+            applyTranslations();
+        });
+    </script>
 </body>
 </html>
