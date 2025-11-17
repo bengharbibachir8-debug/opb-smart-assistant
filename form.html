@@ -3,65 +3,83 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Maya Smart Welcome – Form</title>
-    <link rel="stylesheet" href="chinese-theme.css">
+    <title>OBP Hotel - Smart Navigation</title>
+    <link rel="stylesheet" href="luxury-hotel-theme.css">
     <style>
-        .building-options {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin: 20px auto;
-            max-width: 400px;
+        .welcome-icon {
+            font-size: 4em;
+            margin-bottom: 20px;
+            animation: float 3s ease-in-out infinite;
         }
-        .building-btn {
-            background: linear-gradient(135deg, #C62F2F, #8B0000);
-            color: white;
-            border: 2px solid #D4AF37;
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .relax-message {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(52, 152, 219, 0.1));
             padding: 20px;
             border-radius: 15px;
-            cursor: pointer;
-            font-size: 18px;
-            transition: all 0.3s ease;
-        }
-        .building-btn:hover {
-            transform: scale(1.05);
-            border-color: #FFD700;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.5);
-        }
-        .building-btn.selected {
-            background: linear-gradient(135deg, #D4AF37, #FFD700);
-            color: #1a1a1a;
-            border-color: #FFD700;
+            margin: 20px 0;
+            border-left: 4px solid var(--luxury-gold);
         }
     </style>
 </head>
 <body>
-    <div class="chinese-header">
-        <h1 data-translate="welcome">مرحباً بك في نظام التوجيه الذكي</h1>
-        <div class="language-bar">
-            <button class="lang-btn active" onclick="setLanguage('ar')">العربية</button>
-            <button class="lang-btn" onclick="setLanguage('en')">English</button>
-            <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
+    <!-- شريط اللغات العائم -->
+    <div class="language-bar">
+        <button class="lang-btn active" onclick="setLanguage('ar')">العربية</button>
+        <button class="lang-btn" onclick="setLanguage('en')">English</button>
+        <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
+    </div>
+
+    <div class="luxury-header">
+        <div class="welcome-icon">🏨</div>
+        <h1 data-translate="welcome">مرحباً بكم في فندق OBP</h1>
+        <div class="subtitle" data-translate="subtitle">نرحب بكم بعد رحلة السفر الطويلة</div>
+    </div>
+
+    <div class="luxury-container animate-in">
+        <div class="welcome-card">
+            <div class="relax-message">
+                <h3 data-translate="relax">استرح، نحن نرشدك</h3>
+                <p>نحن هنا لنجعل وصولك إلى غرفتك سهلاً ومريحاً</p>
+            </div>
+            
+            <h2>اختر المبنى</h2>
+            
+            <div class="building-options">
+                <button class="building-btn" onclick="selectBuilding('A')">
+                    <div>🏢</div>
+                    <div>المبنى A</div>
+                </button>
+                <button class="building-btn" onclick="selectBuilding('B')">
+                    <div>🏢</div>
+                    <div>المبنى B</div>
+                </button>
+                <button class="building-btn" onclick="selectBuilding('C')">
+                    <div>🏢</div>
+                    <div>المبنى C</div>
+                </button>
+                <button class="building-btn" onclick="selectBuilding('D')">
+                    <div>🏢</div>
+                    <div>المبنى D</div>
+                </button>
+            </div>
+
+            <input id="company" class="luxury-input" type="text" data-placeholder="company" placeholder="اسم الشركة" />
+            <input id="office" class="luxury-input" type="number" data-placeholder="office" placeholder="رقم الغرفة" />
+            
+            <button class="luxury-btn" onclick="go()" data-translate="next">ابدأ الرحلة</button>
         </div>
     </div>
 
-    <div class="chinese-container">
-        <h2>اختر المبنى</h2>
-        
-        <div class="building-options">
-            <button class="building-btn" onclick="selectBuilding('A')">🏢 المبنى A</button>
-            <button class="building-btn" onclick="selectBuilding('B')">🏢 المبنى B</button>
-            <button class="building-btn" onclick="selectBuilding('C')">🏢 المبنى C</button>
-            <button class="building-btn" onclick="selectBuilding('D')">🏢 المبنى D</button>
-        </div>
-
-        <input id="company" class="chinese-input" type="text" data-placeholder="company" placeholder="اسم الشركة" />
-        <input id="office" class="chinese-input" type="number" data-placeholder="office" placeholder="رقم المكتب" />
-        
-        <button class="chinese-btn" onclick="go()" data-translate="next">التالي</button>
+    <div class="luxury-footer">
+        <p>OBP Hotel - تجربة إقامة استثنائية</p>
     </div>
 
-    <script src="languages.js"></script>
+    <script src="language-system.js"></script>
     <script>
         let selectedBuilding = '';
 
@@ -84,12 +102,18 @@
                 return;
             }
             
+            // الانتقال إلى صفحة النتائج
             window.location.href = `result.html?company=${encodeURIComponent(c)}&office=${o}&building=${selectedBuilding}`;
         }
 
-        // تطبيق اللغة عند التحميل
+        // تعيين الزر النشط للغة الحالية
         document.addEventListener('DOMContentLoaded', function() {
-            applyTranslations();
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.textContent === 'العربية' && currentLang === 'ar') btn.classList.add('active');
+                if (btn.textContent === 'English' && currentLang === 'en') btn.classList.add('active');
+                if (btn.textContent === '中文' && currentLang === 'zh') btn.classList.add('active');
+            });
         });
     </script>
 </body>
