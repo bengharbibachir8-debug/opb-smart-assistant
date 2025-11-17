@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OBP - Smart Navigation</title>
+    <title>OBP - Smart Assistant</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* تصميم OBP.dz الأصلي */
+        /* تصميم OBP.dz الاحترافي */
         :root {
-            --primary: #2C5530;
-            --primary-dark: #1E3A23;
-            --primary-light: #4A7C59;
-            --secondary: #D4AF37;
-            --dark: #1A1A1A;
-            --light: #F5F5F5;
-            --gray: #6B7280;
-            --border: #E5E7EB;
+            --obp-green: #1a472a;
+            --obp-gold: #d4af37;
+            --obp-dark: #0f172a;
+            --obp-light: #f8fafc;
+            --obp-gray: #64748b;
+            --obp-border: #e2e8f0;
+            --obp-success: #10b981;
         }
 
         * {
@@ -25,10 +25,11 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--light);
-            color: var(--dark);
-            line-height: 1.6;
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, var(--obp-light) 0%, #f1f5f9 100%);
+            color: var(--obp-dark);
+            line-height: 1.7;
+            min-height: 100vh;
         }
 
         .container {
@@ -36,18 +37,21 @@
             margin: 0 auto;
         }
 
-        /* الهيدر مثل OBP.dz */
+        /* الهيدر الثابت مثل OBP.dz */
         .header {
-            background: var(--primary);
-            color: white;
-            padding: 20px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: var(--obp-green);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
         }
 
-        .nav {
+        .nav-container {
             max-width: 1200px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -56,214 +60,369 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
-            font-size: 1.5em;
-            font-weight: bold;
-        }
-
-        .logo img {
-            height: 40px;
-        }
-
-        /* الهيرو مثل OBP.dz */
-        .hero {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            gap: 0.75rem;
             color: white;
-            padding: 80px 20px;
-            text-align: center;
-        }
-
-        .hero h1 {
-            font-size: 3em;
-            margin-bottom: 20px;
+            font-size: 1.25rem;
             font-weight: 700;
         }
 
-        .hero p {
-            font-size: 1.3em;
-            margin-bottom: 30px;
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--obp-gold);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* الهيرو مثل OBP.dz */
+        .hero-section {
+            background: linear-gradient(135deg, var(--obp-green) 0%, #2d5a3d 100%);
+            color: white;
+            padding: 120px 2rem 80px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
             opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        /* مساعد أيفا الذكي */
+        .ai-assistant {
+            max-width: 800px;
+            margin: -40px auto 0;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            border: 1px solid var(--obp-border);
+            overflow: hidden;
+        }
+
+        .assistant-header {
+            background: var(--obp-green);
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .assistant-avatar {
+            width: 50px;
+            height: 50px;
+            background: var(--obp-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .assistant-info h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .assistant-info p {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        /* شات أيفا */
+        .chat-container {
+            padding: 2rem;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .message {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .message.ai .avatar {
+            width: 40px;
+            height: 40px;
+            background: var(--obp-success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message.user .content {
+            background: var(--obp-green);
+            color: white;
+        }
+
+        .message .content {
+            background: var(--obp-light);
+            padding: 1rem 1.5rem;
+            border-radius: 18px;
+            max-width: 70%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        /* مدخل الرسائل */
+        .input-container {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--obp-border);
+            background: var(--obp-light);
+        }
+
+        .message-input {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .message-input input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--obp-border);
+            border-radius: 25px;
+            font-size: 1rem;
+            font-family: 'Tajawal', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .message-input input:focus {
+            outline: none;
+            border-color: var(--obp-green);
+            box-shadow: 0 0 0 3px rgba(26, 71, 42, 0.1);
+        }
+
+        .send-btn {
+            background: var(--obp-green);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .send-btn:hover {
+            background: var(--obp-gold);
+            transform: scale(1.05);
+        }
+
+        /* الأزرار السريعة */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            padding: 2rem;
+            background: var(--obp-light);
+        }
+
+        .action-btn {
+            background: white;
+            border: 2px solid var(--obp-border);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--obp-dark);
+        }
+
+        .action-btn:hover {
+            border-color: var(--obp-green);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .action-btn i {
+            font-size: 2rem;
+            color: var(--obp-green);
+            margin-bottom: 0.5rem;
         }
 
         /* شريط اللغات */
         .language-bar {
             display: flex;
             justify-content: center;
-            gap: 10px;
-            margin: 30px 0;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: var(--obp-light);
+            border-bottom: 1px solid var(--obp-border);
         }
 
         .lang-btn {
-            background: rgba(255,255,255,0.2);
-            border: 2px solid rgba(255,255,255,0.3);
-            color: white;
-            padding: 12px 25px;
-            border-radius: 25px;
+            background: white;
+            border: 2px solid var(--obp-border);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 0.9rem;
             transition: all 0.3s ease;
         }
 
         .lang-btn.active {
-            background: white;
-            color: var(--primary);
-        }
-
-        /* زر البدء */
-        .cta-button {
-            background: var(--secondary);
-            color: var(--dark);
-            border: none;
-            padding: 18px 40px;
-            border-radius: 30px;
-            font-size: 1.2em;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
-        }
-
-        /* المحتوى الرئيسي */
-        .main-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 60px 20px;
-        }
-
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin: 50px 0;
-        }
-
-        .feature-card {
-            background: white;
-            padding: 40px 30px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            border: 1px solid var(--border);
-        }
-
-        .feature-icon {
-            font-size: 3em;
-            color: var(--primary);
-            margin-bottom: 20px;
-        }
-
-        /* الفوتر مثل OBP.dz */
-        .footer {
-            background: var(--dark);
+            background: var(--obp-green);
             color: white;
-            padding: 40px 20px;
-            text-align: center;
+            border-color: var(--obp-green);
         }
 
-        /* تصميم الموبايل */
+        /* الفوتر */
+        .footer {
+            background: var(--obp-dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        /* التجاوب مع الجوال */
         @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.2em;
+            .hero-content h1 {
+                font-size: 2rem;
             }
             
-            .hero p {
-                font-size: 1.1em;
+            .ai-assistant {
+                margin: -20px 1rem 0;
             }
             
-            .features {
+            .message .content {
+                max-width: 85%;
+            }
+            
+            .quick-actions {
                 grid-template-columns: 1fr;
-            }
-            
-            .language-bar {
-                flex-wrap: wrap;
             }
         }
     </style>
 </head>
 <body>
-    <!-- الهيدر مثل OBP.dz -->
+    <!-- الهيدر الثابت -->
     <header class="header">
-        <nav class="nav">
+        <nav class="nav-container">
             <div class="logo">
-                <i class="fas fa-map-marker-alt"></i>
-                <span>OBP Navigation</span>
+                <div class="logo-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <span>OBP Smart Assistant</span>
             </div>
         </nav>
     </header>
 
-    <!-- الهيرو مثل OBP.dz -->
-    <section class="hero">
-        <h1 id="welcomeTitle">مرحباً بكم في OBP</h1>
-        <p id="welcomeSubtitle">نظام التوجيه الذكي لراحتكم</p>
-        
-        <!-- شريط اللغات -->
-        <div class="language-bar">
-            <button class="lang-btn active" onclick="setLanguage('ar')">العربية</button>
-            <button class="lang-btn" onclick="setLanguage('en')">English</button>
-            <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
-        </div>
-
-        <button class="cta-button" onclick="startNavigation()" id="startButton">
-            ابدأ الرحلة إلى الغرفة
-        </button>
-    </section>
-
-    <!-- المحتوى الرئيسي -->
-    <section class="main-content">
-        <div class="features">
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-building"></i>
-                </div>
-                <h3>4 مباني متاحة</h3>
-                <p>المباني A, B, C, D مع مسارات واضحة</p>
-            </div>
+    <!-- قسم الهيرو -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 id="welcomeTitle">مرحباً بكم في OBP</h1>
+            <p id="welcomeSubtitle">مساعد أيفا الذكي جاهز لخدمتكم</p>
             
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-route"></i>
-                </div>
-                <h3>توجيه دقيق</h3>
-                <p>مسار مفصل من الاستقبال إلى غرفتك</p>
-            </div>
-            
-            <div class="feature-card">
-                <div class="feature-icon">
-                    <i class="fas fa-mobile-alt"></i>
-                </div>
-                <h3>متوافق مع الجوال</h3>
-                <p>تصميم متجاوب لجميع الأجهزة</p>
+            <!-- شريط اللغات -->
+            <div class="language-bar">
+                <button class="lang-btn active" onclick="setLanguage('ar')">العربية</button>
+                <button class="lang-btn" onclick="setLanguage('en')">English</button>
+                <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
             </div>
         </div>
     </section>
 
-    <!-- الفوتر مثل OBP.dz -->
+    <!-- مساعد أيفا الذكي -->
+    <div class="ai-assistant">
+        <div class="assistant-header">
+            <div class="assistant-avatar">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div class="assistant-info">
+                <h3>أيفا - المساعد الذكي</h3>
+                <p>كيف يمكنني مساعدتك اليوم؟</p>
+            </div>
+        </div>
+
+        <!-- محادثة أيفا -->
+        <div class="chat-container" id="chatContainer">
+            <!-- الرسائل تظهر هنا -->
+        </div>
+
+        <!-- مدخل الرسائل -->
+        <div class="input-container">
+            <div class="message-input">
+                <input type="text" id="messageInput" placeholder="اكتب رسالتك هنا..." onkeypress="handleKeyPress(event)">
+                <button class="send-btn" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- أزرار سريعة -->
+        <div class="quick-actions">
+            <div class="action-btn" onclick="quickAction('navigation')">
+                <i class="fas fa-map-marked-alt"></i>
+                <h4>التوجيه إلى الغرفة</h4>
+                <p>ابحث عن طريقك إلى غرفتك</p>
+            </div>
+            <div class="action-btn" onclick="quickAction('services')">
+                <i class="fas fa-concierge-bell"></i>
+                <h4>خدمات المجمع</h4>
+                <p>اكتشف جميع خدمات OBP</p>
+            </div>
+            <div class="action-btn" onclick="quickAction('buildings')">
+                <i class="fas fa-building"></i>
+                <h4>مباني OBP</h4>
+                <p>تعرف على مباني المجمع</p>
+            </div>
+            <div class="action-btn" onclick="quickAction('help')">
+                <i class="fas fa-question-circle"></i>
+                <h4>مساعدة سريعة</h4>
+                <p>أسئلة متكررة وإجابات</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- الفوتر -->
     <footer class="footer">
-        <p>&copy; 2024 OBP Smart Navigation System. جميع الحقوق محفوظة.</p>
+        <p>&copy; 2024 OBP Smart Assistant. جميع الحقوق محفوظة.</p>
     </footer>
 
+    <script src="ai-assistant.js"></script>
     <script>
-        // نظام اللغات
+        // نظام اللغات الأساسي
         const translations = {
             ar: {
                 welcomeTitle: "مرحباً بكم في OBP",
-                welcomeSubtitle: "نظام التوجيه الذكي لراحتكم",
-                startButton: "ابدأ الرحلة إلى الغرفة"
+                welcomeSubtitle: "مساعد أيفا الذكي جاهز لخدمتكم",
+                inputPlaceholder: "اكتب رسالتك هنا..."
             },
             en: {
                 welcomeTitle: "Welcome to OBP",
-                welcomeSubtitle: "Smart Navigation System for Your Comfort",
-                startButton: "Start Journey to Room"
+                welcomeSubtitle: "Smart Assistant Eva is ready to help you",
+                inputPlaceholder: "Type your message here..."
             },
             zh: {
                 welcomeTitle: "欢迎来到OBP",
-                welcomeSubtitle: "智能导航系统，让您舒适安心",
-                startButton: "开始前往房间"
+                welcomeSubtitle: "智能助手伊娃已准备好为您服务",
+                inputPlaceholder: "在此输入您的消息..."
             }
         };
 
@@ -271,12 +430,10 @@
 
         function setLanguage(lang) {
             currentLang = lang;
-            
             document.querySelectorAll('.lang-btn').forEach(btn => {
                 btn.classList.remove('active');
             });
             event.target.classList.add('active');
-            
             applyTranslations();
         }
 
@@ -287,14 +444,42 @@
                     element.textContent = value;
                 }
             }
+            document.getElementById('messageInput').placeholder = translations[currentLang].inputPlaceholder;
         }
 
-        function startNavigation() {
-            window.location.href = 'form.html';
+        function quickAction(action) {
+            let message = '';
+            switch(action) {
+                case 'navigation':
+                    window.location.href = 'navigation.html';
+                    return;
+                case 'services':
+                    message = 'ما هي الخدمات المتاحة في مجمع OBP؟';
+                    break;
+                case 'buildings':
+                    message = 'أخبرني عن مباني OBP';
+                    break;
+                case 'help':
+                    message = 'أحتاج مساعدة في استخدام النظام';
+                    break;
+            }
+            document.getElementById('messageInput').value = message;
+            sendMessage();
         }
 
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        // الترحيب التلقائي
         document.addEventListener('DOMContentLoaded', function() {
             applyTranslations();
+            // إضافة رسالة ترحيب من أيفا
+            setTimeout(() => {
+                addMessage('ai', 'مرحباً! أنا أيفا، المساعد الذكي لـ OBP. كيف يمكنني مساعدتك اليوم؟');
+            }, 1000);
         });
     </script>
 </body>
