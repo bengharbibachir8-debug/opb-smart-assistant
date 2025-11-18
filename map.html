@@ -188,31 +188,32 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
+        /* التصحيح: ترتيب المباني الصحيح */
         .building.a {
             border-color: #ea4335;
             color: #ea4335;
-            grid-column: 1;
+            grid-column: 2;  /* يمين سفلي */
             grid-row: 2;
         }
 
         .building.b {
             border-color: #fbbc05;
             color: #fbbc05;
-            grid-column: 2;
+            grid-column: 1;  /* يسار سفلي */
             grid-row: 2;
         }
 
         .building.c {
             border-color: #34a853;
             color: #34a853;
-            grid-column: 1;
+            grid-column: 2;  /* يمين علوي */
             grid-row: 1;
         }
 
         .building.d {
             border-color: #8b5cf6;
             color: #8b5cf6;
-            grid-column: 2;
+            grid-column: 1;  /* يسار علوي */
             grid-row: 1;
         }
 
@@ -239,7 +240,7 @@
             width: 4px;
             height: 80px;
             top: 200px;
-            left: 35%;
+            left: 65%;  /* يمين سفلي */
             transform: translateX(-50%);
         }
 
@@ -247,7 +248,7 @@
             width: 4px;
             height: 80px;
             top: 200px;
-            left: 65%;
+            left: 35%;  /* يسار سفلي */
             transform: translateX(-50%);
         }
 
@@ -255,7 +256,7 @@
             width: 4px;
             height: 80px;
             top: 120px;
-            left: 35%;
+            left: 65%;  /* يمين علوي */
             transform: translateX(-50%);
         }
 
@@ -263,7 +264,7 @@
             width: 4px;
             height: 80px;
             top: 120px;
-            left: 65%;
+            left: 35%;  /* يسار علوي */
             transform: translateX(-50%);
         }
 
@@ -453,32 +454,32 @@
 
                     <!-- منطقة المباني -->
                     <div class="buildings-area">
-                        <!-- المبنى C -->
-                        <div class="building c" id="buildingC">
-                            <i class="fas fa-building"></i>
-                            <span id="buildingCText">المبنى C</span>
-                            <div class="building-side" id="buildingCSide">يسار</div>
-                        </div>
-
-                        <!-- المبنى D -->
+                        <!-- المبنى D (يسار علوي) -->
                         <div class="building d" id="buildingD">
                             <i class="fas fa-building"></i>
                             <span id="buildingDText">المبنى D</span>
-                            <div class="building-side" id="buildingDSide">يمين</div>
+                            <div class="building-side" id="buildingDSide">يسار علوي</div>
                         </div>
 
-                        <!-- المبنى A -->
-                        <div class="building a" id="buildingA">
+                        <!-- المبنى C (يمين علوي) -->
+                        <div class="building c" id="buildingC">
                             <i class="fas fa-building"></i>
-                            <span id="buildingAText">المبنى A</span>
-                            <div class="building-side" id="buildingASide">يسار</div>
+                            <span id="buildingCText">المبنى C</span>
+                            <div class="building-side" id="buildingCSide">يمين علوي</div>
                         </div>
 
-                        <!-- المبنى B -->
+                        <!-- المبنى B (يسار سفلي) -->
                         <div class="building b" id="buildingB">
                             <i class="fas fa-building"></i>
                             <span id="buildingBText">المبنى B</span>
-                            <div class="building-side" id="buildingBSide">يمين</div>
+                            <div class="building-side" id="buildingBSide">يسار سفلي</div>
+                        </div>
+
+                        <!-- المبنى A (يمين سفلي) -->
+                        <div class="building a" id="buildingA">
+                            <i class="fas fa-building"></i>
+                            <span id="buildingAText">المبنى A</span>
+                            <div class="building-side" id="buildingASide">يمين سفلي</div>
                         </div>
                     </div>
 
@@ -545,10 +546,10 @@
                 buildingBText: 'المبنى B', 
                 buildingCText: 'المبنى C',
                 buildingDText: 'المبنى D',
-                buildingASide: 'يسار',
-                buildingBSide: 'يمين',
-                buildingCSide: 'يسار',
-                buildingDSide: 'يمين',
+                buildingASide: 'يمين سفلي',
+                buildingBSide: 'يسار سفلي',
+                buildingCSide: 'يمين علوي',
+                buildingDSide: 'يسار علوي',
                 distanceLabel: 'المسافة',
                 timeLabel: 'الوقت',
                 stepsLabel: 'خطوة',
@@ -558,7 +559,7 @@
                 directions: [
                     'ابدأ من قاعة الاستقبال الرئيسية',
                     'اخرج إلى الطيراس (10 خطوة)',
-                    'اتجه يساراً إلى المبنى A (35 خطوة)',
+                    'اتجه يميناً إلى المبنى A (35 خطوة)',
                     'تابع للأمام إلى المبنى B (35 خطوة)',
                     'اتجه يساراً إلى المبنى C (35 خطوة)',
                     'تابع للأمام إلى المبنى D (35 خطوة)',
@@ -573,10 +574,10 @@
                 buildingBText: 'Building B',
                 buildingCText: 'Building C',
                 buildingDText: 'Building D',
-                buildingASide: 'left',
-                buildingBSide: 'right',
-                buildingCSide: 'left',
-                buildingDSide: 'right',
+                buildingASide: 'bottom right',
+                buildingBSide: 'bottom left',
+                buildingCSide: 'top right',
+                buildingDSide: 'top left',
                 distanceLabel: 'Distance',
                 timeLabel: 'Time',
                 stepsLabel: 'Steps',
@@ -586,7 +587,7 @@
                 directions: [
                     'Start from main reception hall',
                     'Exit to terrace (10 steps)',
-                    'Turn left to Building A (35 steps)',
+                    'Turn right to Building A (35 steps)',
                     'Continue forward to Building B (35 steps)',
                     'Turn left to Building C (35 steps)',
                     'Continue forward to Building D (35 steps)',
@@ -601,10 +602,10 @@
                 buildingBText: '大楼 B',
                 buildingCText: '大楼 C',
                 buildingDText: '大楼 D',
-                buildingASide: '左边',
-                buildingBSide: '右边',
-                buildingCSide: '左边',
-                buildingDSide: '右边',
+                buildingASide: '右下',
+                buildingBSide: '左下',
+                buildingCSide: '右上',
+                buildingDSide: '左上',
                 distanceLabel: '距离',
                 timeLabel: '时间',
                 stepsLabel: '步数',
@@ -614,7 +615,7 @@
                 directions: [
                     '从主接待大厅开始',
                     '走出到露台 (10步)',
-                    '左转到大楼 A (35步)',
+                    '右转到大楼 A (35步)',
                     '继续向前到大楼 B (35步)',
                     '左转到大楼 C (35步)',
                     '继续向前到大楼 D (35步)',
