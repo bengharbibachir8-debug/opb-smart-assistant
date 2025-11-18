@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OBP - Smart Assistant</title>
+    <title>OBP - One Billion Palestinians</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -101,168 +101,50 @@
             margin-bottom: 2rem;
         }
 
-        /* مساعد أيفا الذكي */
-        .ai-assistant {
-            max-width: 800px;
-            margin: -40px auto 0;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
-            border: 1px solid var(--obp-border);
-            overflow: hidden;
-        }
-
-        .assistant-header {
-            background: var(--obp-green);
-            color: white;
-            padding: 1.5rem 2rem;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .assistant-avatar {
-            width: 50px;
-            height: 50px;
-            background: var(--obp-gold);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-        }
-
-        .assistant-info h3 {
-            font-size: 1.3rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .assistant-info p {
-            opacity: 0.8;
-            font-size: 0.9rem;
-        }
-
-        /* شات أيفا */
-        .chat-container {
-            padding: 2rem;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-
-        .message {
-            margin-bottom: 1.5rem;
-            display: flex;
-            gap: 1rem;
-        }
-
-        .message.ai .avatar {
-            width: 40px;
-            height: 40px;
-            background: var(--obp-success);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            flex-shrink: 0;
-        }
-
-        .message.user {
-            flex-direction: row-reverse;
-        }
-
-        .message.user .content {
-            background: var(--obp-green);
-            color: white;
-        }
-
-        .message .content {
-            background: var(--obp-light);
-            padding: 1rem 1.5rem;
-            border-radius: 18px;
-            max-width: 70%;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-        }
-
-        /* مدخل الرسائل */
-        .input-container {
-            padding: 1.5rem 2rem;
-            border-top: 1px solid var(--obp-border);
-            background: var(--obp-light);
-        }
-
-        .message-input {
-            display: flex;
-            gap: 1rem;
-            align-items: center;
-        }
-
-        .message-input input {
-            flex: 1;
-            padding: 1rem 1.5rem;
-            border: 2px solid var(--obp-border);
-            border-radius: 25px;
-            font-size: 1rem;
-            font-family: 'Tajawal', sans-serif;
-            transition: all 0.3s ease;
-        }
-
-        .message-input input:focus {
-            outline: none;
-            border-color: var(--obp-green);
-            box-shadow: 0 0 0 3px rgba(26, 71, 42, 0.1);
-        }
-
-        .send-btn {
-            background: var(--obp-green);
-            color: white;
-            border: none;
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .send-btn:hover {
-            background: var(--obp-gold);
-            transform: scale(1.05);
-        }
-
-        /* الأزرار السريعة */
-        .quick-actions {
+        /* الأزرار الرئيسية */
+        .main-actions {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
-            padding: 2rem;
-            background: var(--obp-light);
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            padding: 3rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
         }
 
-        .action-btn {
+        .main-btn {
             background: white;
             border: 2px solid var(--obp-border);
-            padding: 1.5rem;
-            border-radius: 12px;
+            padding: 2.5rem;
+            border-radius: 20px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
             text-decoration: none;
             color: var(--obp-dark);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
         }
 
-        .action-btn:hover {
+        .main-btn:hover {
             border-color: var(--obp-green);
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
         }
 
-        .action-btn i {
-            font-size: 2rem;
+        .main-btn i {
+            font-size: 3rem;
             color: var(--obp-green);
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .main-btn h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--obp-green);
+        }
+
+        .main-btn p {
+            color: var(--obp-gray);
+            line-height: 1.6;
         }
 
         /* شريط اللغات */
@@ -306,16 +188,13 @@
                 font-size: 2rem;
             }
             
-            .ai-assistant {
-                margin: -20px 1rem 0;
-            }
-            
-            .message .content {
-                max-width: 85%;
-            }
-            
-            .quick-actions {
+            .main-actions {
                 grid-template-columns: 1fr;
+                padding: 2rem 1rem;
+            }
+            
+            .main-btn {
+                padding: 2rem;
             }
         }
     </style>
@@ -326,9 +205,9 @@
         <nav class="nav-container">
             <div class="logo">
                 <div class="logo-icon">
-                    <i class="fas fa-brain"></i>
+                    <i class="fas fa-flag"></i>
                 </div>
-                <span>OBP Smart Assistant</span>
+                <span>OBP - One Billion Palestinians</span>
             </div>
         </nav>
     </header>
@@ -337,7 +216,7 @@
     <section class="hero-section">
         <div class="hero-content">
             <h1 id="welcomeTitle">مرحباً بكم في OBP</h1>
-            <p id="welcomeSubtitle">مساعد أيفا الذكي جاهز لخدمتكم</p>
+            <p id="welcomeSubtitle">منصة المليار فلسطيني - اختر خدمتك</p>
             
             <!-- شريط اللغات -->
             <div class="language-bar">
@@ -348,81 +227,52 @@
         </div>
     </section>
 
-    <!-- مساعد أيفا الذكي -->
-    <div class="ai-assistant">
-        <div class="assistant-header">
-            <div class="assistant-avatar">
-                <i class="fas fa-robot"></i>
-            </div>
-            <div class="assistant-info">
-                <h3>أيفا - المساعد الذكي</h3>
-                <p>كيف يمكنني مساعدتك اليوم؟</p>
-            </div>
-        </div>
-
-        <!-- محادثة أيفا -->
-        <div class="chat-container" id="chatContainer">
-            <!-- الرسائل تظهر هنا -->
-        </div>
-
-        <!-- مدخل الرسائل -->
-        <div class="input-container">
-            <div class="message-input">
-                <input type="text" id="messageInput" placeholder="اكتب رسالتك هنا..." onkeypress="handleKeyPress(event)">
-                <button class="send-btn" onclick="sendMessage()">
-                    <i class="fas fa-paper-plane"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- أزرار سريعة -->
-        <div class="quick-actions">
-            <div class="action-btn" onclick="quickAction('navigation')">
-                <i class="fas fa-map-marked-alt"></i>
-                <h4>التوجيه إلى الغرفة</h4>
-                <p>ابحث عن طريقك إلى غرفتك</p>
-            </div>
-            <div class="action-btn" onclick="quickAction('services')">
-                <i class="fas fa-concierge-bell"></i>
-                <h4>خدمات المجمع</h4>
-                <p>اكتشف جميع خدمات OBP</p>
-            </div>
-            <div class="action-btn" onclick="quickAction('buildings')">
-                <i class="fas fa-building"></i>
-                <h4>مباني OBP</h4>
-                <p>تعرف على مباني المجمع</p>
-            </div>
-            <div class="action-btn" onclick="quickAction('help')">
-                <i class="fas fa-question-circle"></i>
-                <h4>مساعدة سريعة</h4>
-                <p>أسئلة متكررة وإجابات</p>
-            </div>
-        </div>
+    <!-- الأزرار الرئيسية -->
+    <div class="main-actions">
+        <a href="navigation-setup.html" class="main-btn">
+            <i class="fas fa-map-marked-alt"></i>
+            <h3>التوجيه إلى المبنى</h3>
+            <p>ابحث عن طريقك إلى أي مبنى أو غرفة في مجمع OBP</p>
+        </a>
+        
+        <a href="ai-assistant.html" class="main-btn">
+            <i class="fas fa-robot"></i>
+            <h3>المساعدة الذكية</h3>
+            <p>تحدث مع أيفا - المساعد الذكي للإجابة على استفساراتك</p>
+        </a>
+        
+        <a href="services.html" class="main-btn">
+            <i class="fas fa-concierge-bell"></i>
+            <h3>خدمات OBP</h3>
+            <p>اكتشف جميع خدمات ومنتجات منصة المليار فلسطيني</p>
+        </a>
+        
+        <a href="about.html" class="main-btn">
+            <i class="fas fa-info-circle"></i>
+            <h3>عن المشروع</h3>
+            <p>تعرف على رؤية ورسالة منصة OBP العالمية</p>
+        </a>
     </div>
 
     <!-- الفوتر -->
     <footer class="footer">
-        <p>&copy; 2024 OBP Smart Assistant. جميع الحقوق محفوظة.</p>
+        <p>&copy; 2024 OBP - One Billion Palestinians. جميع الحقوق محفوظة.</p>
     </footer>
 
-    <script src="ai-assistant.js"></script>
     <script>
         // نظام اللغات الأساسي
         const translations = {
             ar: {
                 welcomeTitle: "مرحباً بكم في OBP",
-                welcomeSubtitle: "مساعد أيفا الذكي جاهز لخدمتكم",
-                inputPlaceholder: "اكتب رسالتك هنا..."
+                welcomeSubtitle: "منصة المليار فلسطيني - اختر خدمتك"
             },
             en: {
-                welcomeTitle: "Welcome to OBP",
-                welcomeSubtitle: "Smart Assistant Eva is ready to help you",
-                inputPlaceholder: "Type your message here..."
+                welcomeTitle: "Welcome to OBP", 
+                welcomeSubtitle: "One Billion Palestinians Platform - Choose Your Service"
             },
             zh: {
                 welcomeTitle: "欢迎来到OBP",
-                welcomeSubtitle: "智能助手伊娃已准备好为您服务",
-                inputPlaceholder: "在此输入您的消息..."
+                welcomeSubtitle: "十亿巴勒斯坦人平台 - 选择您的服务"
             }
         };
 
@@ -444,42 +294,11 @@
                     element.textContent = value;
                 }
             }
-            document.getElementById('messageInput').placeholder = translations[currentLang].inputPlaceholder;
         }
 
-        function quickAction(action) {
-            let message = '';
-            switch(action) {
-                case 'navigation':
-                    window.location.href = 'navigation.html';
-                    return;
-                case 'services':
-                    message = 'ما هي الخدمات المتاحة في مجمع OBP؟';
-                    break;
-                case 'buildings':
-                    message = 'أخبرني عن مباني OBP';
-                    break;
-                case 'help':
-                    message = 'أحتاج مساعدة في استخدام النظام';
-                    break;
-            }
-            document.getElementById('messageInput').value = message;
-            sendMessage();
-        }
-
-        function handleKeyPress(event) {
-            if (event.key === 'Enter') {
-                sendMessage();
-            }
-        }
-
-        // الترحيب التلقائي
+        // التطبيق التلقائي للترجمة
         document.addEventListener('DOMContentLoaded', function() {
             applyTranslations();
-            // إضافة رسالة ترحيب من أيفا
-            setTimeout(() => {
-                addMessage('ai', 'مرحباً! أنا أيفا، المساعد الذكي لـ OBP. كيف يمكنني مساعدتك اليوم؟');
-            }, 1000);
         });
     </script>
 </body>
