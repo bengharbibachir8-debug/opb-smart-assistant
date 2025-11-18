@@ -1,360 +1,83 @@
-<!-- استبدل جزء الخريطة في map.html بهذا الكود -->
-
-<!-- منطقة الخريطة -->
-<div class="map-area">
-    <div class="interactive-map">
-        <!-- خلفية نمط Google -->
-        <div class="google-style-map"></div>
-
-        <!-- المسار المتحرك -->
-        <div class="moving-path">
-            <!-- المسار الرئيسي -->
-            <div class="path-line main-path"></div>
-            
-            <!-- المسارات الفرعية للمباني -->
-            <div class="path-line path-to-a"></div>
-            <div class="path-line path-to-b"></div>
-            <div class="path-line path-to-c"></div>
-            <div class="path-line path-to-d"></div>
-            
-            <div class="moving-dot"></div>
-        </div>
-
-        <!-- المباني بالترتيب الصحيح -->
-        <div class="map-building reception" id="mapReception">
-            <i class="fas fa-door-open"></i><br>
-            <span id="receptionText">قاعة الاستقبال</span>
-        </div>
-        
-        <div class="map-building terrace" id="mapTerrace">
-            <i class="fas fa-tree"></i><br>
-            <span id="terraceText">الطيراس</span>
-        </div>
-        
-        <div class="map-building building-a" id="mapBuildingA">
-            <i class="fas fa-building"></i><br>
-            <span id="buildingAText">المبنى A</span>
-            <div class="building-side">🡸 يسار</div>
-        </div>
-        
-        <div class="map-building building-b" id="mapBuildingB">
-            <i class="fas fa-building"></i><br>
-            <span id="buildingBText">المبنى B</span>
-            <div class="building-side">🡺 يمين</div>
-        </div>
-        
-        <div class="map-building building-c" id="mapBuildingC">
-            <i class="fas fa-building"></i><br>
-            <span id="buildingCText">المبنى C</span>
-            <div class="building-side">🡸 يسار</div>
-        </div>
-        
-        <div class="map-building building-d" id="mapBuildingD">
-            <i class="fas fa-building"></i><br>
-            <span id="buildingDText">المبنى D</span>
-            <div class="building-side">🡺 يمين</div>
-        </div>
-
-        <!-- عناصر تحكم الخريطة -->
-        <div class="map-controls">
-            <button class="control-btn" onclick="zoomIn()">
-                <i class="fas fa-plus"></i>
-                <span id="zoomInText">تكبير</span>
-            </button>
-            <button class="control-btn" onclick="zoomOut()">
-                <i class="fas fa-minus"></i>
-                <span id="zoomOutText">تصغير</span>
-            </button>
-            <button class="control-btn" onclick="resetView()">
-                <i class="fas fa-crosshairs"></i>
-                <span id="resetText">إعادة تعيين</span>
-            </button>
-        </div>
-    </div>
-</div>
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maya – Map</title>
 
 <style>
-/* أضف هذه الأنماط الجديدة لتصحيح الخريطة */
-
-/* المسار الرئيسي */
-.main-path {
-    width: 500px;
-    height: 6px;
-    background: var(--google-blue);
-    top: 60%;
-    left: 50px;
-    border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
-}
-
-/* المسارات الفرعية */
-.path-to-a, .path-to-b, .path-to-c, .path-to-d {
-    width: 6px;
-    background: var(--google-green);
-    border-radius: 4px;
-}
-
-.path-to-a { height: 80px; top: 40%; left: 150px; }
-.path-to-b { height: 80px; top: 40%; left: 250px; }
-.path-to-c { height: 80px; top: 40%; left: 350px; }
-.path-to-d { height: 80px; top: 40%; left: 450px; }
-
-/* المباني بالترتيب الصحيح */
-.reception {
-    width: 120px;
-    height: 100px;
-    bottom: 150px;
-    left: 50px;
-    background: var(--google-blue);
-    color: white;
-    border-color: var(--google-blue);
-}
-
-.terrace {
-    width: 80px;
-    height: 60px;
-    bottom: 150px;
-    left: 200px;
-    background: var(--google-green);
-    color: white;
-    border-color: var(--google-green);
-    font-size: 0.8em;
-}
-
-.building-a {
-    width: 90px;
-    height: 120px;
-    top: 40%;
-    left: 120px;
-    background: var(--google-red);
-    color: white;
-    border-color: var(--google-red);
-}
-
-.building-b {
-    width: 90px;
-    height: 120px;
-    top: 40%;
-    left: 220px;
-    background: var(--google-yellow);
-    color: var(--obp-dark);
-    border-color: var(--google-yellow);
-}
-
-.building-c {
-    width: 90px;
-    height: 120px;
-    top: 40%;
-    left: 320px;
-    background: #8B5CF6;
-    color: white;
-    border-color: #8B5CF6;
-}
-
-.building-d {
-    width: 90px;
-    height: 120px;
-    top: 40%;
-    left: 420px;
-    background: var(--google-green);
-    color: white;
-    border-color: var(--google-green);
-}
-
-.building-side {
-    font-size: 0.7em;
-    margin-top: 5px;
-    opacity: 0.8;
-}
-
-/* تحريك النقطة حسب المسار الصحيح */
-@keyframes googleMove {
-    0% {
-        top: 65%;
-        left: 80px;
-        transform: translateY(-50%);
+    body {
+        margin: 0;
+        padding: 0;
+        background: #0d0d0d;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
     }
-    15% {
-        top: 65%;
-        left: 180px;
-        transform: translateY(-50%);
-    }
-    30% {
-        top: 40%;
-        left: 150px;
-    }
-    45% {
-        top: 65%;
-        left: 180px;
-        transform: translateY(-50%);
-    }
-    60% {
-        top: 40%;
-        left: 250px;
-    }
-    75% {
-        top: 65%;
-        left: 180px;
-        transform: translateY(-50%);
-    }
-    90% {
-        top: 40%;
-        left: 450px;
-    }
-    100% {
-        top: 65%;
-        left: 80px;
-        transform: translateY(-50%);
-    }
-}
 
-.moving-dot {
-    animation: googleMove 12s ease-in-out infinite;
-}
+    .map-box {
+        margin-top: 30px;
+    }
 
-/* تحديث تعليمات المسار */
-.direction-step.reached {
-    background: #f0f9ff;
-    border-right: 4px solid var(--google-blue);
-}
+    .building {
+        width: 200px;
+        padding: 20px;
+        background: #222;
+        margin: 15px auto;
+        border-radius: 10px;
+        font-size: 22px;
+    }
+
+    .arrow {
+        font-size: 40px;
+        margin: 10px auto;
+    }
+
+    button {
+        margin-top: 30px;
+        padding: 14px 40px;
+        background: #6f4af4;
+        border: none;
+        border-radius: 30px;
+        color: white;
+        cursor: pointer;
+        font-size: 18px;
+    }
 </style>
 
+</head>
+<body>
+
+<h2>مسارك</h2>
+
+<div class="map-box">
+
+    <div class="building">🚪 الاستقبال (Start)</div>
+    <div class="arrow">⬇⬇⬇</div>
+
+    <div class="building">🌿 الطيراس</div>
+    <div class="arrow">⬇⬇⬇</div>
+
+    <div class="building">🏢 المبنى A</div>
+    <div class="arrow">➡➡➡</div>
+
+    <div class="building">🏢 المبنى B</div>
+    <div class="arrow">⬅⬅⬅</div>
+
+    <div class="building">🏢 المبنى C</div>
+    <div class="arrow">➡➡➡</div>
+
+    <div class="building">🏢 المبنى D (Goal)</div>
+
+</div>
+
+<button onclick="back()">رجوع</button>
+
 <script>
-// تحديث بيانات المسار في navigationData
-const navigationData = {
-    ar: {
-        // ... النصوص السابقة ...
-        directions: [
-            {
-                instruction: 'ابدأ من قاعة الاستقبال الرئيسية',
-                details: 'المبنى الكبير - نقطة البداية',
-                distance: '0 م'
-            },
-            {
-                instruction: 'اخرج إلى الطيراس الصغير',
-                details: 'امشي 10 خطوات للأمام',
-                distance: '10 م'
-            },
-            {
-                instruction: 'المبنى A على يسارك',
-                details: '35 خطوة من الاستقبال - على اليسار',
-                distance: '35 م'
-            },
-            {
-                instruction: 'المبنى B على يمينك',
-                details: '70 خطوة من الاستقبال - على اليمين',
-                distance: '35 م'
-            },
-            {
-                instruction: 'المبنى C على يسارك',
-                details: '105 خطوة من الاستقبال - على اليسار',
-                distance: '35 م'
-            },
-            {
-                instruction: 'المبنى D على يمينك',
-                details: '140 خطوة من الاستقبال - على اليمين',
-                distance: '35 م'
-            },
-            {
-                instruction: 'وصلت إلى وجهتك',
-                details: 'ابحث عن رقم غرفتك على الباب',
-                distance: '0 م'
-            }
-        ]
-    },
-    en: {
-        // ... النصوص الإنجليزية ...
-        directions: [
-            {
-                instruction: 'Start from main reception hall',
-                details: 'Large building - Starting point',
-                distance: '0 m'
-            },
-            {
-                instruction: 'Exit to small terrace',
-                details: 'Walk 10 steps forward',
-                distance: '10 m'
-            },
-            {
-                instruction: 'Building A on your left',
-                details: '35 steps from reception - On the left',
-                distance: '35 m'
-            },
-            {
-                instruction: 'Building B on your right', 
-                details: '70 steps from reception - On the right',
-                distance: '35 m'
-            },
-            {
-                instruction: 'Building C on your left',
-                details: '105 steps from reception - On the left',
-                distance: '35 m'
-            },
-            {
-                instruction: 'Building D on your right',
-                details: '140 steps from reception - On the right',
-                distance: '35 m'
-            },
-            {
-                instruction: 'Arrived at destination',
-                details: 'Look for your room number on the door',
-                distance: '0 m'
-            }
-        ]
-    },
-    zh: {
-        // ... النصوص الصينية ...
-        directions: [
-            {
-                instruction: '从主接待大厅开始',
-                details: '大型建筑 - 起点',
-                distance: '0 米'
-            },
-            {
-                instruction: '走出到小露台',
-                details: '向前走10步',
-                distance: '10 米'
-            },
-            {
-                instruction: '大楼 A 在您的左边',
-                details: '距离接待处35步 - 在左边',
-                distance: '35 米'
-            },
-            {
-                instruction: '大楼 B 在您的右边',
-                details: '距离接待处70步 - 在右边', 
-                distance: '35 米'
-            },
-            {
-                instruction: '大楼 C 在您的左边',
-                details: '距离接待处105步 - 在左边',
-                distance: '35 米'
-            },
-            {
-                instruction: '大楼 D 在您的右边',
-                details: '距离接待处140步 - 在右边',
-                distance: '35 米'
-            },
-            {
-                instruction: '到达目的地',
-                details: '在门上寻找您的房间号码',
-                distance: '0 米'
-            }
-        ]
-    }
-};
-
-// تحديث الإحصائيات
-function updateStats() {
-    document.getElementById('distanceValue').textContent = '150م';
-    document.getElementById('timeValue').textContent = '4د';
-    document.getElementById('stepsValue').textContent = '150';
+function back() {
+    history.back();
 }
-
-// التحميل الأولي
-document.addEventListener('DOMContentLoaded', function() {
-    applyTranslations();
-    updateDestination();
-    updateStats();
-});
 </script>
+
+</body>
+</html>
