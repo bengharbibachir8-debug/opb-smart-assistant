@@ -1,83 +1,1069 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Maya – Map</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBP - خريطة المسار</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --obp-green: #1a472a;
+            --obp-gold: #d4af37;
+            --obp-dark: #0f172a;
+            --obp-light: #f8fafc;
+            --obp-gray: #64748b;
+            --obp-border: #e2e8f0;
+            --obp-success: #10b981;
+            --obp-warning: #f59e0b;
+            --obp-error: #ef4444;
+            --google-blue: #4285F4;
+            --google-green: #34A853;
+            --google-yellow: #FBBC05;
+            --google-red: #EA4335;
+        }
 
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        background: #0d0d0d;
-        color: white;
-        font-family: Arial, sans-serif;
-        text-align: center;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .map-box {
-        margin-top: 30px;
-    }
+        body {
+            font-family: 'Tajawal', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--obp-light);
+            color: var(--obp-dark);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
 
-    .building {
-        width: 200px;
-        padding: 20px;
-        background: #222;
-        margin: 15px auto;
-        border-radius: 10px;
-        font-size: 22px;
-    }
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
 
-    .arrow {
-        font-size: 40px;
-        margin: 10px auto;
-    }
+        /* الهيدر مثل Google Maps */
+        .header {
+            background: white;
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-bottom: 1px solid var(--obp-border);
+        }
 
-    button {
-        margin-top: 30px;
-        padding: 14px 40px;
-        background: #6f4af4;
-        border: none;
-        border-radius: 30px;
-        color: white;
-        cursor: pointer;
-        font-size: 18px;
-    }
-</style>
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
 
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--obp-green);
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--google-blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-btn {
+            background: white;
+            border: 1px solid var(--obp-border);
+            color: var(--obp-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Tajawal', sans-serif;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .nav-btn:hover {
+            background: var(--obp-light);
+            border-color: var(--google-blue);
+        }
+
+        /* المحتوى الرئيسي */
+        .main-content {
+            max-width: 1200px;
+            margin: 80px auto 0;
+            padding: 0;
+        }
+
+        /* تخطيط مثل Google Maps */
+        .maps-layout {
+            display: flex;
+            min-height: calc(100vh - 80px);
+        }
+
+        /* الشريط الجانبي مثل Google */
+        .sidebar {
+            width: 400px;
+            background: white;
+            border-right: 1px solid var(--obp-border);
+            overflow-y: auto;
+            height: calc(100vh - 80px);
+            position: fixed;
+            right: 0;
+        }
+
+        /* منطقة الخريطة */
+        .map-area {
+            flex: 1;
+            margin-right: 400px;
+            background: #e9ecef;
+            position: relative;
+        }
+
+        /* معلومات الرحلة مثل Google */
+        .trip-info {
+            background: white;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--obp-border);
+        }
+
+        .trip-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .trip-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--google-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .trip-details h2 {
+            font-size: 1.3rem;
+            color: var(--obp-dark);
+            margin-bottom: 0.25rem;
+        }
+
+        .trip-details p {
+            color: var(--obp-gray);
+            font-size: 0.9rem;
+        }
+
+        /* تفاصيل الرحلة */
+        .trip-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 0.75rem;
+            background: var(--obp-light);
+            border-radius: 8px;
+        }
+
+        .stat-value {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--obp-green);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--obp-gray);
+            margin-top: 0.25rem;
+        }
+
+        /* تعليمات المسار */
+        .directions-list {
+            padding: 0;
+        }
+
+        .direction-step {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--obp-border);
+            transition: background 0.3s ease;
+        }
+
+        .direction-step:hover {
+            background: var(--obp-light);
+        }
+
+        .step-number {
+            background: var(--google-blue);
+            color: white;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .step-content {
+            flex: 1;
+        }
+
+        .step-instruction {
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            color: var(--obp-dark);
+        }
+
+        .step-details {
+            font-size: 0.9rem;
+            color: var(--obp-gray);
+        }
+
+        .step-distance {
+            color: var(--obp-green);
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        /* الخريطة التفاعلية - التصميم المصحح */
+        .interactive-map {
+            height: 100%;
+            background: linear-gradient(135deg, #e3f2fd, #f3e5f5);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* محاكاة خريطة Google */
+        .google-style-map {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(0deg, transparent, transparent 49px, rgba(0,0,0,0.05) 49px, rgba(0,0,0,0.05) 50px),
+                repeating-linear-gradient(90deg, transparent, transparent 49px, rgba(0,0,0,0.05) 49px, rgba(0,0,0,0.05) 50px);
+        }
+
+        /* المسار الرئيسي - التصميم المصحح */
+        .main-path {
+            width: 500px;
+            height: 6px;
+            background: var(--google-blue);
+            top: 60%;
+            left: 50px;
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(66, 133, 244, 0.3);
+            position: absolute;
+        }
+
+        /* المسارات الفرعية */
+        .path-to-a, .path-to-b, .path-to-c, .path-to-d {
+            width: 6px;
+            background: var(--google-green);
+            border-radius: 4px;
+            position: absolute;
+        }
+
+        .path-to-a { height: 80px; top: 40%; left: 150px; }
+        .path-to-b { height: 80px; top: 40%; left: 250px; }
+        .path-to-c { height: 80px; top: 40%; left: 350px; }
+        .path-to-d { height: 80px; top: 40%; left: 450px; }
+
+        /* المباني بالترتيب الصحيح */
+        .map-building {
+            position: absolute;
+            background: white;
+            border: 2px solid;
+            border-radius: 8px;
+            padding: 1rem;
+            text-align: center;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 100px;
+        }
+
+        .reception {
+            width: 120px;
+            height: 100px;
+            bottom: 150px;
+            left: 50px;
+            background: var(--google-blue);
+            color: white;
+            border-color: var(--google-blue);
+        }
+
+        .terrace {
+            width: 80px;
+            height: 60px;
+            bottom: 150px;
+            left: 200px;
+            background: var(--google-green);
+            color: white;
+            border-color: var(--google-green);
+            font-size: 0.8em;
+        }
+
+        .building-a {
+            width: 90px;
+            height: 120px;
+            top: 40%;
+            left: 120px;
+            background: var(--google-red);
+            color: white;
+            border-color: var(--google-red);
+        }
+
+        .building-b {
+            width: 90px;
+            height: 120px;
+            top: 40%;
+            left: 220px;
+            background: var(--google-yellow);
+            color: var(--obp-dark);
+            border-color: var(--google-yellow);
+        }
+
+        .building-c {
+            width: 90px;
+            height: 120px;
+            top: 40%;
+            left: 320px;
+            background: #8B5CF6;
+            color: white;
+            border-color: #8B5CF6;
+        }
+
+        .building-d {
+            width: 90px;
+            height: 120px;
+            top: 40%;
+            left: 420px;
+            background: var(--google-green);
+            color: white;
+            border-color: var(--google-green);
+        }
+
+        .building-side {
+            font-size: 0.7em;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+
+        .map-building.selected {
+            box-shadow: 0 0 0 3px white, 0 0 0 6px currentColor;
+            transform: scale(1.1);
+            z-index: 10;
+        }
+
+        /* المسار المتحرك */
+        .moving-path {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .moving-dot {
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            background: var(--google-blue);
+            border: 3px solid white;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            z-index: 20;
+            animation: googleMove 12s ease-in-out infinite;
+        }
+
+        @keyframes googleMove {
+            0% {
+                top: 65%;
+                left: 80px;
+                transform: translateY(-50%);
+            }
+            15% {
+                top: 65%;
+                left: 180px;
+                transform: translateY(-50%);
+            }
+            30% {
+                top: 40%;
+                left: 150px;
+            }
+            45% {
+                top: 65%;
+                left: 180px;
+                transform: translateY(-50%);
+            }
+            60% {
+                top: 40%;
+                left: 250px;
+            }
+            75% {
+                top: 65%;
+                left: 180px;
+                transform: translateY(-50%);
+            }
+            90% {
+                top: 40%;
+                left: 450px;
+            }
+            100% {
+                top: 65%;
+                left: 80px;
+                transform: translateY(-50%);
+            }
+        }
+
+        /* عناصر تحكم الخريطة */
+        .map-controls {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+            overflow: hidden;
+        }
+
+        .control-btn {
+            background: white;
+            border: none;
+            padding: 0.75rem 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Tajawal', sans-serif;
+            width: 100%;
+            border-bottom: 1px solid var(--obp-border);
+        }
+
+        .control-btn:hover {
+            background: var(--obp-light);
+        }
+
+        .control-btn:last-child {
+            border-bottom: none;
+        }
+
+        /* أزرار التنقل */
+        .navigation-actions {
+            padding: 1.5rem;
+            background: white;
+            border-top: 1px solid var(--obp-border);
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            font-family: 'Tajawal', sans-serif;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background: var(--google-blue);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #3367d6;
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--obp-dark);
+            border: 1px solid var(--obp-border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--obp-light);
+            border-color: var(--google-blue);
+        }
+
+        /* شريط اللغات */
+        .language-bar {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: var(--obp-light);
+            border-bottom: 1px solid var(--obp-border);
+        }
+
+        .lang-btn {
+            background: white;
+            border: 1px solid var(--obp-border);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: var(--google-blue);
+            color: white;
+            border-color: var(--google-blue);
+        }
+
+        /* التجاوب مع الجوال */
+        @media (max-width: 768px) {
+            .maps-layout {
+                flex-direction: column-reverse;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: static;
+                height: auto;
+                max-height: 50vh;
+            }
+            
+            .map-area {
+                margin-right: 0;
+                height: 50vh;
+            }
+            
+            .trip-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .map-building {
+                padding: 0.5rem;
+                font-size: 0.8rem;
+                min-width: 80px;
+            }
+            
+            .building-a, .building-c { left: 20px; }
+            .building-b, .building-d { right: 20px; }
+            
+            .main-path {
+                width: 300px;
+            }
+            
+            .path-to-a, .path-to-b, .path-to-c, .path-to-d {
+                left: 60px;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- الهيدر -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-map"></i>
+                </div>
+                <span>OBP Maps</span>
+            </div>
+            <div class="nav-buttons">
+                <a href="navigation.html" class="nav-btn">
+                    <i class="fas fa-route"></i>
+                    <span id="navBack">رجوع</span>
+                </a>
+                <a href="index.html" class="nav-btn">
+                    <i class="fas fa-home"></i>
+                    الرئيسية
+                </a>
+            </div>
+        </nav>
+    </header>
 
-<h2>مسارك</h2>
+    <!-- المحتوى الرئيسي -->
+    <div class="container">
+        <div class="main-content">
+            <!-- تخطيط Google Maps -->
+            <div class="maps-layout">
+                <!-- الشريط الجانبي -->
+                <div class="sidebar">
+                    <!-- شريط اللغات -->
+                    <div class="language-bar">
+                        <button class="lang-btn active" onclick="setLanguage('ar')">العربية</button>
+                        <button class="lang-btn" onclick="setLanguage('en')">English</button>
+                        <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
+                    </div>
 
-<div class="map-box">
+                    <!-- معلومات الرحلة -->
+                    <div class="trip-info">
+                        <div class="trip-header">
+                            <div class="trip-icon">
+                                <i class="fas fa-walking"></i>
+                            </div>
+                            <div class="trip-details">
+                                <h2 id="tripTitle">مسار المشي</h2>
+                                <p id="tripSubtitle">من الاستقبال إلى وجهتك</p>
+                            </div>
+                        </div>
 
-    <div class="building">🚪 الاستقبال (Start)</div>
-    <div class="arrow">⬇⬇⬇</div>
+                        <!-- إحصائيات الرحلة -->
+                        <div class="trip-stats">
+                            <div class="stat-item">
+                                <div class="stat-value" id="distanceValue">150م</div>
+                                <div class="stat-label" id="distanceLabel">المسافة</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="timeValue">4د</div>
+                                <div class="stat-label" id="timeLabel">الوقت</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-value" id="stepsValue">150</div>
+                                <div class="stat-label" id="stepsLabel">خطوة</div>
+                            </div>
+                        </div>
+                    </div>
 
-    <div class="building">🌿 الطيراس</div>
-    <div class="arrow">⬇⬇⬇</div>
+                    <!-- تعليمات المسار -->
+                    <div class="directions-list" id="directionsList">
+                        <!-- يتم ملؤها بالجافاسكريبت -->
+                    </div>
 
-    <div class="building">🏢 المبنى A</div>
-    <div class="arrow">➡➡➡</div>
+                    <!-- أزرار التنقل -->
+                    <div class="navigation-actions">
+                        <div class="action-buttons">
+                            <button class="btn btn-secondary" onclick="goBack()" id="backButton">
+                                <i class="fas fa-arrow-right"></i>
+                                <span id="backText">رجوع</span>
+                            </button>
+                            <button class="btn btn-primary" onclick="startNavigation()" id="startButton">
+                                <i class="fas fa-play"></i>
+                                <span id="startText">بدء التوجيه</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
 
-    <div class="building">🏢 المبنى B</div>
-    <div class="arrow">⬅⬅⬅</div>
+                <!-- منطقة الخريطة -->
+                <div class="map-area">
+                    <div class="interactive-map">
+                        <!-- خلفية نمط Google -->
+                        <div class="google-style-map"></div>
 
-    <div class="building">🏢 المبنى C</div>
-    <div class="arrow">➡➡➡</div>
+                        <!-- المسار المتحرك -->
+                        <div class="moving-path">
+                            <!-- المسار الرئيسي -->
+                            <div class="path-line main-path"></div>
+                            
+                            <!-- المسارات الفرعية للمباني -->
+                            <div class="path-line path-to-a"></div>
+                            <div class="path-line path-to-b"></div>
+                            <div class="path-line path-to-c"></div>
+                            <div class="path-line path-to-d"></div>
+                            
+                            <div class="moving-dot"></div>
+                        </div>
 
-    <div class="building">🏢 المبنى D (Goal)</div>
+                        <!-- المباني بالترتيب الصحيح -->
+                        <div class="map-building reception" id="mapReception">
+                            <i class="fas fa-door-open"></i><br>
+                            <span id="receptionText">قاعة الاستقبال</span>
+                        </div>
+                        
+                        <div class="map-building terrace" id="mapTerrace">
+                            <i class="fas fa-tree"></i><br>
+                            <span id="terraceText">الطيراس</span>
+                        </div>
+                        
+                        <div class="map-building building-a" id="mapBuildingA">
+                            <i class="fas fa-building"></i><br>
+                            <span id="buildingAText">المبنى A</span>
+                            <div class="building-side">🡸 يسار</div>
+                        </div>
+                        
+                        <div class="map-building building-b" id="mapBuildingB">
+                            <i class="fas fa-building"></i><br>
+                            <span id="buildingBText">المبنى B</span>
+                            <div class="building-side">🡺 يمين</div>
+                        </div>
+                        
+                        <div class="map-building building-c" id="mapBuildingC">
+                            <i class="fas fa-building"></i><br>
+                            <span id="buildingCText">المبنى C</span>
+                            <div class="building-side">🡸 يسار</div>
+                        </div>
+                        
+                        <div class="map-building building-d" id="mapBuildingD">
+                            <i class="fas fa-building"></i><br>
+                            <span id="buildingDText">المبنى D</span>
+                            <div class="building-side">🡺 يمين</div>
+                        </div>
 
-</div>
+                        <!-- عناصر تحكم الخريطة -->
+                        <div class="map-controls">
+                            <button class="control-btn" onclick="zoomIn()">
+                                <i class="fas fa-plus"></i>
+                                <span id="zoomInText">تكبير</span>
+                            </button>
+                            <button class="control-btn" onclick="zoomOut()">
+                                <i class="fas fa-minus"></i>
+                                <span id="zoomOutText">تصغير</span>
+                            </button>
+                            <button class="control-btn" onclick="resetView()">
+                                <i class="fas fa-crosshairs"></i>
+                                <span id="resetText">إعادة تعيين</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<button onclick="back()">رجوع</button>
+    <script>
+        // بيانات المسارات من OBP.dz - التصميم المصحح
+        const navigationData = {
+            ar: {
+                tripTitle: 'مسار المشي',
+                tripSubtitle: 'من الاستقبال إلى وجهتك',
+                distanceLabel: 'المسافة',
+                timeLabel: 'الوقت',
+                stepsLabel: 'خطوة',
+                backText: 'رجوع',
+                startText: 'بدء التوجيه',
+                receptionText: 'قاعة الاستقبال',
+                terraceText: 'الطيراس',
+                buildingAText: 'المبنى A',
+                buildingBText: 'المبنى B',
+                buildingCText: 'المبنى C',
+                buildingDText: 'المبنى D',
+                zoomInText: 'تكبير',
+                zoomOutText: 'تصغير',
+                resetText: 'إعادة تعيين',
+                navBack: 'رجوع',
+                directions: [
+                    {
+                        instruction: 'ابدأ من قاعة الاستقبال الرئيسية',
+                        details: 'المبنى الكبير - نقطة البداية',
+                        distance: '0 م'
+                    },
+                    {
+                        instruction: 'اخرج إلى الطيراس الصغير',
+                        details: 'امشي 10 خطوات للأمام',
+                        distance: '10 م'
+                    },
+                    {
+                        instruction: 'المبنى A على يسارك',
+                        details: '35 خطوة من الاستقبال - على اليسار',
+                        distance: '35 م'
+                    },
+                    {
+                        instruction: 'المبنى B على يمينك',
+                        details: '70 خطوة من الاستقبال - على اليمين',
+                        distance: '35 م'
+                    },
+                    {
+                        instruction: 'المبنى C على يسارك',
+                        details: '105 خطوة من الاستقبال - على اليسار',
+                        distance: '35 م'
+                    },
+                    {
+                        instruction: 'المبنى D على يمينك',
+                        details: '140 خطوة من الاستقبال - على اليمين',
+                        distance: '35 م'
+                    },
+                    {
+                        instruction: 'وصلت إلى وجهتك',
+                        details: 'ابحث عن رقم غرفتك على الباب',
+                        distance: '0 م'
+                    }
+                ]
+            },
+            en: {
+                tripTitle: 'Walking Route',
+                tripSubtitle: 'From reception to your destination',
+                distanceLabel: 'Distance',
+                timeLabel: 'Time',
+                stepsLabel: 'Steps',
+                backText: 'Back',
+                startText: 'Start Navigation',
+                receptionText: 'Reception Hall',
+                terraceText: 'Terrace',
+                buildingAText: 'Building A',
+                buildingBText: 'Building B',
+                buildingCText: 'Building C',
+                buildingDText: 'Building D',
+                zoomInText: 'Zoom In',
+                zoomOutText: 'Zoom Out',
+                resetText: 'Reset View',
+                navBack: 'Back',
+                directions: [
+                    {
+                        instruction: 'Start from main reception hall',
+                        details: 'Large building - Starting point',
+                        distance: '0 m'
+                    },
+                    {
+                        instruction: 'Exit to small terrace',
+                        details: 'Walk 10 steps forward',
+                        distance: '10 m'
+                    },
+                    {
+                        instruction: 'Building A on your left',
+                        details: '35 steps from reception - On the left',
+                        distance: '35 m'
+                    },
+                    {
+                        instruction: 'Building B on your right', 
+                        details: '70 steps from reception - On the right',
+                        distance: '35 m'
+                    },
+                    {
+                        instruction: 'Building C on your left',
+                        details: '105 steps from reception - On the left',
+                        distance: '35 m'
+                    },
+                    {
+                        instruction: 'Building D on your right',
+                        details: '140 steps from reception - On the right',
+                        distance: '35 m'
+                    },
+                    {
+                        instruction: 'Arrived at destination',
+                        details: 'Look for your room number on the door',
+                        distance: '0 m'
+                    }
+                ]
+            },
+            zh: {
+                tripTitle: '步行路线',
+                tripSubtitle: '从接待处到您的目的地',
+                distanceLabel: '距离',
+                timeLabel: '时间',
+                stepsLabel: '步数',
+                backText: '返回',
+                startText: '开始导航',
+                receptionText: '接待大厅',
+                terraceText: '露台',
+                buildingAText: '大楼 A',
+                buildingBText: '大楼 B',
+                buildingCText: '大楼 C',
+                buildingDText: '大楼 D',
+                zoomInText: '放大',
+                zoomOutText: '缩小',
+                resetText: '重置视图',
+                navBack: '返回',
+                directions: [
+                    {
+                        instruction: '从主接待大厅开始',
+                        details: '大型建筑 - 起点',
+                        distance: '0 米'
+                    },
+                    {
+                        instruction: '走出到小露台',
+                        details: '向前走10步',
+                        distance: '10 米'
+                    },
+                    {
+                        instruction: '大楼 A 在您的左边',
+                        details: '距离接待处35步 - 在左边',
+                        distance: '35 米'
+                    },
+                    {
+                        instruction: '大楼 B 在您的右边',
+                        details: '距离接待处70步 - 在右边', 
+                        distance: '35 米'
+                    },
+                    {
+                        instruction: '大楼 C 在您的左边',
+                        details: '距离接待处105步 - 在左边',
+                        distance: '35 米'
+                    },
+                    {
+                        instruction: '大楼 D 在您的右边',
+                        details: '距离接待处140步 - 在右边',
+                        distance: '35 米'
+                    },
+                    {
+                        instruction: '到达目的地',
+                        details: '在门上寻找您的房间号码',
+                        distance: '0 米'
+                    }
+                ]
+            }
+        };
 
-<script>
-function back() {
-    history.back();
-}
-</script>
+        // الحصول على بيانات الرحلة من الرابط
+        const urlParams = new URLSearchParams(window.location.search);
+        const building = urlParams.get('building');
+        const room = urlParams.get('room');
+        const company = urlParams.get('company');
 
+        let currentLang = 'ar';
+        let isNavigating = false;
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            applyTranslations();
+            updateDestination();
+        }
+
+        function applyTranslations() {
+            const data = navigationData[currentLang];
+            
+            // تطبيق النصوص
+            document.getElementById('tripTitle').textContent = data.tripTitle;
+            document.getElementById('tripSubtitle').textContent = data.tripSubtitle;
+            document.getElementById('distanceLabel').textContent = data.distanceLabel;
+            document.getElementById('timeLabel').textContent = data.timeLabel;
+            document.getElementById('stepsLabel').textContent = data.stepsLabel;
+            document.getElementById('backText').textContent = data.backText;
+            document.getElementById('startText').textContent = data.startText;
+            document.getElementById('receptionText').textContent = data.receptionText;
+            document.getElementById('terraceText').textContent = data.terraceText;
+            document.getElementById('buildingAText').textContent = data.buildingAText;
+            document.getElementById('buildingBText').textContent = data.buildingBText;
+            document.getElementById('buildingCText').textContent = data.buildingCText;
+            document.getElementById('buildingDText').textContent = data.buildingDText;
+            document.getElementById('zoomInText').textContent = data.zoomInText;
+            document.getElementById('zoomOutText').textContent = data.zoomOutText;
+            document.getElementById('resetText').textContent = data.resetText;
+            document.getElementById('navBack').textContent = data.navBack;
+
+            // تحديث تعليمات المسار
+            updateDirections(data.directions);
+        }
+
+        function updateDirections(directions) {
+            const directionsList = document.getElementById('directionsList');
+            directionsList.innerHTML = '';
+
+            directions.forEach((step, index) => {
+                const stepElement = document.createElement('div');
+                stepElement.className = 'direction-step';
+                stepElement.innerHTML = `
+                    <div class="step-number">${index + 1}</div>
+                    <div class="step-content">
+                        <div class="step-instruction">${step.instruction}</div>
+                        <div class="step-details">${step.details}</div>
+                    </div>
+                    <div class="step-distance">${step.distance}</div>
+                `;
+                directionsList.appendChild(stepElement);
+            });
+        }
+
+        function updateDestination() {
+            if (building && room) {
+                // تمييز المبنى المختار
+                document.querySelectorAll('.map-building').forEach(buildingEl => {
+                    buildingEl.classList.remove('selected');
+                });
+                
+                const selectedBuildingEl = document.querySelector(`.building-${building.toLowerCase()}`);
+                if (selectedBuildingEl) {
+                    selectedBuildingEl.classList.add('selected');
+                    
+                    // تحديث معلومات الرحلة
+                    const tripSubtitle = document.getElementById('tripSubtitle');
+                    tripSubtitle.textContent = currentLang === 'ar' ? 
+                        `من الاستقبال إلى المبنى ${building} - الغرفة ${room}` :
+                        currentLang === 'en' ?
+                        `From reception to Building ${building} - Room ${room}` :
+                        `从接待处到大楼 ${building} - 房间 ${room}`;
+                }
+            }
+        }
+
+        function startNavigation() {
+            isNavigating = !isNavigating;
+            const button = document.getElementById('startButton');
+            const dot = document.querySelector('.moving-dot');
+            
+            if (isNavigating) {
+                button.innerHTML = '<i class="fas fa-pause"></i><span id="startText">إيقاف التوجيه</span>';
+                dot.style.animationPlayState = 'running';
+                // تحديث النص بعد تغيير الزر
+                setTimeout(() => {
+                    document.getElementById('startText').textContent = navigationData[currentLang].startText;
+                }, 100);
+            } else {
+                button.innerHTML = '<i class="fas fa-play"></i><span id="startText">بدء التوجيه</span>';
+                dot.style.animationPlayState = 'paused';
+            }
+        }
+
+        function goBack() {
+            window.location.href = 'navigation.html';
+        }
+
+        function zoomIn() {
+            alert(currentLang === 'ar' ? 'تم التكبير' : 
+                  currentLang === 'en' ? 'Zoomed in' : '已放大');
+        }
+
+        function zoomOut() {
+            alert(currentLang === 'ar' ? 'تم التصغير' : 
+                  currentLang === 'en' ? 'Zoomed out' : '已缩小');
+        }
+
+        function resetView() {
+            alert(currentLang === 'ar' ? 'تم إعادة تعيين العرض' : 
+                  currentLang === 'en' ? 'View reset' : '视图已重置');
+        }
+
+        // التحميل الأولي
+        document.addEventListener('DOMContentLoaded', function() {
+            applyTranslations();
+            updateDestination();
+        });
+    </script>
 </body>
 </html>
