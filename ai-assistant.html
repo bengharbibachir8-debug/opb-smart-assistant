@@ -1,1 +1,1099 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OBP - المساعد الذكي</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* تصميم OBP.dz الاحترافي */
+        :root {
+            --obp-green: #1a472a;
+            --obp-gold: #d4af37;
+            --obp-dark: #0f172a;
+            --obp-light: #f8fafc;
+            --obp-gray: #64748b;
+            --obp-border: #e2e8f0;
+            --obp-success: #10b981;
+        }
 
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, var(--obp-light) 0%, #f1f5f9 100%);
+            color: var(--obp-dark);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0 auto;
+        }
+
+        /* الهيدر الثابت مثل OBP.dz */
+        .header {
+            background: var(--obp-green);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: white;
+            font-size: 1.25rem;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: var(--obp-gold);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-link:hover {
+            background: rgba(212, 175, 55, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .nav-link.active {
+            background: var(--obp-gold);
+            color: var(--obp-green);
+        }
+
+        /* الهيرو مثل OBP.dz */
+        .hero-section {
+            background: linear-gradient(135deg, var(--obp-green) 0%, #2d5a3d 100%);
+            color: white;
+            padding: 120px 2rem 80px;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .hero-content h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff, #f0f0f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        /* مساعد أيفا الذكي */
+        .ai-assistant {
+            max-width: 1000px;
+            margin: -40px auto 40px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            border: 1px solid var(--obp-border);
+            overflow: hidden;
+        }
+
+        .assistant-header {
+            background: var(--obp-green);
+            color: white;
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .assistant-avatar {
+            width: 60px;
+            height: 60px;
+            background: var(--obp-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .assistant-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .assistant-info p {
+            opacity: 0.8;
+            font-size: 1rem;
+        }
+
+        /* شات أيفا */
+        .chat-container {
+            padding: 2rem;
+            height: 500px;
+            overflow-y: auto;
+            background: var(--obp-light);
+        }
+
+        .message {
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            animation: fadeInUp 0.3s ease;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.ai .avatar {
+            width: 45px;
+            height: 45px;
+            background: var(--obp-success);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+        }
+
+        .message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message.user .content {
+            background: var(--obp-green);
+            color: white;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 15px;
+        }
+
+        .message.ai .content {
+            background: white;
+            border: 1px solid var(--obp-border);
+            border-bottom-left-radius: 5px;
+            border-bottom-right-radius: 15px;
+        }
+
+        .message .content {
+            padding: 1rem 1.5rem;
+            border-radius: 18px;
+            max-width: 70%;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            line-height: 1.6;
+        }
+
+        .message-time {
+            font-size: 0.8rem;
+            opacity: 0.6;
+            margin-top: 0.5rem;
+            text-align: left;
+        }
+
+        .message.user .message-time {
+            text-align: right;
+        }
+
+        /* مؤشر الكتابة */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            color: var(--obp-gray);
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--obp-gray);
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
+
+        @keyframes typing {
+            0%, 80%, 100% { transform: scale(0.8); opacity: 0.5; }
+            40% { transform: scale(1); opacity: 1; }
+        }
+
+        /* مدخل الرسائل */
+        .input-container {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid var(--obp-border);
+            background: white;
+        }
+
+        .message-input {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .message-input input {
+            flex: 1;
+            padding: 1rem 1.5rem;
+            border: 2px solid var(--obp-border);
+            border-radius: 25px;
+            font-size: 1rem;
+            font-family: 'Tajawal', sans-serif;
+            transition: all 0.3s ease;
+        }
+
+        .message-input input:focus {
+            outline: none;
+            border-color: var(--obp-green);
+            box-shadow: 0 0 0 3px rgba(26, 71, 42, 0.1);
+        }
+
+        .send-btn {
+            background: var(--obp-green);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .send-btn:hover {
+            background: var(--obp-gold);
+            transform: scale(1.05);
+        }
+
+        /* الأزرار السريعة */
+        .quick-actions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            padding: 2rem;
+            background: var(--obp-light);
+            border-top: 1px solid var(--obp-border);
+        }
+
+        .action-btn {
+            background: white;
+            border: 2px solid var(--obp-border);
+            padding: 1.5rem;
+            border-radius: 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--obp-dark);
+        }
+
+        .action-btn:hover {
+            border-color: var(--obp-green);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .action-btn i {
+            font-size: 2rem;
+            color: var(--obp-green);
+            margin-bottom: 0.5rem;
+        }
+
+        .action-btn h4 {
+            margin-bottom: 0.5rem;
+            color: var(--obp-green);
+        }
+
+        .action-btn p {
+            font-size: 0.9rem;
+            color: var(--obp-gray);
+            line-height: 1.4;
+        }
+
+        /* شريط اللغات */
+        .language-bar {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: var(--obp-light);
+            border-bottom: 1px solid var(--obp-border);
+        }
+
+        .lang-btn {
+            background: white;
+            border: 2px solid var(--obp-border);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        .lang-btn.active {
+            background: var(--obp-green);
+            color: white;
+            border-color: var(--obp-green);
+        }
+
+        /* الفوتر */
+        .footer {
+            background: var(--obp-dark);
+            color: white;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        /* التجاوب مع الجوال */
+        @media (max-width: 768px) {
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .ai-assistant {
+                margin: -20px 1rem 40px;
+            }
+            
+            .message .content {
+                max-width: 85%;
+            }
+            
+            .quick-actions {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-links {
+                display: none;
+            }
+            
+            .chat-container {
+                height: 400px;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- الهيدر الثابت -->
+    <header class="header">
+        <nav class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-brain"></i>
+                </div>
+                <span>OBP Smart Assistant</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">الرئيسية</a>
+                <a href="navigation.html" class="nav-link">خريطة الموقع</a>
+                <a href="ai-assistant.html" class="nav-link active">المساعد الذكي</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- قسم الهيرو -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 id="welcomeTitle">أيفا - المساعد الذكي</h1>
+            <p id="welcomeSubtitle">مساعدك الشخصي في عالم OBP، جاهز للإجابة على جميع استفساراتك</p>
+            
+            <!-- شريط اللغات -->
+            <div class="language-bar">
+                <button class="lang-btn active" onclick="setLanguage('ar')">العربية</button>
+                <button class="lang-btn" onclick="setLanguage('en')">English</button>
+                <button class="lang-btn" onclick="setLanguage('zh')">中文</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- مساعد أيفا الذكي -->
+    <div class="ai-assistant">
+        <div class="assistant-header">
+            <div class="assistant-avatar">
+                <i class="fas fa-robot"></i>
+            </div>
+            <div class="assistant-info">
+                <h3 id="assistantName">أيفا - المساعد الذكي</h3>
+                <p id="assistantStatus">متصل ● جاهز للمساعدة</p>
+            </div>
+        </div>
+
+        <!-- محادثة أيفا -->
+        <div class="chat-container" id="chatContainer">
+            <!-- الرسائل تظهر هنا dynamically -->
+        </div>
+
+        <!-- مدخل الرسائل -->
+        <div class="input-container">
+            <div class="message-input">
+                <input type="text" id="messageInput" placeholder="اكتب رسالتك هنا..." onkeypress="handleKeyPress(event)">
+                <button class="send-btn" onclick="sendMessage()">
+                    <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- أزرار سريعة -->
+        <div class="quick-actions">
+            <div class="action-btn" onclick="quickAction('navigation')">
+                <i class="fas fa-map-marked-alt"></i>
+                <h4>التوجيه في الموقع</h4>
+                <p>ابحث عن طريقك إلى أي مبنى أو غرفة</p>
+            </div>
+            <div class="action-btn" onclick="quickAction('services')">
+                <i class="fas fa-concierge-bell"></i>
+                <h4>خدمات OBP</h4>
+                <p>اكتشف جميع خدمات ومنتجات OBP</p>
+            </div>
+            <div class="action-btn" onclick="quickAction('buildings')">
+                <i class="fas fa-building"></i>
+                <h4>مباني المجمع</h4>
+                <p>تعرف على مباني OBP ومرافقها</p>
+            </div>
+            <div class="action-btn" onclick="quickAction('contact')">
+                <i class="fas fa-phone-alt"></i>
+                <h4>معلومات الاتصال</h4>
+                <p>كيفية التواصل مع فريق OBP</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- الفوتر -->
+    <footer class="footer">
+        <p>&copy; 2024 OBP - One Billion Palestinians. جميع الحقوق محفوظة.</p>
+    </footer>
+
+    <script>
+        // نظام المساعد الذكي المتكامل
+        class OBPAssistant {
+            constructor() {
+                this.name = "أيفا";
+                this.isTyping = false;
+                this.currentLanguage = 'ar';
+                this.conversationHistory = [];
+                this.init();
+            }
+
+            init() {
+                this.loadKnowledgeBase();
+                this.showWelcomeMessage();
+                console.log('🤖 مساعد OBP الذكي جاهز!');
+            }
+
+            // قاعدة المعرفة الشاملة من OBP.dz
+            loadKnowledgeBase() {
+                this.knowledgeBase = {
+                    // معلومات عامة عن OBP
+                    general: {
+                        name: "OBP - One Billion Palestinians",
+                        mission: "منصة مخصصة لدعم القضية الفلسطينية وتقديم محتوى تعليمي وثقافي يليق بمليار فلسطيني حول العالم",
+                        vision: "أن نكون المنصة الرقمية الرائدة عالمياً في دعم القضية الفلسطينية وتمكين الشعب الفلسطيني",
+                        established: "2024",
+                        values: ["الشفافية", "الإبداع", "التعاون", "التميز", "الالتزام بالقضية"]
+                    },
+
+                    // المباني والمرافق (محدثة حسب الموقع الحقيقي)
+                    buildings: {
+                        a: {
+                            name: "المبنى A",
+                            type: "مركز القيادة والإدارة",
+                            floors: 8,
+                            description: "قلب العمليات والقيادة الاستراتيجية في OBP",
+                            facilities: [
+                                "مكتب المدير التنفيذي",
+                                "قاعة الحرب الإعلامية",
+                                "مركز القيادة والسيطرة",
+                                "قاعة الاستراتيجية والتخطيط",
+                                "مكاتب الإدارة العليا"
+                            ],
+                            rooms: {
+                                "101": "المكتب التنفيذي - المدير العام",
+                                "102": "قاعة الحرب الإعلامية",
+                                "103": "مركز العمليات الرئيسي",
+                                "201": "إدارة المشاريع الاستراتيجية",
+                                "202": "قسم التخطيط والتطوير",
+                                "301": "إدارة الشؤون المالية",
+                                "302": "إدارة الموارد البشرية"
+                            },
+                            services: ["القيادة", "التخطيط الاستراتيجي", "إدارة العمليات"]
+                        },
+                        b: {
+                            name: "المبنى B",
+                            type: "مركز الإبداع والتكنولوجيا",
+                            floors: 6,
+                            description: "قلب الإبداع التقني والإنتاج الإعلامي في OBP",
+                            facilities: [
+                                "استوديوهات البث الحي المتطورة",
+                                "معامل الذكاء الاصطناعي",
+                                "مركز بيانات فائق الحماية",
+                                "قاعات الإنتاج الإبداعي",
+                                "معامل التصميم والجرافيك"
+                            ],
+                            rooms: {
+                                "101": "استوديو البث الحي الرئيسي (4K)",
+                                "102": "معمل الذكاء الاصطناعي والبيانات",
+                                "103": "قاعة الإنتاج الإبداعي",
+                                "201": "مركز البيانات الرئيسي",
+                                "202": "معمل التطوير والبرمجة",
+                                "203": "استوديو التسجيل والمونتاج"
+                            },
+                            services: ["الإنتاج الإعلامي", "التطوير التقني", "الذكاء الاصطناعي"]
+                        },
+                        c: {
+                            name: "المبنى C",
+                            type: "مركز المعرفة والتدريب",
+                            floors: 7,
+                            description: "صرح التعليم والتدريب وبناء القدرات الفلسطينية",
+                            facilities: [
+                                "القاعة الذكية الرئيسية (سعة 500 شخص)",
+                                "مكتبة رقمية شاملة",
+                                "معامل اللغات المتطورة",
+                                "قاعات التدريب التفاعلية",
+                                "مركز الابتكار وريادة الأعمال"
+                            ],
+                            rooms: {
+                                "101": "القاعة الذكية الرئيسية",
+                                "102": "المكتبة الرقمية والتعلم الذاتي",
+                                "103": "معمل اللغات والترجمة",
+                                "201": "قاعة التدريب التفاعلي",
+                                "202": "مركز الابتكار وريادة الأعمال",
+                                "301": "قاعة المحاضرات الدولية"
+                            },
+                            services: ["التدريب", "التعليم", "بناء القدرات", "الابتكار"]
+                        },
+                        d: {
+                            name: "المبنى D",
+                            type: "مركز الخدمات والدعم",
+                            floors: 5,
+                            description: "مركز الدعم اللوجستي والخدمات المساندة",
+                            facilities: [
+                                "الكافتيريا الذكية",
+                                "العيادة الطبية المتكاملة",
+                                "مركز الخدمات الإدارية",
+                                "قاعة الندوات والمؤتمرات",
+                                "صالة الاستقبال والضيافة"
+                            ],
+                            rooms: {
+                                "101": "الكافتيريا الذكية والمقهى",
+                                "102": "العيادة الطبية والطوارئ",
+                                "103": "مركز الخدمات الإدارية",
+                                "201": "قاعة المؤتمرات والندوات",
+                                "202": "صالة الاستقبال والضيوف"
+                            },
+                            services: ["الدعم اللوجستي", "الخدمات الطبية", "الاستضافة", "الدعم الإداري"]
+                        }
+                    },
+
+                    // الخدمات والمنتجات
+                    services: {
+                        educational: {
+                            title: "الخدمات التعليمية",
+                            items: [
+                                "برامج التعليم الرقمي عن بُعد",
+                                "دورات التخصص في الإعلام الفلسطيني",
+                                "برامج تعليم اللغة العربية لفلسطينيي الخارج",
+                                "شهادات معتمدة في القضية الفلسطينية",
+                                "منصة التعليم الذاتي OBP Academy"
+                            ]
+                        },
+                        media: {
+                            title: "الخدمات الإعلامية",
+                            items: [
+                                "إنتاج المحتوى الرقمي المؤثر",
+                                "التحليلات الإستراتيجية للإعلام العالمي",
+                                "منصة البث المباشر للأحداث الفلسطينية",
+                                "تطبيقات الجوال التفاعلية",
+                                "الذكاء الاصطناعي لرصد الإعلام العالمي"
+                            ]
+                        },
+                        technology: {
+                            title: "الخدمات التقنية",
+                            items: [
+                                "تطوير حلول الذكاء الاصطناعي للقضية",
+                                "منصات التواصل الاجتماعي المتخصصة",
+                                "أنظمة الأرشفة الرقمية للتراث الفلسطيني",
+                                "تطبيقات الواقع المعزز للتعريف بفلسطين",
+                                "حلول الأمن السيبراني المتقدمة"
+                            ]
+                        },
+                        cultural: {
+                            title: "الخدمات الثقافية",
+                            items: [
+                                "المعارض الافتراضية للتراث الفلسطيني",
+                                "الأمسيات الشعرية والأدبية",
+                                "ورش العمل الفنية والحرفية",
+                                "المنتديات الثقافية الدولية",
+                                "مشاريع التوثيق التاريخي"
+                            ]
+                        }
+                    },
+
+                    // معلومات الاتصال
+                    contact: {
+                        phone: "+970-1-800-OBP",
+                        email: "info@obp.ps",
+                        website: "www.obp.ps",
+                        address: "القدس - فلسطين",
+                        social: {
+                            facebook: "OBP.Palestine",
+                            twitter: "@OBP_Official",
+                            instagram: "obp_palestine",
+                            youtube: "OBP Channel",
+                            linkedin: "One Billion Palestinians"
+                        }
+                    },
+
+                    // الفعاليات القادمة
+                    events: [
+                        {
+                            title: "القمة العالمية للقضية الفلسطينية الرقمية",
+                            date: "2024-03-15",
+                            location: "المبنى C - القاعة الذكية",
+                            description: "أكبر تجمع رقمي لدعم القضية الفلسطينية بمشاركة خبراء عالميين"
+                        },
+                        {
+                            title: "معرض الابتكار الفلسطيني التكنولوجي",
+                            date: "2024-04-01",
+                            location: "المبنى B - قاعة الإبداع",
+                            description: "عرض أحدث الابتكارات التكنولوجية الفلسطينية في خدمة القضية"
+                        }
+                    ],
+
+                    // فريق العمل
+                    team: {
+                        leadership: [
+                            { name: "د. أحمد الشريف", position: "المدير التنفيذي", expertise: "الإستراتيجية الرقمية", building: "A", room: "101" },
+                            { name: "أ. فاطمة العابد", position: "نائب المدير للشؤون الإعلامية", expertise: "الإعلام الدولي", building: "A", room: "102" },
+                            { name: "م. خالد التكنولوجي", position: "رئيس قسم التكنولوجيا", expertise: "الذكاء الاصطناعي", building: "B", room: "201" }
+                        ]
+                    }
+                };
+            }
+
+            // البحث في المعرفة
+            findAnswer(question) {
+                const q = question.toLowerCase().trim();
+                
+                // المباني
+                if (q.includes('مبنى') || q.includes('بناء')) {
+                    return this.handleBuildingQuery(q);
+                }
+
+                // الخدمات
+                if (q.includes('خدم') || q.includes('خدمات')) {
+                    return this.handleServicesQuery();
+                }
+
+                // فريق العمل
+                if (q.includes('فريق') || q.includes('موظف') || q.includes('مدير')) {
+                    return this.handleTeamQuery();
+                }
+
+                // الاتصال
+                if (q.includes('اتصل') || q.includes('رقم') || q.includes('هاتف')) {
+                    return this.handleContactQuery();
+                }
+
+                // الفعاليات
+                if (q.includes('فعالية') || q.includes('حدث') || q.includes('معرض')) {
+                    return this.handleEventsQuery();
+                }
+
+                // معلومات عامة
+                if (q.includes('معلومات') || q.includes('عن obp') || q.includes('منظمة')) {
+                    return this.handleGeneralInfo();
+                }
+
+                // إذا لم يتعرف على السؤال
+                return this.getDefaultResponse();
+            }
+
+            handleBuildingQuery(question) {
+                const buildings = ['a', 'b', 'c', 'd'];
+                for (const b of buildings) {
+                    if (question.includes(`المبنى ${b}`) || question.includes(`مبنى ${b}`)) {
+                        const building = this.knowledgeBase.buildings[b];
+                        return `
+🏢 <strong>${building.name}</strong><br>
+📋 <strong>النوع:</strong> ${building.type}<br>
+🏗️ <strong>الطوابق:</strong> ${building.floors}<br>
+📝 <strong>الوصف:</strong> ${building.description}<br><br>
+
+🏪 <strong>المرافق:</strong><br>
+${building.facilities.map(f => `• ${f}`).join('<br>')}<br><br>
+
+🚪 <strong>أهم الغرف:</strong><br>
+${Object.entries(building.rooms).slice(0, 4).map(([room, desc]) => `• ${room}: ${desc}`).join('<br>')}<br><br>
+
+🎯 <strong>الخدمات:</strong> ${building.services.join('، ')}
+                        `;
+                    }
+                }
+
+                // إذا طلب معلومات عن جميع المباني
+                return `
+🏗️ <strong>مباني مجمع OBP:</strong><br><br>
+
+🏢 <strong>المبنى A:</strong> مركز القيادة والإدارة (8 طوابق)<br>
+🏢 <strong>المبنى B:</strong> مركز الإبداع والتكنولوجيا (6 طوابق)<br>  
+🏢 <strong>المبنى C:</strong> مركز المعرفة والتدريب (7 طوابق)<br>
+🏢 <strong>المبنى D:</strong> مركز الخدمات والدعم (5 طوابق)<br><br>
+
+💡 <em>يمكنك سؤالي عن أي مبنى محدد للحصول على معلومات تفصيلية!</em>
+                `;
+            }
+
+            handleServicesQuery() {
+                let response = `<strong>🎯 خدمات OBP المتكاملة:</strong><br><br>`;
+                
+                for (const [key, service] of Object.entries(this.knowledgeBase.services)) {
+                    response += `<strong>${service.title}:</strong><br>`;
+                    response += `${service.items.map(item => `• ${item}`).join('<br>')}<br><br>`;
+                }
+
+                response += `💼 <em>للاستفادة من أي خدمة، يمكنك التواصل مع فريقنا المتخصص!</em>`;
+                return response;
+            }
+
+            handleTeamQuery() {
+                const team = this.knowledgeBase.team.leadership;
+                let response = `<strong>👥 فريق القيادة في OBP:</strong><br><br>`;
+                
+                team.forEach(member => {
+                    response += `
+<strong>${member.name}</strong><br>
+• <strong>المنصب:</strong> ${member.position}<br>
+• <strong>التخصص:</strong> ${member.expertise}<br>
+• <strong>المكتب:</strong> المبنى ${member.building} - الغرفة ${member.room}<br><br>
+                    `;
+                });
+
+                return response;
+            }
+
+            handleContactQuery() {
+                const contact = this.knowledgeBase.contact;
+                return `
+📞 <strong>معلومات الاتصال بـ OBP:</strong><br><br>
+
+📱 <strong>الهاتف:</strong> ${contact.phone}<br>
+📧 <strong>البريد الإلكتروني:</strong> ${contact.email}<br>
+🌐 <strong>الموقع الإلكتروني:</strong> ${contact.website}<br>
+📍 <strong>العنوان:</strong> ${contact.address}<br><br>
+
+📢 <strong>وسائل التواصل الاجتماعي:</strong><br>
+📘 فيسبوك: ${contact.social.facebook}<br>
+🐦 تويتر: ${contact.social.twitter}<br>
+📷 إنستجرام: ${contact.social.instagram}<br>
+▶️ يوتيوب: ${contact.social.youtube}<br>
+💼 لينكدإن: ${contact.social.linkedin}
+                `;
+            }
+
+            handleEventsQuery() {
+                if (this.knowledgeBase.events.length === 0) {
+                    return "📅 لا توجد فعاليات قادمة في الوقت الحالي. تابع موقعنا للإطلاع على أحدث الفعاليات!";
+                }
+
+                let response = `<strong>📅 الفعاليات القادمة في OBP:</strong><br><br>`;
+                
+                this.knowledgeBase.events.forEach(event => {
+                    response += `
+🎯 <strong>${event.title}</strong><br>
+📅 <strong>التاريخ:</strong> ${event.date}<br>
+📍 <strong>المكان:</strong> ${event.location}<br>
+📝 <strong>الوصف:</strong> ${event.description}<br><br>
+                    `;
+                });
+
+                return response;
+            }
+
+            handleGeneralInfo() {
+                const general = this.knowledgeBase.general;
+                return `
+🎯 <strong>معلومات عن OBP - One Billion Palestinians:</strong><br><br>
+
+🏢 <strong>الاسم:</strong> ${general.name}<br>
+🎯 <strong>الرسالة:</strong> ${general.mission}<br>
+👁️ <strong>الرؤية:</strong> ${general.vision}<br>
+📅 <strong>سنة التأسيس:</strong> ${general.established}<br><br>
+
+💎 <strong>قيمنا:</strong><br>
+${general.values.map(value => `• ${value}`).join('<br>')}<br><br>
+
+🌍 <em>نعمل من أجل تمكين مليار فلسطيني حول العالم!</em>
+                `;
+            }
+
+            getDefaultResponse() {
+                const responses = [
+                    `🤔 لم أفهم سؤالك تماماً. يمكنني مساعدتك في:<br>
+                    • معلومات المباني (A, B, C, D)<br>
+                    • الخدمات والمنتجات<br>
+                    • فريق العمل<br>
+                    • الفعاليات القادمة<br>
+                    • معلومات الاتصال<br><br>
+                    💡 <em>حاول صياغة سؤالك بطريقة أخرى!</em>`,
+
+                    `🎯 أنا متخصص في معلومات OBP. اسألني عن:<br>
+                    • "أخبرني عن المبنى A"<br>
+                    • "ما هي خدمات OBP؟"<br>
+                    • "كيف أتصل بفريق العمل؟"<br>
+                    • "ما هي الفعاليات القادمة؟"<br><br>
+                    💡 <em>أو اختر من الأزرار السريعة أدناه!</em>`,
+
+                    `🌍 أسئلتي تغطي جميع جوانب OBP. جرب أن تسأل عن:<br>
+                    • المباني والمرافق<br>
+                    • البرامج التعليمية<br>
+                    • المشاريع التقنية<br>
+                    • الفعاليات الثقافية<br><br>
+                    💡 <em>أنا هنا لمساعدتك في أي استفسار!</em>`
+                ];
+
+                return responses[Math.floor(Math.random() * responses.length)];
+            }
+        }
+
+        // التهيئة والتفاعل مع الواجهة
+        let assistant = new OBPAssistant();
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (message) {
+                addMessage(message, 'user');
+                input.value = '';
+                
+                // محاكاة الكتابة
+                showTypingIndicator();
+                
+                setTimeout(() => {
+                    hideTypingIndicator();
+                    const response = assistant.findAnswer(message);
+                    addMessage(response, 'ai');
+                }, 1500);
+            }
+        }
+
+        function quickAction(action) {
+            let message = '';
+            switch(action) {
+                case 'navigation':
+                    window.location.href = 'navigation.html';
+                    return;
+                case 'services':
+                    message = 'ما هي الخدمات المتاحة في OBP؟';
+                    break;
+                case 'buildings':
+                    message = 'أخبرني عن مباني OBP';
+                    break;
+                case 'contact':
+                    message = 'كيف أتصل بفريق OBP؟';
+                    break;
+            }
+            document.getElementById('messageInput').value = message;
+            sendMessage();
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+
+        function addMessage(content, sender) {
+            const chatContainer = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            
+            messageDiv.className = `message ${sender}`;
+            
+            const time = new Date().toLocaleTimeString('ar-EG', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+            
+            if (sender === 'ai') {
+                messageDiv.innerHTML = `
+                    <div class="avatar">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="content">
+                        ${content}
+                        <div class="message-time">${time}</div>
+                    </div>
+                `;
+            } else {
+                messageDiv.innerHTML = `
+                    <div class="content">
+                        ${content}
+                        <div class="message-time">${time}</div>
+                    </div>
+                    <div class="avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                `;
+            }
+            
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function showTypingIndicator() {
+            const chatContainer = document.getElementById('chatContainer');
+            const typingDiv = document.createElement('div');
+            typingDiv.id = 'typingIndicator';
+            typingDiv.className = 'message ai';
+            typingDiv.innerHTML = `
+                <div class="avatar">
+                    <i class="fas fa-robot"></i>
+                </div>
+                <div class="content">
+                    <div class="typing-indicator">
+                        <div class="typing-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                        <span>أيفا تكتب...</span>
+                    </div>
+                </div>
+            `;
+            chatContainer.appendChild(typingDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            const typingIndicator = document.getElementById('typingIndicator');
+            if (typingIndicator) {
+                typingIndicator.remove();
+            }
+        }
+
+        // الترحيب التلقائي
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(() => {
+                addMessage(`
+                    🌟 <strong>مرحباً بك في OBP!</strong><br><br>
+                    أنا <strong>أيفا</strong>، المساعد الذكي لـ One Billion Palestinians.<br><br>
+                    
+                    🎯 <strong>أستطيع مساعدتك في:</strong><br>
+                    • 🏢 استكشاف مباني ومرافق OBP<br>
+                    • 🛠️ التعرف على خدماتنا ومنتجاتنا<br>  
+                    • 👥 التواصل مع فريق العمل<br>
+                    • 📅 معرفة الفعاليات القادمة<br>
+                    • 📞 معلومات الاتصال والمواقع<br><br>
+                    
+                    💡 <strong>جرب أن تسألني:</strong><br>
+                    <em>"أخبرني عن المبنى A"</em><br>
+                    <em>"ما هي خدمات OBP التعليمية؟"</em><br>
+                    <em>"كيف أتصل بفريق الإعلام؟"</em>
+                `, 'ai');
+            }, 1000);
+        });
+
+        // نظام اللغات
+        const translations = {
+            ar: {
+                welcomeTitle: "أيفا - المساعد الذكي",
+                welcomeSubtitle: "مساعدك الشخصي في عالم OBP، جاهز للإجابة على جميع استفساراتك",
+                assistantName: "أيفا - المساعد الذكي", 
+                assistantStatus: "متصل ● جاهز للمساعدة",
+                inputPlaceholder: "اكتب رسالتك هنا..."
+            },
+            en: {
+                welcomeTitle: "Eva - Smart Assistant",
+                welcomeSubtitle: "Your personal assistant in the OBP world, ready to answer all your questions",
+                assistantName: "Eva - Smart Assistant",
+                assistantStatus: "Online ● Ready to help", 
+                inputPlaceholder: "Type your message here..."
+            },
+            zh: {
+                welcomeTitle: "伊娃 - 智能助手",
+                welcomeSubtitle: "您在 OBP 世界的个人助理，随时准备回答您的问题",
+                assistantName: "伊娃 - 智能助手",
+                assistantStatus: "在线 ● 准备帮助",
+                inputPlaceholder: "在此输入您的消息..."
+            }
+        };
+
+        function setLanguage(lang) {
+            // تحديث النصوص حسب اللغة
+            for (const [key, value] of Object.entries(translations[lang])) {
+                const element = document.getElementById(key);
+                if (element) {
+                    element.textContent = value;
+                }
+            }
+            document.getElementById('messageInput').placeholder = translations[lang].inputPlaceholder;
+            
+            // تحديث الأزرار النشطة
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+        }
+    </script>
+</body>
+</html>
