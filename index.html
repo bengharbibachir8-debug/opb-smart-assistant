@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OBP - One Billion Palestinians</title>
+    <title>OBP - Smart Assistant</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -101,7 +101,7 @@
             margin-bottom: 2rem;
         }
 
-        /* الأزرار الرئيسية */
+        /* الأزرار الرئيسية - بدل أيفا */
         .main-actions {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -111,7 +111,7 @@
             margin: 0 auto;
         }
 
-        .main-btn {
+        .action-btn {
             background: white;
             border: 2px solid var(--obp-border);
             padding: 2.5rem;
@@ -122,27 +122,28 @@
             text-decoration: none;
             color: var(--obp-dark);
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            display: block;
         }
 
-        .main-btn:hover {
+        .action-btn:hover {
             border-color: var(--obp-green);
             transform: translateY(-5px);
             box-shadow: 0 15px 40px rgba(0,0,0,0.15);
         }
 
-        .main-btn i {
+        .action-btn i {
             font-size: 3rem;
             color: var(--obp-green);
             margin-bottom: 1rem;
         }
 
-        .main-btn h3 {
+        .action-btn h3 {
             font-size: 1.5rem;
             margin-bottom: 1rem;
             color: var(--obp-green);
         }
 
-        .main-btn p {
+        .action-btn p {
             color: var(--obp-gray);
             line-height: 1.6;
         }
@@ -193,7 +194,7 @@
                 padding: 2rem 1rem;
             }
             
-            .main-btn {
+            .action-btn {
                 padding: 2rem;
             }
         }
@@ -205,9 +206,9 @@
         <nav class="nav-container">
             <div class="logo">
                 <div class="logo-icon">
-                    <i class="fas fa-flag"></i>
+                    <i class="fas fa-brain"></i>
                 </div>
-                <span>OBP - One Billion Palestinians</span>
+                <span>OBP Smart Assistant</span>
             </div>
         </nav>
     </header>
@@ -216,7 +217,7 @@
     <section class="hero-section">
         <div class="hero-content">
             <h1 id="welcomeTitle">مرحباً بكم في OBP</h1>
-            <p id="welcomeSubtitle">منصة المليار فلسطيني - اختر خدمتك</p>
+            <p id="welcomeSubtitle">اختر الخدمة التي تريدها</p>
             
             <!-- شريط اللغات -->
             <div class="language-bar">
@@ -227,52 +228,56 @@
         </div>
     </section>
 
-    <!-- الأزرار الرئيسية -->
+    <!-- الأزرار الرئيسية - بدل قسم أيفا -->
     <div class="main-actions">
-        <a href="navigation-setup.html" class="main-btn">
+        <!-- زر التوجيه إلى الغرفة - نفس الرابط الموجود في كودك الأصلي -->
+        <a href="navigation.html" class="action-btn" onclick="quickAction('navigation')">
             <i class="fas fa-map-marked-alt"></i>
-            <h3>التوجيه إلى المبنى</h3>
-            <p>ابحث عن طريقك إلى أي مبنى أو غرفة في مجمع OBP</p>
+            <h3>التوجيه إلى الغرفة</h3>
+            <p>ابحث عن طريقك إلى غرفتك في مجمع OBP</p>
         </a>
-        
-        <a href="ai-assistant.html" class="main-btn">
+
+        <!-- زر المساعدة الذكية - رابط لصفحة أيفا المنفصلة -->
+        <a href="ai-assistant.html" class="action-btn">
             <i class="fas fa-robot"></i>
             <h3>المساعدة الذكية</h3>
-            <p>تحدث مع أيفا - المساعد الذكي للإجابة على استفساراتك</p>
+            <p>تحدث مع أيفا المساعد الذكي لجميع استفساراتك</p>
         </a>
-        
-        <a href="services.html" class="main-btn">
+
+        <!-- زر خدمات المجمع - نفس الرابط الموجود في كودك الأصلي -->
+        <a href="#" class="action-btn" onclick="quickAction('services')">
             <i class="fas fa-concierge-bell"></i>
-            <h3>خدمات OBP</h3>
-            <p>اكتشف جميع خدمات ومنتجات منصة المليار فلسطيني</p>
+            <h3>خدمات المجمع</h3>
+            <p>اكتشف جميع خدمات OBP المتاحة</p>
         </a>
-        
-        <a href="about.html" class="main-btn">
-            <i class="fas fa-info-circle"></i>
-            <h3>عن المشروع</h3>
-            <p>تعرف على رؤية ورسالة منصة OBP العالمية</p>
+
+        <!-- زر مباني OBP - نفس الرابط الموجود في كودك الأصلي -->
+        <a href="#" class="action-btn" onclick="quickAction('buildings')">
+            <i class="fas fa-building"></i>
+            <h3>مباني OBP</h3>
+            <p>تعرف على مباني المجمع ومرافقه</p>
         </a>
     </div>
 
     <!-- الفوتر -->
     <footer class="footer">
-        <p>&copy; 2024 OBP - One Billion Palestinians. جميع الحقوق محفوظة.</p>
+        <p>&copy; 2024 OBP Smart Assistant. جميع الحقوق محفوظة.</p>
     </footer>
 
     <script>
-        // نظام اللغات الأساسي
+        // نظام اللغات الأساسي - نفس الكود الذي أرسلته
         const translations = {
             ar: {
                 welcomeTitle: "مرحباً بكم في OBP",
-                welcomeSubtitle: "منصة المليار فلسطيني - اختر خدمتك"
+                welcomeSubtitle: "اختر الخدمة التي تريدها"
             },
             en: {
-                welcomeTitle: "Welcome to OBP", 
-                welcomeSubtitle: "One Billion Palestinians Platform - Choose Your Service"
+                welcomeTitle: "Welcome to OBP",
+                welcomeSubtitle: "Choose the service you need"
             },
             zh: {
                 welcomeTitle: "欢迎来到OBP",
-                welcomeSubtitle: "十亿巴勒斯坦人平台 - 选择您的服务"
+                welcomeSubtitle: "选择您需要的服务"
             }
         };
 
@@ -296,7 +301,37 @@
             }
         }
 
-        // التطبيق التلقائي للترجمة
+        // نفس الدوال الموجودة في كودك الأصلي
+        function quickAction(action) {
+            let message = '';
+            switch(action) {
+                case 'navigation':
+                    // هذا الرابط موجود أصلاً في كودك
+                    window.location.href = 'navigation.html';
+                    return;
+                case 'services':
+                    message = 'ما هي الخدمات المتاحة في مجمع OBP؟';
+                    break;
+                case 'buildings':
+                    message = 'أخبرني عن مباني OBP';
+                    break;
+                case 'help':
+                    message = 'أحتاج مساعدة في استخدام النظام';
+                    break;
+            }
+            // في الصفحة الجديدة هذا سينتقل لأيفا
+            if (message) {
+                window.location.href = 'ai-assistant.html?question=' + encodeURIComponent(message);
+            }
+        }
+
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                // هذه الدالة لأيفا، تبقى في صفحة أيفا
+            }
+        }
+
+        // الترحيب التلقائي
         document.addEventListener('DOMContentLoaded', function() {
             applyTranslations();
         });
